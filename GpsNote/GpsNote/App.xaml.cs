@@ -4,8 +4,6 @@ using GpsNote.ViewModels;
 using GpsNote.Views;
 using Prism;
 using Prism.Ioc;
-using Xamarin.Essentials.Implementation;
-using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
 namespace GpsNote
@@ -35,6 +33,8 @@ namespace GpsNote
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<NoteTabbedView>();
+            containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
+            containerRegistry.RegisterForNavigation<PinsView, PinsViewModel>();
         }
     }
 }
