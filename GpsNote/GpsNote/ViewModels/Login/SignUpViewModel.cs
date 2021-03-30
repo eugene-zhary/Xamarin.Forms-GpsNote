@@ -1,12 +1,8 @@
-﻿using GpsNote.Services.Auth;
+﻿using GpsNote.Helpers;
+using GpsNote.Services.Auth;
 using GpsNote.Views;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -23,7 +19,7 @@ namespace GpsNote.ViewModels
             _dialogService = dialogService;
             _authManager = authManager;
         }
-        
+
         #region -- Public properties --
 
         private string _name;
@@ -56,7 +52,13 @@ namespace GpsNote.ViewModels
 
         private async void OnCreate()
         {
-            if(await _authManager.RegUser(this._name, this._email, this._password))
+            string hints = UserValidator.ValidateUser(Email, Password, Name);
+            if (hints.Length > 0) {
+                await _dialogService.DisplayAlertAsync(Title, hints, "Cancel");
+                return;
+            }
+
+            if (await _authManager.RegUser(this._name, this._email, this._password))
             {
                 await _dialogService.DisplayAlertAsync(Title, "Account successfuly created!", "Cancel");
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
@@ -68,6 +70,5 @@ namespace GpsNote.ViewModels
         }
 
         #endregion
-
     }
 }

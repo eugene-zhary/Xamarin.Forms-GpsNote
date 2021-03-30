@@ -1,4 +1,5 @@
-﻿using GpsNote.Services.Auth;
+﻿using GpsNote.Helpers;
+using GpsNote.Services.Auth;
 using GpsNote.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -20,6 +21,9 @@ namespace GpsNote.ViewModels
 
         public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationManager authManager) : base(navigationService)
         {
+            this._email = String.Empty;
+            this._password = String.Empty;
+
             Title = "Sign In";
             _dialogService = dialogService;
             _authManager = authManager;
@@ -27,18 +31,18 @@ namespace GpsNote.ViewModels
 
         #region -- Public properties --
 
-        private string email;
+        private string _email;
         public string Email
         {
-            get => email;
-            set => SetProperty(ref email, value, nameof(Email));
+            get => _email;
+            set => SetProperty(ref _email, value, nameof(Email));
         }
 
-        private string password;
+        private string _password;
         public string Password
         {
-            get => password;
-            set => SetProperty(ref password, value, nameof(Password));
+            get => _password;
+            set => SetProperty(ref _password, value, nameof(Password));
         }
 
         public ICommand SignUpCommand => new Command(OnSignUp);
@@ -51,7 +55,14 @@ namespace GpsNote.ViewModels
 
         private async void OnSignIn()
         {
-            if (await _authManager.SignIn(this.email, this.password))
+            string hints = UserValidator.ValidateUser(Email, Password);
+            if(hints.Length > 0)
+            {
+                await _dialogService.DisplayAlertAsync(Title, hints, "Cancel");
+                return;
+            }
+
+            if (await _authManager.SignIn(this._email, this._password))
             {
                 await NavigationService.NavigateAsync($"/{nameof(NoteTabbedView)}");
             }
