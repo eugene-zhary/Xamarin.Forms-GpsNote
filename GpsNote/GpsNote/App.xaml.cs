@@ -1,3 +1,5 @@
+using GpsNote.Services.Auth;
+using GpsNote.Services.Repository;
 using GpsNote.ViewModels;
 using GpsNote.Views;
 using Prism;
@@ -24,11 +26,15 @@ namespace GpsNote
         
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
+            //services
+            containerRegistry.Register(typeof(IRepository<>), typeof(Repository<>));
+            containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
+
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
+            containerRegistry.RegisterForNavigation<NoteTabbedView>();
         }
     }
 }

@@ -23,7 +23,7 @@
 
             <Entry Grid.Row="0" Text="{Binding Name}" Placeholder="name"/>
             <Entry Grid.Row="1" Text="{Binding Email}" Placeholder="email"/>
-            <Entry Grid.Row="2" Text="{Binding Password}" Placeholder="password" Margin="0,0,0,30"/>
+            <Entry Grid.Row="2" Text="{Binding Password}" Placeholder="password" Margin="0,0,0,30" IsPassword="True"/>
 
             <Button Grid.Row="3" Text="Submit" Margin="0,0,10,0" Command="{Binding CreateCommand}"/>
         </Grid>
