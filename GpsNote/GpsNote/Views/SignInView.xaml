@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GpsNote.Views.SignInView" BackgroundColor="LightGray"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Gray"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </ContentPage.Resources>
+    <Frame VerticalOptions="Center" CornerRadius="15" Margin="15,0">
+        <Grid Padding="0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Entry Grid.ColumnSpan='2' Text="{Binding Email}" Placeholder="email"/>
+            <Entry Grid.Row="1" Text="{Binding Password}" Grid.ColumnSpan="2" Placeholder="password" Margin="0,0,0,30"/>
+
+            <Button Grid.Row="2" Text="Sign In" Margin="0,0,10,0"
+                    Command="{Binding SignInCommand}"/>
+            <Button Grid.Row="2" Grid.Column="1" Text="Create Account" FontSize="12"  Margin="10,0,0,0"
+                    Command="{Binding SignUpCommand}"/>
+        </Grid>
+    </Frame>
+</ContentPage>
