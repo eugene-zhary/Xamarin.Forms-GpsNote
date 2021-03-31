@@ -64,7 +64,7 @@ namespace GpsNote.ViewModels
 
             if (await _authManager.SignIn(this._email, this._password))
             {
-                await NavigationService.NavigateAsync($"/{nameof(NoteTabbedView)}");
+                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
             }
             else
             {
