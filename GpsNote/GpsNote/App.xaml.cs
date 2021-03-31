@@ -1,8 +1,8 @@
 using GpsNote.Models;
 using GpsNote.Services.Auth;
+using GpsNote.Services.Map;
 using GpsNote.Services.Repository;
 using GpsNote.ViewModels;
-using GpsNote.ViewModels.Map;
 using GpsNote.Views;
 using Prism;
 using Prism.Ioc;
@@ -37,6 +37,8 @@ namespace GpsNote
             // services
             containerRegistry.Register(typeof(IRepository<>), typeof(Repository<>));
             containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
+            containerRegistry.RegisterInstance<IMapManager>(Container.Resolve<MapManager>());
+
 
             // navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();

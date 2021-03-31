@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace GpsNote.ViewModels.Map
+namespace GpsNote.ViewModels
 {
     public class NoteTabbedViewModel : ViewModelBase
     {
