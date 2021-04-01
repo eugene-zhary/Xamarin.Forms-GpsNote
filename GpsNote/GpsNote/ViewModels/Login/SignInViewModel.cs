@@ -1,14 +1,8 @@
-﻿using GpsNote.Helpers;
-using GpsNote.Services.Auth;
+﻿using GpsNote.Services.Auth;
 using GpsNote.Views;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -32,15 +26,13 @@ namespace GpsNote.ViewModels
         #region -- Public properties --
 
         private string _email;
-        public string Email
-        {
+        public string Email {
             get => _email;
             set => SetProperty(ref _email, value, nameof(Email));
         }
 
         private string _password;
-        public string Password
-        {
+        public string Password {
             get => _password;
             set => SetProperty(ref _password, value, nameof(Password));
         }
@@ -55,19 +47,11 @@ namespace GpsNote.ViewModels
 
         private async void OnSignIn()
         {
-            string hints = UserValidator.ValidateUser(Email, Password);
-            if(hints.Length > 0)
-            {
-                await _dialogService.DisplayAlertAsync(Title, hints, "Cancel");
-                return;
-            }
+            if (await _authManager.TrySignIn(this.Email, this.Password)) {
 
-            if (await _authManager.SignIn(this._email, this._password))
-            {
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
             }
-            else
-            {
+            else {
                 await _dialogService.DisplayAlertAsync(Title, "Invalid email or password!", "Cancel");
             }
         }
@@ -77,6 +61,6 @@ namespace GpsNote.ViewModels
             await NavigationService.NavigateAsync($"{nameof(SignUpView)}");
         }
 
-        #endregion 
+        #endregion
     }
 }

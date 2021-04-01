@@ -6,24 +6,13 @@ namespace GpsNote.Helpers
 {
     public static class UserValidator
     {
-        public static string ValidateUser(string email, string password, string name = null)
-        {
-            string output = String.Empty;
+        public static bool IsValid(string email, string password) =>
+            (StringValidators.IsValidEmail(email) &&
+             StringValidators.IsValidPassword(password));
 
-            if (!StringValidators.IsValidEmail(email))
-            {
-                output += "Email format isn't valid!\n";
-            }
-            if (!StringValidators.IsValidPassword(password))
-            {
-                output += "Password format isn't valid!\n";
-            }
-            if (name != null && !StringValidators.IsValidName(name))
-            {
-                output += "Name format isn't valid!\n";
-            }
-
-            return output;
-        }
+        public static bool IsValid(string email, string password, string name) =>
+             (StringValidators.IsValidEmail(email) &&
+             StringValidators.IsValidPassword(password) &&
+             (StringValidators.IsValidName(name)));
     }
 }

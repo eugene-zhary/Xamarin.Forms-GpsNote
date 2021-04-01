@@ -8,6 +8,12 @@
              x:Class="GpsNote.Views.MapView"
              Title="{Binding Title}">
     <Grid>
-        
+        <maps:Map ItemsSource="{Binding Pins}">
+            <maps:Map.ItemTemplate>
+                <DataTemplate>
+                    <maps:Pin Position="{Binding}"/>
+                </DataTemplate>
+            </maps:Map.ItemTemplate>
+        </maps:Map>
     </Grid>
 </ContentPage>
