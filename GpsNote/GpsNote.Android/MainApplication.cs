@@ -4,9 +4,7 @@ using Android.Runtime;
 
 namespace GpsNote.Droid
 {
-    [Application(
-        Theme = "@style/MainTheme"
-        )]
+    [Application(Theme = "@style/MainTheme")]
     public class MainApplication : Application
     {
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer)

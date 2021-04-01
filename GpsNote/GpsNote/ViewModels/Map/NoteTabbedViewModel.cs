@@ -1,8 +1,5 @@
 ﻿using GpsNote.Views;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -19,7 +16,6 @@ namespace GpsNote.ViewModels
         #region -- Public properties --
 
         public ICommand LogoutCommand => new Command(OnLogout);
-
 
         #endregion
 

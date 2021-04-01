@@ -10,11 +10,6 @@ namespace GpsNote.Models
     [Table("Pins")]
     public class UsersPin : IEntityModel
     {
-        public UsersPin()
-        {
-            this.UserId = Preferences.Get($"{nameof(UserId)}", 0);
-        }
-
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 

@@ -5,15 +5,18 @@
              xmlns:controls="clr-namespace:GpsNote.Controls"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GpsNote.Views.MapView"
+             x:Class="GpsNote.Views.MapPage"
              Title="{Binding Title}">
     <Grid>
         <maps:Map ItemsSource="{Binding Pins}">
             <maps:Map.ItemTemplate>
                 <DataTemplate>
-                    <maps:Pin Position="{Binding}"/>
+                    <maps:Pin Position="{Binding PinPosition}"
+                              Address="{Binding Pin.Address }" 
+                              Label="{Binding Pin.Label }"/>
                 </DataTemplate>
             </maps:Map.ItemTemplate>
         </maps:Map>
+        <!--<maps:Map/>-->
     </Grid>
 </ContentPage>

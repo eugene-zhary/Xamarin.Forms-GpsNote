@@ -2,9 +2,9 @@
 
 namespace GpsNote.Views
 {
-    public partial class PinsView : ContentPage
+    public partial class MapPage : ContentPage
     {
-        public PinsView()
+        public MapPage()
         {
             InitializeComponent();
         }

@@ -45,8 +45,8 @@ namespace GpsNote
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<NoteTabbedView, NoteTabbedViewModel>();
-            containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
-            containerRegistry.RegisterForNavigation<PinsView, PinsViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+            containerRegistry.RegisterForNavigation<PinsPage, PinsPageViewModel>();
         }
     }
 }

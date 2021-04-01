@@ -23,19 +23,22 @@ namespace GpsNote.ViewModels
         #region -- Public properties --
 
         private string _name;
-        public string Name {
+        public string Name
+        {
             get => _name;
             set => SetProperty(ref _name, value, nameof(Name));
         }
 
         private string _email;
-        public string Email {
+        public string Email
+        {
             get => _email;
             set => SetProperty(ref _email, value, nameof(Email));
         }
 
         private string _password;
-        public string Password {
+        public string Password
+        {
             get => _password;
             set => SetProperty(ref _password, value, nameof(Password));
         }
@@ -48,15 +51,17 @@ namespace GpsNote.ViewModels
 
         private async void OnCreate()
         {
-            if (!UserValidator.IsValid(Email, Password, Name)) {
+            if(!UserValidator.IsValid(Email, Password, Name))
+            {
                 await _dialogService.DisplayAlertAsync(Title, "Invalid email or password!", "Cancel");
             }
-            else if (await _authManager.TrySignUp(Name, Email, Password)) {
-
+            else if(await _authManager.TrySignUp(Name, Email, Password))
+            {
                 await _dialogService.DisplayAlertAsync(Title, "Account successfuly created!", "Cancel");
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
             }
-            else {
+            else
+            {
                 await _dialogService.DisplayAlertAsync(Title, "This email already exists", "Cancel");
             }
         }

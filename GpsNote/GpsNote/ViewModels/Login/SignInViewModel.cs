@@ -10,8 +10,8 @@ namespace GpsNote.ViewModels
 {
     public class SignInViewModel : ViewModelBase
     {
-        private IPageDialogService _dialogService;
-        private IAuthorizationManager _authManager;
+        private readonly IPageDialogService _dialogService;
+        private readonly IAuthorizationManager _authManager;
 
         public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationManager authManager) : base(navigationService)
         {
@@ -26,19 +26,20 @@ namespace GpsNote.ViewModels
         #region -- Public properties --
 
         private string _email;
-        public string Email {
+        public string Email
+        {
             get => _email;
             set => SetProperty(ref _email, value, nameof(Email));
         }
 
         private string _password;
-        public string Password {
+        public string Password
+        {
             get => _password;
             set => SetProperty(ref _password, value, nameof(Password));
         }
 
         public ICommand SignUpCommand => new Command(OnSignUp);
-
         public ICommand SignInCommand => new Command(OnSignIn);
 
         #endregion
@@ -47,11 +48,12 @@ namespace GpsNote.ViewModels
 
         private async void OnSignIn()
         {
-            if (await _authManager.TrySignIn(this.Email, this.Password)) {
-
+            if(await _authManager.TrySignIn(this.Email, this.Password))
+            {
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
             }
-            else {
+            else
+            {
                 await _dialogService.DisplayAlertAsync(Title, "Invalid email or password!", "Cancel");
             }
         }

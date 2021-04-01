@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace GpsNote.ViewModels
 {
-    public class PinsViewModel : ViewModelBase
+    public class PinsPageViewModel : ViewModelBase
     {
-        public PinsViewModel(INavigationService navigationService) : base(navigationService)
+        public PinsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Pins";
         }
