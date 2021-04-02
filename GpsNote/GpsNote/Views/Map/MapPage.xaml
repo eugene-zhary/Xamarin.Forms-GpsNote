@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:GpsNote.Controls"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:converters="clr-namespace:GpsNote.Converters"
              prism:ViewModelLocator.AutowireViewModel="True"
@@ -15,18 +14,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid>
-        <controls:BindableMap ItemsSource="{Binding Pins}" MapSpan="{Binding MapSpan}" >
-            <controls:BindableMap.Behaviors>
-                <prism:EventToCommandBehavior EventName="MapClicked"
-                                              Command="{Binding AddPinCommand}"
-                                              EventArgsParameterPath="MapSpan"/>
-                <!--EventArgsConverter="{StaticResource click_converter}"-->
-            </controls:BindableMap.Behaviors>
-            <controls:BindableMap.ItemTemplate>
-                <DataTemplate>
-                    <maps:Pin Label="{Binding Label}" Address="{Binding Address}" Position="{Binding Position}"/>
-                </DataTemplate>
-            </controls:BindableMap.ItemTemplate>
-        </controls:BindableMap>
+        <ContentView Content="{Binding MyMap}"/>
     </Grid>
 </ContentPage>

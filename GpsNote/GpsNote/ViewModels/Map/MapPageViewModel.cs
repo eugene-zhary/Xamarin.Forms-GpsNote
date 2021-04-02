@@ -6,6 +6,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
 using Prism.Commands;
+using System.Threading.Tasks;
+using System;
+using GpsNote.Extensions;
 
 namespace GpsNote.ViewModels
 {
@@ -16,37 +19,27 @@ namespace GpsNote.ViewModels
         {
             _mapManager = mapManager;
 
+            MyMap = new Map();
             Title = "Map";
-            Pins = new ObservableCollection<Pin>();
-            MapSpan = new MapSpan(new Position(48.445532, 35.066219), 0.12, 0.12);
         }
 
         #region -- Public properties --
 
-        public ObservableCollection<Pin> Pins { get; set; }
-
-        private MapSpan _mapSpan;
-        public MapSpan MapSpan
+        private Map _myMap;
+        public Map MyMap
         {
-            get => _mapSpan;
-            set => SetProperty(ref _mapSpan, value, nameof(MapSpan));
+            get => _myMap;
+            set => SetProperty(ref _myMap, value, nameof(MyMap));
         }
 
-        public DelegateCommand<MapSpan> AddPinCommand => new DelegateCommand<MapSpan>(OnAddPin);
+        public ICommand AddPinCommand => new Command(OnAddPin);
 
         #endregion
 
         #region -- Private helpers --
 
-        private void OnAddPin(MapSpan span)
+        private void OnAddPin()
         {
-            Pins.Add(new Pin
-            {
-                Label = "test",
-                Address = "test",
-                Position =span.Center
-            });
-            //Pins.Add(pin);
 
         }
 
@@ -54,9 +47,28 @@ namespace GpsNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            var pins = await _mapManager.GetPins();
-            pins.ToList().ForEach(Pins.Add);
+            await SetCurrentPosition();
 
+            var pins = await _mapManager.GetPins();
+            pins.ToList().ForEach(MyMap.Pins.Add);
+        }
+
+        private async Task SetCurrentPosition()
+        {
+            var location = await Xamarin.Essentials.Geolocation.GetLastKnownLocationAsync();
+
+            try
+            {
+                if(location != null)
+                {
+                    var pos = new Position(location.Latitude, location.Longitude);
+                    MyMap.MoveToRegion(new MapSpan(pos, 0.15, 0.15));
+                }
+            }
+            catch(Exception)
+            {
+
+            }
         }
 
         #endregion
