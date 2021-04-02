@@ -1,5 +1,5 @@
 ﻿using GpsNote.Helpers;
-using GpsNote.Services.Auth;
+using GpsNote.Services;
 using GpsNote.Views;
 using Prism.Navigation;
 using Prism.Services;

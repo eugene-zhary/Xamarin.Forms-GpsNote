@@ -9,7 +9,7 @@ namespace GpsNote.Services.Map
 {
     public interface IMapManager
     {
-        Task<IEnumerable<UsersPin>> GetPins(int user_id);
-        Task SavePin(UsersPin pin);
+        Task<IEnumerable<Pin>> GetPins();
+        Task SavePin(Pin pin);
     }
 }

@@ -8,7 +8,7 @@ using Xamarin.Forms.Maps;
 namespace GpsNote.Models
 {
     [Table("Pins")]
-    public class UsersPin : IEntityModel
+    public class UserPin : IEntityModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

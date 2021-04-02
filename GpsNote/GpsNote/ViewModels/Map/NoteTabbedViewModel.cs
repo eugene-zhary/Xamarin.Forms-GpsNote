@@ -10,7 +10,7 @@ namespace GpsNote.ViewModels
     {
         public NoteTabbedViewModel(INavigationService navigationService) : base(navigationService)
         {
-            this.Title = "Gps Note";
+            Title = "Gps Note";
         }
 
         #region -- Public properties --

@@ -8,7 +8,7 @@
              x:Class="GpsNote.Views.MapPage"
              Title="{Binding Title}">
     <Grid>
-        <maps:Map ItemsSource="{Binding Pins}">
+        <!--<maps:Map ItemsSource="{Binding Pins}">
             <maps:Map.ItemTemplate>
                 <DataTemplate>
                     <maps:Pin Position="{Binding PinPosition}"
@@ -16,7 +16,14 @@
                               Label="{Binding Pin.Label }"/>
                 </DataTemplate>
             </maps:Map.ItemTemplate>
-        </maps:Map>
+        </maps:Map>-->
         <!--<maps:Map/>-->
+        <controls:BindableMap ItemsSource="{Binding Pins}" MapSpan="{Binding MapSpan}">
+            <controls:BindableMap.ItemTemplate>
+                <DataTemplate>
+                    <maps:Pin Label="{Binding Label}" Address="{Binding Address}" Position="{Binding Position}"/>
+                </DataTemplate>
+            </controls:BindableMap.ItemTemplate>
+        </controls:BindableMap>
     </Grid>
 </ContentPage>

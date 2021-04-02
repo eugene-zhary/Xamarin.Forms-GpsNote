@@ -1,56 +1,22 @@
-﻿using GpsNote.Models;
-using GpsNote.Services.Map;
+﻿using GpsNote.Services.Map;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-
+using System.Linq;
 
 namespace GpsNote.ViewModels
 {
     public class MapPageViewModel : ViewModelBase
     {
-        private IMapManager _mapManager;
-
+        private readonly IMapManager _mapManager;
         public MapPageViewModel(INavigationService navigationService, IMapManager mapManager) : base(navigationService)
         {
-            Pins = new ObservableCollection<UsersPinViewModel>
-            {
-                new UsersPinViewModel
-                {
-                    Pin = new UsersPin
-                    {
-                        Address = "test",
-                        Label = "First",
-                        //48.516638, 35.057997
-                        Latitude = 48.516638,
-                        Longitude = 35.057997
-                    }
-                },
-                new UsersPinViewModel
-                {
-                    Pin = new UsersPin
-                    {
-                        Address = "test",
-                        Label = "Second",
-                        //48.450194, 35.025029
-                        Latitude = 48.450194,
-                        Longitude = 35.025029
-                    }
-                },
-                new UsersPinViewModel
-                {
-                    Pin = new UsersPin
-                    {
-                        Address = "test",
-                        Label = "Third",
-                        //48.432083, 35.129569
-                        Latitude = 48.432083,
-                        Longitude = 35.129569
-                    }
-                }
-            };
+            _mapSpan = new MapSpan(new Position(48.445532, 35.066219), 0.12, 0.12);
+
+            Pins = new ObservableCollection<Pin>();
+
 
             Title = "Map";
             _mapManager = mapManager;
@@ -58,7 +24,14 @@ namespace GpsNote.ViewModels
 
         #region -- Public properties --
 
-        public ObservableCollection<UsersPinViewModel> Pins { get; set; }
+        public ObservableCollection<Pin> Pins { get; set; }
+
+        private MapSpan _mapSpan;
+        public MapSpan MapSpan
+        {
+            get => _mapSpan;
+            set => SetProperty(ref _mapSpan, value, nameof(MapSpan));
+        }
 
         public ICommand AddPinCommand => new Command(OnAddPin);
 
@@ -75,9 +48,12 @@ namespace GpsNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            // TODO: read pins from database
+            var pins = await _mapManager.GetPins();
+            pins.ToList().ForEach(Pins.Add);
         }
 
         #endregion
     }
+
+
 }

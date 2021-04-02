@@ -47,7 +47,9 @@ namespace GpsNote.Controls
             var newPinsSource = newValue as ObservableCollection<Pin>;
 
             if (thisInstance == null || newPinsSource == null)
+            {
                 return;
+            }
 
             UpdatePinsSource(thisInstance, newPinsSource);
         }
@@ -69,7 +71,9 @@ namespace GpsNote.Controls
         {
             bindableMap.Pins.Clear();
             foreach (var pin in newSource)
+            {
                 bindableMap.Pins.Add(pin);
+            }
         }
 
         #endregion

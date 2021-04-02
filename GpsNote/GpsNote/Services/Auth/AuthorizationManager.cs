@@ -4,50 +4,71 @@ using GpsNote.Services.Repository;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
-namespace GpsNote.Services.Auth
+namespace GpsNote.Services
 {
     public class AuthorizationManager : IAuthorizationManager
     {
-        private readonly IRepository<User> repository;
+        private readonly IRepository _repository;
+        private readonly ISettingManager _settingManager;
 
-        public AuthorizationManager(IRepository<User> repo)
+        public AuthorizationManager(IRepository repo, ISettingManager settingManager)
         {
-            repository = repo;
+            _repository = repo;
+            _settingManager = settingManager;
         }
 
         #region -- IAuthorizationManager implementation --
 
+        public bool IsAuthorized => _settingManager.UserId > 0;
+
         public async Task<bool> TrySignUp(string name, string email, string password)
         {
-            // check for the unique email
-            if (await repository.FindWithCommand($"SELECT * FROM Users WHERE Email='{email}'") != null)
-                return false;
+            bool CanSignUp = true;
+            User user = await _repository.FindWithCommand<User>($"SELECT * FROM Users WHERE Email='{email}'");
 
-            // add new user to database
-            await repository.Add(new User(name, email, password));
-            return true;
+            if (user != null)
+            {
+                CanSignUp = false;
+            }
+            else
+            {
+                await _repository.Add(new User(name, email, password));
+            }
+
+            return CanSignUp;
         }
 
         public async Task<bool> TrySignIn(string email, string password)
         {
-            return UserValidator.IsValid(email, password) &&
-                await isUserExists(email, password);
+            bool output = UserValidator.IsValid(email, password);
+
+            if (output)
+            {
+                output = await IsUserExists(email, password);
+            }
+
+            return  output;
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async Task<bool> isUserExists(string email, string password)
+        private async Task<bool> IsUserExists(string email, string password)
         {
-            User user = await repository.FindWithCommand($"SELECT * FROM Users WHERE Email='{email}' AND Password='{password}'");
+            bool isExists = true;
+            User user = await _repository.FindWithCommand<User>($"SELECT * FROM Users WHERE Email='{email}' AND Password='{password}'");
 
-            if (user != null) {
-                Preferences.Set("UserId", user.Id);
-                return true;
+            if (user == null)
+            {
+                isExists = false;
+            }
+            else
+            {
+                _settingManager.UserId = user.Id;
             }
 
-            return false;
+            return isExists;
         }
 
         #endregion
