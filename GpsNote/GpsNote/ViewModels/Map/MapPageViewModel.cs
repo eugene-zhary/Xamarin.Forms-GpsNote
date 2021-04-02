@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
+using Prism.Commands;
 
 namespace GpsNote.ViewModels
 {
@@ -13,13 +14,11 @@ namespace GpsNote.ViewModels
         private readonly IMapManager _mapManager;
         public MapPageViewModel(INavigationService navigationService, IMapManager mapManager) : base(navigationService)
         {
-            _mapSpan = new MapSpan(new Position(48.445532, 35.066219), 0.12, 0.12);
-
-            Pins = new ObservableCollection<Pin>();
-
+            _mapManager = mapManager;
 
             Title = "Map";
-            _mapManager = mapManager;
+            Pins = new ObservableCollection<Pin>();
+            MapSpan = new MapSpan(new Position(48.445532, 35.066219), 0.12, 0.12);
         }
 
         #region -- Public properties --
@@ -33,15 +32,22 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _mapSpan, value, nameof(MapSpan));
         }
 
-        public ICommand AddPinCommand => new Command(OnAddPin);
+        public DelegateCommand<MapSpan> AddPinCommand => new DelegateCommand<MapSpan>(OnAddPin);
 
         #endregion
 
         #region -- Private helpers --
 
-        private void OnAddPin(object obj)
+        private void OnAddPin(MapSpan span)
         {
-            // TODO: add pins
+            Pins.Add(new Pin
+            {
+                Label = "test",
+                Address = "test",
+                Position =span.Center
+            });
+            //Pins.Add(pin);
+
         }
 
         public async override void OnNavigatedTo(INavigationParameters parameters)
@@ -50,6 +56,7 @@ namespace GpsNote.ViewModels
 
             var pins = await _mapManager.GetPins();
             pins.ToList().ForEach(Pins.Add);
+
         }
 
         #endregion

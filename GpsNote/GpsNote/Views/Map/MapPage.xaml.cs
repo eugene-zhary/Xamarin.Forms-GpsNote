@@ -8,5 +8,6 @@ namespace GpsNote.Views
         {
             InitializeComponent();
         }
+
     }
 }

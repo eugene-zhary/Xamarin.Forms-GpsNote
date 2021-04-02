@@ -4,21 +4,24 @@
              xmlns:prism="http://prismlibrary.com"
              xmlns:controls="clr-namespace:GpsNote.Controls"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:converters="clr-namespace:GpsNote.Converters"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GpsNote.Views.MapPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             x:Name="this">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:MapClickedEventArgsConverter x:Key="click_converter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid>
-        <!--<maps:Map ItemsSource="{Binding Pins}">
-            <maps:Map.ItemTemplate>
-                <DataTemplate>
-                    <maps:Pin Position="{Binding PinPosition}"
-                              Address="{Binding Pin.Address }" 
-                              Label="{Binding Pin.Label }"/>
-                </DataTemplate>
-            </maps:Map.ItemTemplate>
-        </maps:Map>-->
-        <!--<maps:Map/>-->
-        <controls:BindableMap ItemsSource="{Binding Pins}" MapSpan="{Binding MapSpan}">
+        <controls:BindableMap ItemsSource="{Binding Pins}" MapSpan="{Binding MapSpan}" >
+            <controls:BindableMap.Behaviors>
+                <prism:EventToCommandBehavior EventName="MapClicked"
+                                              Command="{Binding AddPinCommand}"
+                                              EventArgsParameterPath="MapSpan"/>
+                <!--EventArgsConverter="{StaticResource click_converter}"-->
+            </controls:BindableMap.Behaviors>
             <controls:BindableMap.ItemTemplate>
                 <DataTemplate>
                     <maps:Pin Label="{Binding Label}" Address="{Binding Address}" Position="{Binding Position}"/>
