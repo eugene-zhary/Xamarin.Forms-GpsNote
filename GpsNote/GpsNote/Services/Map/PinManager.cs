@@ -8,29 +8,30 @@ using Xamarin.Forms.Maps;
 
 namespace GpsNote.Services.Map
 {
-    public class MapManager : IMapManager
+    public class PinManager : IPinManager
     {
         private readonly ISettingManager _settingManager;
         private readonly IRepository _repository;
 
-        public MapManager(ISettingManager settingManager, IRepository repository)
+        public PinManager(ISettingManager settingManager, IRepository repository)
         {
             _settingManager = settingManager;
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Pin>> GetPins()
+        public async Task<IEnumerable<UserPin>> GetPins()
         {
             string sqlCommand = $"SELECT * FROM Pins WHERE UserId='{_settingManager.UserId}'";
 
             var user_pins = await _repository.GetAllWithCommand<UserPin>(sqlCommand);
 
-            return user_pins.Select(p => p.ToPin());
+            return user_pins;
         }
 
+        
         public async Task SavePin(Pin pin)
         {
-            await _repository.AddOrUpdata(pin.ToUserPin());
+            await _repository.AddOrUpdata(pin.ToUserPin(_settingManager.UserId));
         }
     }
 }

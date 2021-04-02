@@ -7,9 +7,9 @@ using Xamarin.Forms.Maps;
 
 namespace GpsNote.Services.Map
 {
-    public interface IMapManager
+    public interface IPinManager
     {
-        Task<IEnumerable<Pin>> GetPins();
+        Task<IEnumerable<UserPin>> GetPins();
         Task SavePin(Pin pin);
     }
 }

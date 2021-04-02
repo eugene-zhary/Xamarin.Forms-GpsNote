@@ -6,7 +6,6 @@ namespace GpsNote.Extensions
 {
     public static class PinExtensions
     {
-
         public static Pin ToPin(this UserPin user_pin)
         {
             Pin output = null;
@@ -24,7 +23,7 @@ namespace GpsNote.Extensions
             return output;
         }
 
-        public static UserPin ToUserPin(this Pin pin)
+        public static UserPin ToUserPin(this Pin pin, int user_id)
         {
             UserPin output = null;
 
@@ -35,12 +34,12 @@ namespace GpsNote.Extensions
                     Label = pin.Label,
                     Address = pin.Address,
                     Latitude = pin.Position.Latitude,
-                    Longitude = pin.Position.Longitude
+                    Longitude = pin.Position.Longitude,
+                    UserId = user_id
                 };
             }
 
             return output;
         }
-
     }
 }

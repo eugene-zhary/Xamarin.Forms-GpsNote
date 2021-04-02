@@ -6,6 +6,12 @@
              x:Class="GpsNote.Views.PinsPage"
              Title="{Binding Title}">
     <Grid>
-        <Label Text="TODO: Pins" VerticalOptions="Center" HorizontalOptions="Center"/>
+        <ListView HasUnevenRows="True" ItemsSource="{Binding UserPins}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Label}" Detail="{Binding Address}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </ContentPage>

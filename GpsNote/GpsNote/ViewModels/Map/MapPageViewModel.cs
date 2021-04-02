@@ -14,8 +14,8 @@ namespace GpsNote.ViewModels
 {
     public class MapPageViewModel : ViewModelBase
     {
-        private readonly IMapManager _mapManager;
-        public MapPageViewModel(INavigationService navigationService, IMapManager mapManager) : base(navigationService)
+        private readonly IPinManager _mapManager;
+        public MapPageViewModel(INavigationService navigationService, IPinManager mapManager) : base(navigationService)
         {
             _mapManager = mapManager;
 
@@ -50,7 +50,7 @@ namespace GpsNote.ViewModels
             await SetCurrentPosition();
 
             var pins = await _mapManager.GetPins();
-            pins.ToList().ForEach(MyMap.Pins.Add);
+            pins.ToList().ForEach(p => MyMap.Pins.Add(p.ToPin()));
         }
 
         private async Task SetCurrentPosition()
@@ -73,6 +73,4 @@ namespace GpsNote.ViewModels
 
         #endregion
     }
-
-
 }

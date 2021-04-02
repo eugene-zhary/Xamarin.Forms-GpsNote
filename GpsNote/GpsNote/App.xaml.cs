@@ -17,31 +17,30 @@ namespace GpsNote
         {
         }
 
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             InitializeComponent();
 
             var auth_manager = Container.Resolve<IAuthorizationManager>();
-            
-            if (auth_manager.IsAuthorized)
+
+            if(auth_manager.IsAuthorized)
             {
-                //MainPage
-                NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
             }
             else
             {
-                NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
             }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // services
-            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+            containerRegistry.Register<IRepository, Repository>();
             containerRegistry.RegisterInstance<ISettingManager>(Container.Resolve<SettingManager>());
 
             containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
-            containerRegistry.RegisterInstance<IMapManager>(Container.Resolve<MapManager>());
+            containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
 
 
             // navigation
