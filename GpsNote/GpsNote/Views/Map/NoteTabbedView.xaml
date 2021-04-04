@@ -4,11 +4,12 @@
             xmlns:prism="http://prismlibrary.com"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="GpsNote.Views.NoteTabbedView" Title="{Binding Title}"
-            xmlns:local="clr-namespace:GpsNote.Views" BarBackgroundColor="DimGray" BarTextColor="White">
+            xmlns:local="clr-namespace:GpsNote.Views" 
+            BarBackgroundColor="DimGray" BarTextColor="White">
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="Log out" Command="{Binding LogoutCommand}"/>
     </TabbedPage.ToolbarItems>
-    
-    <local:MapPage/>
-    <local:PinsPage/>
+
+    <local:MapPage BindingContext="{Binding PinsViewModel}"/>
+    <local:PinsPage BindingContext="{Binding PinsViewModel}"/>
 </TabbedPage>

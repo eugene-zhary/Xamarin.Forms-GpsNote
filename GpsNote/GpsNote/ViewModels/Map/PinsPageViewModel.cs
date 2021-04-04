@@ -22,7 +22,9 @@ namespace GpsNote.ViewModels
         }
 
         #region -- Public properties --
+        
         public ObservableCollection<UserPin> UserPins { get; set; }
+
         #endregion
 
 

@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GpsNote.Views.PinsPage"
-             Title="{Binding Title}">
+             x:Class="GpsNote.Views.PinsPage">
     <Grid>
-        <ListView HasUnevenRows="True" ItemsSource="{Binding UserPins}">
+        <ListView HasUnevenRows="True" ItemsSource="{Binding Pins}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Label}" Detail="{Binding Address}"/>

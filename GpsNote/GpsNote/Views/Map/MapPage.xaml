@@ -2,18 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:controls="clr-namespace:GpsNote.Controls"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-             xmlns:converters="clr-namespace:GpsNote.Converters"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GpsNote.Views.MapPage"
-             Title="{Binding Title}"
-             x:Name="this">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:MapClickedEventArgsConverter x:Key="click_converter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+             x:Class="GpsNote.Views.MapPage">
     <Grid>
-        <ContentView Content="{Binding MyMap}"/>
+        <controls:BindableMap PinsSource="{Binding Pins}">
+            
+        </controls:BindableMap>
     </Grid>
 </ContentPage>

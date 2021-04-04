@@ -20,7 +20,6 @@ namespace GpsNote
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
             var auth_manager = Container.Resolve<IAuthorizationManager>();
 
             if(auth_manager.IsAuthorized)
@@ -42,14 +41,14 @@ namespace GpsNote
             containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
             containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
 
-
             // navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<NoteTabbedView, NoteTabbedViewModel>();
-            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
-            containerRegistry.RegisterForNavigation<PinsPage, PinsPageViewModel>();
+
+            //containerRegistry.RegisterForNavigation<MapPage>();
+            //containerRegistry.RegisterForNavigation<PinsPage>();
         }
     }
 }
