@@ -27,7 +27,6 @@ namespace GpsNote.Services.Map
 
             return user_pins;
         }
-
         
         public async Task SavePin(Pin pin)
         {

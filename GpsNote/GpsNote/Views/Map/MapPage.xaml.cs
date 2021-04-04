@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace GpsNote.Views
 {
@@ -8,6 +9,5 @@ namespace GpsNote.Views
         {
             InitializeComponent();
         }
-
     }
 }

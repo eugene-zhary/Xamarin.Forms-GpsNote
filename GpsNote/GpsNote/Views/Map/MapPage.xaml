@@ -2,13 +2,36 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:GpsNote.Controls"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:controls="clr-namespace:GpsNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:converter="clr-namespace:GpsNote.Converters"
              x:Class="GpsNote.Views.MapPage">
+    <ContentPage.Resources>
+        <converter:PositionConverter x:Key="PositionConverter"/>
+        <converter:MapClickedEventArgsConverter x:Key="MapClickedConverter"/>
+    </ContentPage.Resources>
     <Grid>
-        <controls:BindableMap PinsSource="{Binding Pins}">
-            
+        <maps:Map ></maps:Map>
+        <controls:BindableMap ItemsSource="{Binding Pins}" MapSpan="{Binding MapSpan}">
+            <controls:BindableMap.ItemTemplate>
+                <DataTemplate>
+                    <maps:Pin Label="{Binding Label}" Address="{Binding Address}" Position="{Binding Position}">
+                        
+                        <!--<maps:Pin.Position>
+                            <MultiBinding Converter="{StaticResource PositionConverter}">
+                                <Binding Path="Latitude"/>
+                                <Binding Path="Longitude"/>
+                            </MultiBinding>
+                        </maps:Pin.Position>-->
+                    </maps:Pin>
+                </DataTemplate>
+            </controls:BindableMap.ItemTemplate>
+            <!--<controls:BindableMap.Behaviors>
+                <prism:EventToCommandBehavior EventName="MapClicked"
+                                              Command="{Binding MapClickedCommand}"
+                                              EventArgsConverterParameter="{StaticResource MapClickedConverter}"/>
+            </controls:BindableMap.Behaviors>-->
         </controls:BindableMap>
     </Grid>
 </ContentPage>

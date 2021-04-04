@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using System.Linq;
 
 namespace GpsNote.Controls
 {
     public class BindableMap : Map
     {
-        public BindableMap()
+        public BindableMap() : base()
         {
             PinsSource = new ObservableCollection<Pin>();
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
@@ -24,6 +24,10 @@ namespace GpsNote.Controls
         public static readonly BindableProperty MapSpanProperty
             = BindableProperty.Create(nameof(MapSpan), typeof(MapSpan), typeof(BindableMap), null, BindingMode.TwoWay, null, MapSpanPropertyChanged);
 
+        public static readonly BindableProperty SelectedPinProperty
+            = BindableProperty.Create(nameof(MapSpan), typeof(Pin), typeof(BindableMap), null, BindingMode.TwoWay, null, SelectedPinPropertyChanged);
+
+
         public ObservableCollection<Pin> PinsSource
         {
             get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
@@ -36,17 +40,15 @@ namespace GpsNote.Controls
             set => SetValue(MapSpanProperty, value);
         }
 
+        public Pin SelectedPin
+        {
+            get => (Pin)GetValue(SelectedPinProperty);
+            set => SetValue(SelectedPinProperty, value);
+        }
+
         #endregion
 
         #region -- Private helpers --
-
-        private static void MapSpanPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var thisInstance = bindable as BindableMap;
-            var newMapSpan = newValue as MapSpan;
-
-            thisInstance?.MoveToRegion(newMapSpan);
-        }
 
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
@@ -70,6 +72,25 @@ namespace GpsNote.Controls
             foreach(var pin in newSource)
             {
                 bindableMap.Pins.Add(pin);
+            }
+        }
+
+        private static void MapSpanPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var thisInstance = bindable as BindableMap;
+            var newMapSpan = newValue as MapSpan;
+
+            thisInstance?.MoveToRegion(newMapSpan);
+        }
+
+        private static void SelectedPinPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var thisInstance = bindable as BindableMap;
+            var newSelectedPin = newValue as Pin;
+
+            if(thisInstance != null && newSelectedPin != null)
+            {
+                thisInstance.SelectedPin = newSelectedPin;
             }
         }
 

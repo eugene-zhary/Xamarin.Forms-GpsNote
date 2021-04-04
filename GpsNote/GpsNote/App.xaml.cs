@@ -41,14 +41,13 @@ namespace GpsNote
             containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
             containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
 
+
             // navigation
+            containerRegistry.Register<PinsViewModel>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<NoteTabbedView, NoteTabbedViewModel>();
-
-            //containerRegistry.RegisterForNavigation<MapPage>();
-            //containerRegistry.RegisterForNavigation<PinsPage>();
         }
     }
 }

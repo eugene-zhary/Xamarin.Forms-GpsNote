@@ -10,6 +10,6 @@
         <ToolbarItem Text="Log out" Command="{Binding LogoutCommand}"/>
     </TabbedPage.ToolbarItems>
 
-    <local:MapPage BindingContext="{Binding PinsViewModel}"/>
-    <local:PinsPage BindingContext="{Binding PinsViewModel}"/>
+    <local:MapPage BindingContext="{Binding PinsViewModel}" Title="{Binding MapTitle}"/>
+    <local:PinsPage BindingContext="{Binding PinsViewModel}" Title="{Binding PinsTitle}"/>
 </TabbedPage>
