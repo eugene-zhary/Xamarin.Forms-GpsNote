@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<controls:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:controls="clr-namespace:GpsNote.Controls"                          
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             x:Class="GpsNote.Views.Pins.MapView"
+             Title="{Binding Title}">
+
+    <controls:BindableMap ItemsSource="{Binding PinsCollection}">
+        <controls:BindableMap.Behaviors>
+            <prism:EventToCommandBehavior Command="{Binding MapClickedCommand}"
+                                          EventName="MapClicked"
+                                          EventArgsParameterPath="Point"/>
+        </controls:BindableMap.Behaviors>
+    </controls:BindableMap>
+</controls:BaseContentPage>

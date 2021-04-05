@@ -4,6 +4,7 @@ using GpsNote.Services.Map;
 using GpsNote.Services.Repository;
 using GpsNote.ViewModels;
 using GpsNote.Views;
+using GpsNote.Views.Pins;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Essentials;
@@ -35,19 +36,18 @@ namespace GpsNote
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // services
-            containerRegistry.Register<IRepository, Repository>();
+            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             containerRegistry.RegisterInstance<ISettingManager>(Container.Resolve<SettingManager>());
-
             containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
             containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
 
-
             // navigation
-            containerRegistry.Register<PinsViewModel>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<NoteTabbedView, NoteTabbedViewModel>();
+            containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
+            containerRegistry.RegisterForNavigation<PinsView, PinsViewModel>();
         }
     }
 }

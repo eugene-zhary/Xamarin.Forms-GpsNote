@@ -4,7 +4,7 @@ using GpsNote.Services.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms.Maps;
+using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.Services.Map
 {

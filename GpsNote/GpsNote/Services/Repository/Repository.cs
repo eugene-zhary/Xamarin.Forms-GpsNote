@@ -67,11 +67,6 @@ namespace GpsNote.Services.Repository
 
         private async Task CreateConnection<T>() where T : IEntityModel, new()
         {
-            if (_connection != null)
-            {
-                return;
-            }
-
             var documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var databasePath = Path.Combine(documentPath, "GpsNote.db");
 

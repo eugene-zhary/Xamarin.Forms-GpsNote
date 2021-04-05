@@ -1,5 +1,6 @@
 ﻿using GpsNote.Services;
 using GpsNote.Views;
+using GpsNote.Views.Pins;
 using Prism.Navigation;
 using Prism.Services;
 using System;

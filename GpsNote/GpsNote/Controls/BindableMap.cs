@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 using System.Linq;
+using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.Controls
 {
@@ -16,6 +16,7 @@ namespace GpsNote.Controls
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
         }
 
+
         #region -- Public properties --
 
         public static readonly BindableProperty PinsSourceProperty
@@ -23,9 +24,6 @@ namespace GpsNote.Controls
 
         public static readonly BindableProperty MapSpanProperty
             = BindableProperty.Create(nameof(MapSpan), typeof(MapSpan), typeof(BindableMap), null, BindingMode.TwoWay, null, MapSpanPropertyChanged);
-
-        public static readonly BindableProperty SelectedPinProperty
-            = BindableProperty.Create(nameof(MapSpan), typeof(Pin), typeof(BindableMap), null, BindingMode.TwoWay, null, SelectedPinPropertyChanged);
 
 
         public ObservableCollection<Pin> PinsSource
@@ -40,12 +38,6 @@ namespace GpsNote.Controls
             set => SetValue(MapSpanProperty, value);
         }
 
-        public Pin SelectedPin
-        {
-            get => (Pin)GetValue(SelectedPinProperty);
-            set => SetValue(SelectedPinProperty, value);
-        }
-
         #endregion
 
         #region -- Private helpers --
@@ -55,7 +47,7 @@ namespace GpsNote.Controls
             var thisInstance = bindable as BindableMap;
             var newPinsSource = newValue as ObservableCollection<Pin>;
 
-            if(thisInstance != null && newPinsSource != null)
+            if (thisInstance != null && newPinsSource != null)
             {
                 UpdatePinsSource(thisInstance, newPinsSource);
             }
@@ -69,7 +61,7 @@ namespace GpsNote.Controls
         private static void UpdatePinsSource(Map bindableMap, IEnumerable<Pin> newSource)
         {
             bindableMap.Pins.Clear();
-            foreach(var pin in newSource)
+            foreach (var pin in newSource)
             {
                 bindableMap.Pins.Add(pin);
             }
@@ -81,17 +73,6 @@ namespace GpsNote.Controls
             var newMapSpan = newValue as MapSpan;
 
             thisInstance?.MoveToRegion(newMapSpan);
-        }
-
-        private static void SelectedPinPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var thisInstance = bindable as BindableMap;
-            var newSelectedPin = newValue as Pin;
-
-            if(thisInstance != null && newSelectedPin != null)
-            {
-                thisInstance.SelectedPin = newSelectedPin;
-            }
         }
 
         #endregion
