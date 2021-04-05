@@ -10,7 +10,7 @@ namespace GpsNote.Services
     {
         bool IsAuthorized { get; }
 
-        Task<bool> TrySignUp(string name, string email, string password);
-        Task<bool> TrySignIn(string email, string password);
+        Task<bool> TrySignUpAsync(string name, string email, string password);
+        Task<bool> TrySignInAsync(string email, string password);
     }
 }

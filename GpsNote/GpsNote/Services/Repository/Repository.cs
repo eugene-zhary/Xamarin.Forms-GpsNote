@@ -4,74 +4,65 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+
 
 namespace GpsNote.Services.Repository
 {
     public class Repository : IRepository
     {
-        private SQLiteAsyncConnection _connection;
+        private readonly SQLiteAsyncConnection _connection;
 
-        #region -- IRepostitory implementation --
-
-        public async Task<IEnumerable<T>> GetAll<T>() where T : IEntityModel,new()
-        {
-            await CreateConnection<T>();
-            return await _connection.Table<T>().ToListAsync();
-        }
-
-        public async Task<IEnumerable<T>> GetAllWithCommand<T>(string sql) where T : IEntityModel, new()
-        {
-            await CreateConnection<T>();
-            return await _connection.QueryAsync<T>(sql);
-        }
-
-        public async Task<T> FindWithCommand<T>(string sql) where T : IEntityModel, new()
-        {
-            await CreateConnection<T>();
-            return await _connection.FindWithQueryAsync<T>(sql);
-        }
-
-        public async Task Add<T>(T item) where T : IEntityModel, new()
-        {
-            await CreateConnection<T>();
-            await _connection.InsertAsync(item);
-        }
-
-        public async Task Remove<T>(T item) where T : IEntityModel, new()
-        {
-            await CreateConnection<T>();
-            await _connection.DeleteAsync(item);
-        }
-
-        public async Task Update<T>(T item) where T : IEntityModel, new()
-        {
-            await CreateConnection<T>();
-            await _connection.UpdateAsync(item);
-        }
-
-        public async Task AddOrUpdata<T>(T item) where T : IEntityModel, new()
-        {
-            if (item.Id == 0)
-            {
-                await Add(item);
-            }
-            else
-            {
-                await Update(item);
-            }
-        }
-
-        #endregion
-
-        #region -- Private helpers --
-
-        private async Task CreateConnection<T>() where T : IEntityModel, new()
+        public Repository()
         {
             var documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var databasePath = Path.Combine(documentPath, "GpsNote.db");
 
             _connection = new SQLiteAsyncConnection(databasePath);
+        }
+
+        #region -- IRepostitory implementation --
+
+        public async Task<IEnumerable<T>> GetRowsAsync<T>(Expression<Func<T, bool>> func) where T : IEntityModel, new()
+        {
             await _connection.CreateTableAsync<T>();
+            return await _connection.Table<T>().Where(func).ToListAsync();
+        }
+
+        public async Task<T> FindAsync<T>(Expression<Func<T, bool>> func) where T : IEntityModel, new()
+        {
+            await _connection.CreateTableAsync<T>();
+            return await _connection.Table<T>().Where(func).FirstOrDefaultAsync();
+        }
+
+        public async Task AddAsync<T>(T item) where T : IEntityModel, new()
+        {
+            await _connection.CreateTableAsync<T>();
+            await _connection.InsertAsync(item);
+        }
+
+        public async Task RemoveAsync<T>(T item) where T : IEntityModel, new()
+        {
+            await _connection.CreateTableAsync<T>();
+            await _connection.DeleteAsync(item);
+        }
+
+        public async Task UpdateAsync<T>(T item) where T : IEntityModel, new()
+        {
+            await _connection.CreateTableAsync<T>();
+            await _connection.UpdateAsync(item);
+        }
+
+        public async Task AddOrUpdataAsync<T>(T item) where T : IEntityModel, new()
+        {
+            if(item.Id == 0)
+            {
+                await AddAsync(item);
+            }
+            else
+            {
+                await UpdateAsync(item);
+            }
         }
 
         #endregion

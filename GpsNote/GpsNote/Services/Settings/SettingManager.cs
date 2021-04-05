@@ -5,7 +5,7 @@ using Xamarin.Essentials;
 
 namespace GpsNote.Services
 {
-    public class SettingManager : ISettingManager
+    public class SettingManager : ISettingsManager
     {
         public int UserId
         {

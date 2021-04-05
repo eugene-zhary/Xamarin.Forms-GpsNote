@@ -1,5 +1,7 @@
-﻿using GpsNote.Services.Map;
+﻿using GpsNote.Properties;
+using GpsNote.Services.Map;
 using Prism.Navigation;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -10,7 +12,7 @@ namespace GpsNote.ViewModels
     {
         public MapViewModel(INavigationService navigation, IPinManager pinManager) : base(navigation, pinManager)
         {
-            Title = "Map";
+            Title = AppResources.MapTitle;
         }
 
         #region -- Public properties --
@@ -23,7 +25,12 @@ namespace GpsNote.ViewModels
 
         private void OnMapClicked(Position obj)
         {
-            
+            PinsCollection.Add(new Pin
+            {
+                Label = "clicked",
+                Address = "default",
+                Position = obj
+            });
         }
 
         #endregion

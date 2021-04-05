@@ -1,4 +1,5 @@
-﻿using GpsNote.Services.Map;
+﻿using GpsNote.Properties;
+using GpsNote.Services.Map;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -12,12 +13,8 @@ namespace GpsNote.ViewModels
     {
         public PinsViewModel(INavigationService navigation, IPinManager pinsManager) : base(navigation, pinsManager)
         {
-            Title = "Pins";
-
+            Title = AppResources.PinsTitle;
         }
-
-
-        
 
     }
 }

@@ -3,16 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             xmlns:controls="clr-namespace:GpsNote.Controls"                          
+             xmlns:controls="clr-namespace:GpsNote.Controls"
+             xmlns:behaviors="clr-namespace:GpsNote.Behaviors"
              xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              x:Class="GpsNote.Views.Pins.MapView"
              Title="{Binding Title}">
 
-    <controls:BindableMap ItemsSource="{Binding PinsCollection}">
-        <controls:BindableMap.Behaviors>
+    <maps:Map>
+        <maps:Map.Behaviors>
+            <behaviors:BindingPinsBehavior Value="{Binding PinsCollection}"/>
             <prism:EventToCommandBehavior Command="{Binding MapClickedCommand}"
                                           EventName="MapClicked"
                                           EventArgsParameterPath="Point"/>
-        </controls:BindableMap.Behaviors>
-    </controls:BindableMap>
+        </maps:Map.Behaviors>
+    </maps:Map>
 </controls:BaseContentPage>

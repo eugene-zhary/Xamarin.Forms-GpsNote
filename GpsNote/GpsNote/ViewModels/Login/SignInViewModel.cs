@@ -1,10 +1,13 @@
-﻿using GpsNote.Services;
+﻿using GpsNote.Helpers;
+using GpsNote.Properties;
+using GpsNote.Services;
 using GpsNote.Views;
 using GpsNote.Views.Pins;
 using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
@@ -19,7 +22,7 @@ namespace GpsNote.ViewModels
             this._email = String.Empty;
             this._password = String.Empty;
 
-            Title = "Sign In";
+            Title = AppResources.SignInTitle;
             _dialogService = dialogService;
             _authManager = authManager;
         }
@@ -49,13 +52,15 @@ namespace GpsNote.ViewModels
 
         private async void OnSignIn()
         {
-            if(await _authManager.TrySignIn(this.Email, this.Password))
+            bool isValid = UserValidator.Validate(Email, Password);
+
+            if(isValid && await _authManager.TrySignInAsync(Email, Password))
             {
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
             }
             else
             {
-                await _dialogService.DisplayAlertAsync(Title, "Invalid email or password!", "Cancel");
+                await _dialogService.DisplayAlertAsync(AppResources.SignInTitle, AppResources.InvalidSignIn, AppResources.Cancel);
             }
         }
 

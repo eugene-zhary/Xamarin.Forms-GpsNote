@@ -10,27 +10,25 @@ namespace GpsNote.Services.Map
 {
     public class PinManager : IPinManager
     {
-        private readonly ISettingManager _settingManager;
+        private readonly ISettingsManager _settings;
         private readonly IRepository _repository;
 
-        public PinManager(ISettingManager settingManager, IRepository repository)
+        public PinManager(ISettingsManager settingManager, IRepository repository)
         {
-            _settingManager = settingManager;
+            _settings = settingManager;
             _repository = repository;
         }
 
-        public async Task<IEnumerable<UserPin>> GetPins()
+        public async Task<IEnumerable<UserPin>> GetPinsAsync()
         {
-            string sqlCommand = $"SELECT * FROM Pins WHERE UserId='{_settingManager.UserId}'";
-
-            var user_pins = await _repository.GetAllWithCommand<UserPin>(sqlCommand);
+            var user_pins = await _repository.GetRowsAsync<UserPin>(pin=>pin.UserId == _settings.UserId);
 
             return user_pins;
         }
         
-        public async Task SavePin(Pin pin)
+        public async Task SavePinAsync(UserPin pin)
         {
-            await _repository.AddOrUpdata(pin.ToUserPin(_settingManager.UserId));
+            await _repository.AddOrUpdataAsync(pin);
         }
     }
 }

@@ -12,10 +12,10 @@ namespace GpsNote.Helpers
         private const string PASSWORD_REG = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$";
 
 
-        public static bool IsValidEmail(string email) => Regex.IsMatch(email, EMAIL_REG);
+        public static bool ValidateEmail(string email) => Regex.IsMatch(email, EMAIL_REG);
 
-        public static bool IsValidName(string name) => Regex.IsMatch(name, NAME_REG);
+        public static bool ValidateName(string name) => Regex.IsMatch(name, NAME_REG);
 
-        public static bool IsValidPassword(string password) => Regex.IsMatch(password, PASSWORD_REG);
+        public static bool ValidatePassword(string password) => Regex.IsMatch(password, PASSWORD_REG);
     }
 }

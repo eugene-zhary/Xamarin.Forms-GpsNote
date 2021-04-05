@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using Xamarin.Forms;
 using System.Linq;
 using Xamarin.Forms.GoogleMaps;
+using System.Diagnostics;
 
 namespace GpsNote.Controls
 {
@@ -14,13 +15,22 @@ namespace GpsNote.Controls
         {
             PinsSource = new ObservableCollection<Pin>();
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
+
+            UiSettings.MyLocationButtonEnabled = true;
         }
 
 
         #region -- Public properties --
 
-        public static readonly BindableProperty PinsSourceProperty
-            = BindableProperty.Create(nameof(PinsSource), typeof(ObservableCollection<Pin>), typeof(BindableMap), null, BindingMode.TwoWay, null, PinsSourcePropertyChanged);
+        public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
+                                                         propertyName: nameof(PinsSource),
+                                                         returnType: typeof(ObservableCollection<Pin>),
+                                                         declaringType: typeof(BindableMap),
+                                                         defaultValue: null,
+                                                         defaultBindingMode: BindingMode.TwoWay,
+                                                         validateValue: null,
+                                                         propertyChanged: PinsSourcePropertyChanged);
+
 
         public static readonly BindableProperty MapSpanProperty
             = BindableProperty.Create(nameof(MapSpan), typeof(MapSpan), typeof(BindableMap), null, BindingMode.TwoWay, null, MapSpanPropertyChanged);
@@ -50,6 +60,10 @@ namespace GpsNote.Controls
             if (thisInstance != null && newPinsSource != null)
             {
                 UpdatePinsSource(thisInstance, newPinsSource);
+            }
+            else
+            {
+                Debug.WriteLine("map or newSource is null");
             }
         }
 

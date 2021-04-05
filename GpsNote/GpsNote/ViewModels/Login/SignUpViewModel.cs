@@ -1,4 +1,5 @@
 ﻿using GpsNote.Helpers;
+using GpsNote.Properties;
 using GpsNote.Services;
 using GpsNote.Views;
 using Prism.Navigation;
@@ -15,7 +16,7 @@ namespace GpsNote.ViewModels
 
         public SignUpViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationManager authManager) : base(navigationService)
         {
-            Title = "New Account";
+            Title = AppResources.SignUpTitle;
             _dialogService = dialogService;
             _authManager = authManager;
         }
@@ -51,18 +52,18 @@ namespace GpsNote.ViewModels
 
         private async void OnCreate()
         {
-            if(!UserValidator.IsValid(Email, Password, Name))
+            if(!UserValidator.Validate(Email, Password, Name))
             {
-                await _dialogService.DisplayAlertAsync(Title, "Invalid email or password!", "Cancel");
+                await _dialogService.DisplayAlertAsync(AppResources.SignUpTitle, AppResources.InvalidSignIn, AppResources.Cancel);
             }
-            else if(await _authManager.TrySignUp(Name, Email, Password))
+            else if(await _authManager.TrySignUpAsync(Name, Email, Password))
             {
-                await _dialogService.DisplayAlertAsync(Title, "Account successfuly created!", "Cancel");
+                await _dialogService.DisplayAlertAsync(AppResources.SignUpTitle, AppResources.SignUpSucces, AppResources.Cancel);
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
             }
             else
             {
-                await _dialogService.DisplayAlertAsync(Title, "This email already exists", "Cancel");
+                await _dialogService.DisplayAlertAsync(AppResources.SignUpTitle, AppResources.SignUpError, AppResources.Cancel);
             }
         }
 

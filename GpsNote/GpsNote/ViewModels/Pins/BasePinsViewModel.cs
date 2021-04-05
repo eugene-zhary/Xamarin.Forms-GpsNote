@@ -33,13 +33,9 @@ namespace GpsNote.ViewModels
 
         public virtual void OnAppearing()
         {
-            PinsCollection.Add(new Pin
-            {
-                Label = "First",
-                Address = "test",
-                Position = new Position(45, 10)
-            });
+            
         }
+
         public virtual void OnDisappearing()
         {
 

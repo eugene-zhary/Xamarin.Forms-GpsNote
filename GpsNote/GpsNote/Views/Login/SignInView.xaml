@@ -10,28 +10,19 @@
             <Setter Property="BackgroundColor" Value="Gray"/>
             <Setter Property="TextColor" Value="White"/>
             <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="FontSize" Value="12"/>
         </Style>
     </ContentPage.Resources>
     <Frame VerticalOptions="Center" CornerRadius="15" Margin="15,0">
-        <Grid Padding="0,10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            
-            <Entry Grid.ColumnSpan='2' Text="{Binding Email}" Placeholder="email"/>
-            <Entry Grid.Row="1" Text="{Binding Password}" Grid.ColumnSpan="2" Placeholder="password" Margin="0,0,0,30" IsPassword="True"/>
+        <StackLayout Padding="10,5">
+            <Entry Text="{Binding Email}" Placeholder="email"/>
+            <Entry Text="{Binding Password}" Placeholder="password" Margin="0,0,0,30" IsPassword="True"/>
 
-            <Button Grid.Row="2" Text="Sign In" Margin="0,0,10,0"
+            <FlexLayout JustifyContent="SpaceBetween">
+                <Button Text="Sign In"
                     Command="{Binding SignInCommand}"/>
-            <Button Grid.Row="2" Grid.Column="1" Text="Create Account" FontSize="12"  Margin="10,0,0,0"
+                <Button Text="Create Account"
                     Command="{Binding SignUpCommand}"/>
-        </Grid>
+            </FlexLayout>
+        </StackLayout>
     </Frame>
 </ContentPage>

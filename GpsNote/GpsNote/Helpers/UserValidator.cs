@@ -6,13 +6,13 @@ namespace GpsNote.Helpers
 {
     public static class UserValidator
     {
-        public static bool IsValid(string email, string password) =>
-            (StringValidators.IsValidEmail(email) &&
-             StringValidators.IsValidPassword(password));
+        public static bool Validate(string email, string password) =>
+            (StringValidators.ValidateEmail(email) &&
+             StringValidators.ValidatePassword(password));
 
-        public static bool IsValid(string email, string password, string name) =>
-             (StringValidators.IsValidEmail(email) &&
-             StringValidators.IsValidPassword(password) &&
-             (StringValidators.IsValidName(name)));
+        public static bool Validate(string email, string password, string name) =>
+             (StringValidators.ValidateEmail(email) &&
+             StringValidators.ValidatePassword(password) &&
+             (StringValidators.ValidateName(name)));
     }
 }
