@@ -58,7 +58,7 @@ namespace GpsNote.ViewModels
             }
             else if(await _authManager.TrySignUpAsync(Name, Email, Password))
             {
-                await _dialogService.DisplayAlertAsync(AppResources.SignUpTitle, AppResources.SignUpSucces, AppResources.Cancel);
+                await _dialogService.DisplayAlertAsync(AppResources.SignUpTitle, AppResources.SignUpSuccess, AppResources.Cancel);
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
             }
             else

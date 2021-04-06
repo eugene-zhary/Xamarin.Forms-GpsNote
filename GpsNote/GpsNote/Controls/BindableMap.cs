@@ -6,80 +6,50 @@ using Xamarin.Forms;
 using System.Linq;
 using Xamarin.Forms.GoogleMaps;
 using System.Diagnostics;
+using System.Collections;
+using System.Windows.Input;
 
 namespace GpsNote.Controls
 {
     public class BindableMap : Map
     {
-        public BindableMap() : base()
+        public BindableMap()
         {
-            PinsSource = new ObservableCollection<Pin>();
-            PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
+            PinsSource = Pins as ObservableCollection<Pin>;
 
-            UiSettings.MyLocationButtonEnabled = true;
+
         }
-
 
         #region -- Public properties --
 
-        public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
-                                                         propertyName: nameof(PinsSource),
-                                                         returnType: typeof(ObservableCollection<Pin>),
-                                                         declaringType: typeof(BindableMap),
-                                                         defaultValue: null,
-                                                         defaultBindingMode: BindingMode.TwoWay,
-                                                         validateValue: null,
-                                                         propertyChanged: PinsSourcePropertyChanged);
+        private static readonly BindablePropertyKey PinsSourcePropertyKey = BindableProperty.CreateReadOnly(nameof(PinsSource), typeof(ObservableCollection<Pin>), typeof(BindableMap), default(ObservableCollection<Pin>));
 
+        public static readonly BindableProperty PinsSourceProperty = PinsSourcePropertyKey.BindableProperty;
 
         public static readonly BindableProperty MapSpanProperty
             = BindableProperty.Create(nameof(MapSpan), typeof(MapSpan), typeof(BindableMap), null, BindingMode.TwoWay, null, MapSpanPropertyChanged);
 
 
+        // BindableProperty implementation
+        public static readonly BindableProperty CommandProperty
+            = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(BindableMap), null);
+
+
         public ObservableCollection<Pin> PinsSource
         {
             get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
-            set => SetValue(PinsSourceProperty, value);
+            private set => SetValue(PinsSourcePropertyKey, value);
         }
-
         public MapSpan MapSpan
         {
             get => (MapSpan)GetValue(MapSpanProperty);
             set => SetValue(MapSpanProperty, value);
         }
 
+
         #endregion
 
         #region -- Private helpers --
-
-        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
-        {
-            var thisInstance = bindable as BindableMap;
-            var newPinsSource = newValue as ObservableCollection<Pin>;
-
-            if (thisInstance != null && newPinsSource != null)
-            {
-                UpdatePinsSource(thisInstance, newPinsSource);
-            }
-            else
-            {
-                Debug.WriteLine("map or newSource is null");
-            }
-        }
-
-        private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            UpdatePinsSource(this, sender as IEnumerable<Pin>);
-        }
-
-        private static void UpdatePinsSource(Map bindableMap, IEnumerable<Pin> newSource)
-        {
-            bindableMap.Pins.Clear();
-            foreach (var pin in newSource)
-            {
-                bindableMap.Pins.Add(pin);
-            }
-        }
 
         private static void MapSpanPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -87,6 +57,7 @@ namespace GpsNote.Controls
             var newMapSpan = newValue as MapSpan;
 
             thisInstance?.MoveToRegion(newMapSpan);
+        
         }
 
         #endregion

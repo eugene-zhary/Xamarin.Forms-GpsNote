@@ -1,12 +1,7 @@
 ﻿using GpsNote.Controls;
 using GpsNote.Services.Map;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Input;
-using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
@@ -33,7 +28,12 @@ namespace GpsNote.ViewModels
 
         public virtual void OnAppearing()
         {
-            
+            PinsCollection.Add(new Pin
+            {
+                Label = "clicked",
+                Address = "default",
+                Position = new Position(42.324583, 12.329311)
+            });
         }
 
         public virtual void OnDisappearing()

@@ -25,13 +25,12 @@ namespace GpsNote.ViewModels
 
         private void OnMapClicked(Position obj)
         {
-            PinsCollection.Add(new Pin
-            {
-                Label = "clicked",
-                Address = "default",
-                Position = obj
-            });
+
         }
+
+        #endregion
+
+        #region -- Overrides --
 
         #endregion
     }
