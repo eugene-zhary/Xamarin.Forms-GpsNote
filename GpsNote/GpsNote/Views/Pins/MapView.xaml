@@ -8,7 +8,7 @@
              x:Class="GpsNote.Views.Pins.MapView"
              Title="{Binding Title}">
 
-    <controls:BindableMap PinsSource="{Binding PinsCollection}" MapSpan="{Binding MapSpan}" MapClickedCommand="{Binding MapClickedCommand}">
-        
+    <controls:BindableMap PinsSource="{Binding PinsCollection}" MapSpan="{Binding MapSpan}" 
+                          MapClickedCommand="{Binding MapClickedCommand}" MyLocationEnabled="True">
     </controls:BindableMap>
 </controls:BaseContentPage>

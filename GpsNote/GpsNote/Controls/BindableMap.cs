@@ -17,7 +17,9 @@ namespace GpsNote.Controls
         {
             PinsSource = Pins as ObservableCollection<Pin>;
             MapClicked += BindableMap_MapClicked;
+            
         }
+
 
         #region -- Public properties --
 

@@ -18,7 +18,6 @@ namespace GpsNote.ViewModels
             Title = AppResources.NoteTitle;
         }
 
-
         #region -- Public properties --
 
         public ICommand LogoutCommand => new Command(OnLogout);

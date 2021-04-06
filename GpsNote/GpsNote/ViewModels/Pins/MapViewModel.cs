@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using System.Linq;
 using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 namespace GpsNote.ViewModels
 {
@@ -32,20 +33,14 @@ namespace GpsNote.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-
 
             if (parameters.ContainsKey(nameof(Pin)))
             {
                 var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
                 MapSpan = new MapSpan(selectedPin.Position, 0.01, 0.01);
-            }
-            else
-            {
-                var location = await Geolocation.GetLastKnownLocationAsync();
-                MapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 0.15, 0.15);
             }
         }
 
@@ -56,6 +51,12 @@ namespace GpsNote.ViewModels
         private void OnMapClicked(MapClickedEventArgs pos)
         {
 
+        }
+
+        private async Task SetCurrentLocation()
+        {
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            MapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 0.15, 0.15);
         }
 
         #endregion
