@@ -17,7 +17,8 @@ namespace GpsNote.Controls
         {
             PinsSource = Pins as ObservableCollection<Pin>;
             MapClicked += BindableMap_MapClicked;
-            
+
+            UiSettings.MyLocationButtonEnabled = true;
         }
 
 

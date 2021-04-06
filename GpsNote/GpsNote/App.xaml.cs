@@ -1,6 +1,7 @@
 using GpsNote.Models;
 using GpsNote.Services;
 using GpsNote.Services.Map;
+using GpsNote.Services.Permissions;
 using GpsNote.Services.Repository;
 using GpsNote.ViewModels;
 using GpsNote.Views;
@@ -37,6 +38,7 @@ namespace GpsNote
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // services
+            containerRegistry.RegisterInstance<IPermissionManager>(Container.Resolve<PermissionManager>());
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingManager>());
             containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());

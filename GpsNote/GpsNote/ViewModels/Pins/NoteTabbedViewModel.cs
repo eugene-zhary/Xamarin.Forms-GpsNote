@@ -1,4 +1,5 @@
 ﻿using GpsNote.Properties;
+using GpsNote.Services.Permissions;
 using GpsNote.Views;
 using Prism.Commands;
 using Prism.Mvvm;

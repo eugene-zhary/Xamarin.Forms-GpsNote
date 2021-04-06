@@ -1,11 +1,13 @@
 ﻿using GpsNote.Helpers;
 using GpsNote.Properties;
 using GpsNote.Services;
+using GpsNote.Services.Permissions;
 using GpsNote.Views;
 using GpsNote.Views.Pins;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,15 +18,18 @@ namespace GpsNote.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly IAuthorizationManager _authManager;
+        private readonly IPermissionManager _permissionManager;
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationManager authManager) : base(navigationService)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationManager authManager, IPermissionManager permissions) : base(navigationService)
         {
-            this._email = String.Empty;
-            this._password = String.Empty;
-
-            Title = AppResources.SignInTitle;
             _dialogService = dialogService;
             _authManager = authManager;
+            _permissionManager = permissions;
+
+            _email = String.Empty;
+            _password = String.Empty;
+
+            Title = AppResources.SignInTitle;
         }
 
         #region -- Public properties --
@@ -68,6 +73,7 @@ namespace GpsNote.ViewModels
         {
             await NavigationService.NavigateAsync($"{nameof(SignUpView)}");
         }
+
 
         #endregion
     }

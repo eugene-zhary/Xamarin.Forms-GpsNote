@@ -9,6 +9,6 @@
              Title="{Binding Title}">
 
     <controls:BindableMap PinsSource="{Binding PinsCollection}" MapSpan="{Binding MapSpan}" 
-                          MapClickedCommand="{Binding MapClickedCommand}" MyLocationEnabled="True">
+                          MapClickedCommand="{Binding MapClickedCommand}" MyLocationEnabled="{Binding MyLocationEnabled}">
     </controls:BindableMap>
 </controls:BaseContentPage>
