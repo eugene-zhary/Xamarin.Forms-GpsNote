@@ -7,7 +7,7 @@
              x:Class="GpsNote.Views.Pins.PinsView"
              Title="{Binding Title}">
 
-    <ListView ItemsSource="{Binding PinsCollection}">
+    <ListView ItemsSource="{Binding PinsCollection}" SelectedItem="{Binding SelectedPin}" ItemSelected="ListView_ItemSelected">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextCell Text="{Binding Label}" Detail="{Binding Address}"/>

@@ -16,8 +16,7 @@ namespace GpsNote.Controls
         public BindableMap()
         {
             PinsSource = Pins as ObservableCollection<Pin>;
-
-
+            MapClicked += BindableMap_MapClicked;
         }
 
         #region -- Public properties --
@@ -29,10 +28,8 @@ namespace GpsNote.Controls
         public static readonly BindableProperty MapSpanProperty
             = BindableProperty.Create(nameof(MapSpan), typeof(MapSpan), typeof(BindableMap), null, BindingMode.TwoWay, null, MapSpanPropertyChanged);
 
-
-        // BindableProperty implementation
-        public static readonly BindableProperty CommandProperty
-            = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(BindableMap), null);
+        public static readonly BindableProperty MapClickedCommandProperty
+            = BindableProperty.Create(nameof(MapClickedCommand), typeof(ICommand), typeof(BindableMap), null);
 
 
         public ObservableCollection<Pin> PinsSource
@@ -45,7 +42,11 @@ namespace GpsNote.Controls
             get => (MapSpan)GetValue(MapSpanProperty);
             set => SetValue(MapSpanProperty, value);
         }
-
+        public ICommand MapClickedCommand
+        {
+            get => (ICommand)GetValue(MapClickedCommandProperty);
+            set => SetValue(MapClickedCommandProperty, value);
+        }
 
         #endregion
 
@@ -57,7 +58,11 @@ namespace GpsNote.Controls
             var newMapSpan = newValue as MapSpan;
 
             thisInstance?.MoveToRegion(newMapSpan);
-        
+        }
+
+        private void BindableMap_MapClicked(object sender, MapClickedEventArgs e)
+        {
+            MapClickedCommand.Execute(e);
         }
 
         #endregion

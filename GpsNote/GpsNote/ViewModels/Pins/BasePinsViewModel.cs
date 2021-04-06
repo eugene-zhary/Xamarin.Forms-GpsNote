@@ -28,6 +28,7 @@ namespace GpsNote.ViewModels
 
         public virtual void OnAppearing()
         {
+            PinsCollection.Clear();
             PinsCollection.Add(new Pin
             {
                 Label = "clicked",
