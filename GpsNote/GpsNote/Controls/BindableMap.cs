@@ -28,8 +28,8 @@ namespace GpsNote.Controls
 
         public static readonly BindableProperty PinsSourceProperty = PinsSourcePropertyKey.BindableProperty;
 
-        public static readonly BindableProperty MapSpanProperty
-            = BindableProperty.Create(nameof(MapSpan), typeof(MapSpan), typeof(BindableMap), null, BindingMode.TwoWay, null, MapSpanPropertyChanged);
+        public static readonly BindableProperty CurrentPositionProperty
+            = BindableProperty.Create(nameof(CurrentPosition), typeof(CameraPosition), typeof(BindableMap), null, BindingMode.TwoWay, null, OnCurrentPositionChanged);
 
         public static readonly BindableProperty MapClickedCommandProperty
             = BindableProperty.Create(nameof(MapClickedCommand), typeof(ICommand), typeof(BindableMap), null);
@@ -40,10 +40,10 @@ namespace GpsNote.Controls
             get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
             private set => SetValue(PinsSourcePropertyKey, value);
         }
-        public MapSpan MapSpan
+        public CameraPosition CurrentPosition
         {
-            get => (MapSpan)GetValue(MapSpanProperty);
-            set => SetValue(MapSpanProperty, value);
+            get => (CameraPosition)GetValue(CurrentPositionProperty);
+            set => SetValue(CurrentPositionProperty, value);
         }
         public ICommand MapClickedCommand
         {
@@ -55,12 +55,16 @@ namespace GpsNote.Controls
 
         #region -- Private helpers --
 
-        private static void MapSpanPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnCurrentPositionChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var thisInstance = bindable as BindableMap;
-            var newMapSpan = newValue as MapSpan;
+            var instance = bindable as BindableMap;
+            var newCamPos = newValue as CameraPosition;
 
-            thisInstance?.MoveToRegion(newMapSpan);
+            if (instance != null && newCamPos != null)
+            {
+                var camUpdate = CameraUpdateFactory.NewPositionZoom(newCamPos.Target, newCamPos.Zoom);
+                instance.MoveCamera(camUpdate);
+            }
         }
 
         private void BindableMap_MapClicked(object sender, MapClickedEventArgs e)
