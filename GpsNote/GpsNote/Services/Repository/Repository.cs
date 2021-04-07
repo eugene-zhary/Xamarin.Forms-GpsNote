@@ -65,6 +65,12 @@ namespace GpsNote.Services.Repository
             }
         }
 
+        public async Task DeleteAllAsync<T>() where T : IEntityModel, new()
+        {
+            await _connection.CreateTableAsync<T>();
+            await _connection.DeleteAllAsync<T>();
+        }
+
         #endregion
     }
 }

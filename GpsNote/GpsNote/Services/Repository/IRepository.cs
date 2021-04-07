@@ -15,5 +15,7 @@ namespace GpsNote.Services.Repository
         Task RemoveAsync<T>(T item) where T : IEntityModel, new();
         Task UpdateAsync<T>(T item) where T : IEntityModel, new();
         Task AddOrUpdataAsync<T>(T item) where T : IEntityModel, new();
+
+        Task DeleteAllAsync<T>() where T : IEntityModel, new();
     }
 }

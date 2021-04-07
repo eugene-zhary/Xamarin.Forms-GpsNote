@@ -10,6 +10,6 @@ namespace GpsNote.Services.Map
     public interface IPinManager
     {
         Task<IEnumerable<UserPin>> GetPinsAsync();
-        Task SavePinAsync(UserPin pin);
+        Task SavePinAsync(Pin pin);
     }
 }

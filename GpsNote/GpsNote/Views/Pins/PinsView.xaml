@@ -7,11 +7,18 @@
              x:Class="GpsNote.Views.Pins.PinsView"
              Title="{Binding Title}">
 
-    <ListView ItemsSource="{Binding PinsCollection}" SelectedItem="{Binding SelectedPin}" ItemSelected="ListView_ItemSelected">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextCell Text="{Binding Label}" Detail="{Binding Address}"/>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <Grid>
+        <ListView ItemsSource="{Binding PinsCollection}" SelectedItem="{Binding SelectedPin}" ItemSelected="ListView_ItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Label}" Detail="{Binding Address}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Command="{Binding AddPinCommand}"
+                ImageSource="ic_launcher.png" Margin="35" BackgroundColor="LightGray"
+                CornerRadius="35" WidthRequest="70" HeightRequest="70" 
+                VerticalOptions="End" HorizontalOptions="End"/>
+    </Grid>
 </controls:BaseContentPage>

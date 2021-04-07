@@ -36,18 +36,23 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _myLocationEnabled, value, nameof(MyLocationEnabled));
         }
 
-        private MapSpan _mapSpan;
-        public MapSpan MapSpan
+        private CameraPosition _mapCamera;
+        public CameraPosition MapCamera
         {
-            get => _mapSpan;
-            set => SetProperty(ref _mapSpan, value, nameof(MapSpan));
+            get => _mapCamera;
+            set => SetProperty(ref _mapCamera, value, nameof(MapCamera));
         }
-
-        public ICommand MapClickedCommand => new Command<MapClickedEventArgs>(OnMapClicked);
 
         #endregion
 
         #region -- Overrides --
+
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await UpdatePins();
+        }
 
         public async override void Initialize(INavigationParameters parameters)
         {
@@ -66,26 +71,10 @@ namespace GpsNote.ViewModels
             if(parameters.ContainsKey(nameof(Pin)))
             {
                 var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
-                MapSpan = new MapSpan(selectedPin.Position, 0.01, 0.01);
+                MapCamera = new CameraPosition(selectedPin.Position, 15);
             }
         }
 
         #endregion
-
-        #region -- Private helpers --
-
-        private void OnMapClicked(MapClickedEventArgs pos)
-        {
-
-        }
-
-        private async Task SetCurrentLocation()
-        {
-            var location = await Geolocation.GetLastKnownLocationAsync();
-            MapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 0.15, 0.15);
-        }
-
-        #endregion
-
     }
 }

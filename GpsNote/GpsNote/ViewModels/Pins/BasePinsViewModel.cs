@@ -1,7 +1,10 @@
 ﻿using GpsNote.Controls;
+using GpsNote.Extensions;
 using GpsNote.Services.Map;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
@@ -26,24 +29,18 @@ namespace GpsNote.ViewModels
 
         #region -- Overrides --
 
-        public virtual void OnAppearing()
-        {
-            PinsCollection.Clear();
-            PinsCollection.Add(new Pin
-            {
-                Label = "clicked",
-                Address = "default",
-                Position = new Position(42.324583, 12.329311)
-            });
-        }
+        public virtual void OnAppearing() { }
 
-        public virtual void OnDisappearing()
-        {
-
-        }
+        public virtual void OnDisappearing() { }
 
         #endregion
 
+        public async Task UpdatePins()
+        {
+            PinsCollection.Clear();
+            var pins = await _pinManager.GetPinsAsync();
+            pins.ToList().ForEach(p => PinsCollection.Add(p.ToPin()));
+        }
 
     }
 }

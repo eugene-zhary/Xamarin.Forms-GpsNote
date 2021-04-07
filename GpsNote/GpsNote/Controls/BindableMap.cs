@@ -17,9 +17,11 @@ namespace GpsNote.Controls
         {
             PinsSource = Pins as ObservableCollection<Pin>;
             MapClicked += BindableMap_MapClicked;
+            PinClicked += BindableMap_PinClicked;
 
             UiSettings.MyLocationButtonEnabled = true;
         }
+
 
 
         #region -- Public properties --
@@ -33,6 +35,9 @@ namespace GpsNote.Controls
 
         public static readonly BindableProperty MapClickedCommandProperty
             = BindableProperty.Create(nameof(MapClickedCommand), typeof(ICommand), typeof(BindableMap), null);
+
+        public static readonly BindableProperty PinClickedCommandProperty
+           = BindableProperty.Create(nameof(PinClickedCommand), typeof(ICommand), typeof(BindableMap), null);
 
 
         public ObservableCollection<Pin> PinsSource
@@ -50,6 +55,11 @@ namespace GpsNote.Controls
             get => (ICommand)GetValue(MapClickedCommandProperty);
             set => SetValue(MapClickedCommandProperty, value);
         }
+        public ICommand PinClickedCommand
+        {
+            get => (ICommand)GetValue(PinClickedCommandProperty);
+            set => SetValue(PinClickedCommandProperty, value);
+        }
 
         #endregion
 
@@ -60,7 +70,7 @@ namespace GpsNote.Controls
             var instance = bindable as BindableMap;
             var newCamPos = newValue as CameraPosition;
 
-            if (instance != null && newCamPos != null)
+            if(instance != null && newCamPos != null)
             {
                 var camUpdate = CameraUpdateFactory.NewPositionZoom(newCamPos.Target, newCamPos.Zoom);
                 instance.MoveCamera(camUpdate);
@@ -69,7 +79,12 @@ namespace GpsNote.Controls
 
         private void BindableMap_MapClicked(object sender, MapClickedEventArgs e)
         {
-            MapClickedCommand.Execute(e);
+            MapClickedCommand?.Execute(e);
+        }
+
+        private void BindableMap_PinClicked(object sender, PinClickedEventArgs e)
+        {
+            PinClickedCommand?.Execute(e);
         }
 
         #endregion

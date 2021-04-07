@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GpsNote.Views.Pins.AddPinView"
+             xmlns:converter="clr-namespace:GpsNote.Converters"
+             xmlns:controls="clr-namespace:GpsNote.Controls"
+             BackgroundColor="LightGray"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <converter:StringToDoubleConverter x:Key="StringToDouble"/>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Complete" Command="{Binding CompleteCommand}"/>
+    </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <controls:BindableMap MapClickedCommand="{Binding MapClickedCommand}" 
+                              PinsSource="{Binding PinsCollection}"
+                              CurrentPosition="{Binding MapCamera}"/>
+
+        <Frame Grid.Row="1" BackgroundColor="White"  CornerRadius="15" Margin="15,10">
+            <StackLayout Padding="10,5">
+                <Entry Placeholder="Label" Text="{Binding Label}"/>
+                <Entry Placeholder="Details" Text="{Binding Details}"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

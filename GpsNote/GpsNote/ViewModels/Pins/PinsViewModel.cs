@@ -10,6 +10,9 @@ using Prism.Navigation.TabbedPages;
 using Xamarin.Forms.GoogleMaps;
 using System.Threading.Tasks;
 using GpsNote.Views.Pins;
+using System.Windows.Input;
+using Xamarin.Forms;
+using GpsNote.Extensions;
 
 namespace GpsNote.ViewModels
 {
@@ -29,6 +32,19 @@ namespace GpsNote.ViewModels
             set => NavigateToPin(value);
         }
 
+        public ICommand AddPinCommand => new Command(OnAddPin);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await UpdatePins();
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -37,7 +53,7 @@ namespace GpsNote.ViewModels
         {
             SetProperty(ref _selectedPin, pin, nameof(SelectedPin));
 
-            if (pin != null)
+            if(pin != null)
             {
                 var nav_params = new NavigationParameters
                 {
@@ -46,6 +62,11 @@ namespace GpsNote.ViewModels
 
                 await NavigationService.SelectTabAsync($"{nameof(MapView)}", nav_params);
             }
+        }
+
+        private async void OnAddPin()
+        {
+            await NavigationService.NavigateAsync($"{nameof(AddPinView)}");
         }
 
         #endregion
