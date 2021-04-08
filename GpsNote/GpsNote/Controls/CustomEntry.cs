@@ -16,7 +16,7 @@ namespace GpsNote.Controls
         #region -- Public properties --
 
         public static readonly BindableProperty TextChangedCommandProperty
-          = BindableProperty.Create(nameof(TextChangedCommand), typeof(ICommand), typeof(BindableMap), null);
+          = BindableProperty.Create(nameof(TextChangedCommand), typeof(ICommand), typeof(CustomEntry), null);
 
         public ICommand TextChangedCommand
         {

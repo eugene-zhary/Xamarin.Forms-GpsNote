@@ -44,6 +44,7 @@ namespace GpsNote.ViewModels
         public ICommand EditPinCommand => new Command(OnEditPin);
         public ICommand NavigateToPinCommand => new Command(OnNavigateToPin);
         public ICommand RemovePinCommand => new Command(OnRemovePin);
+        public ICommand CheckedCommand => new Command(OnCheckedCommand);
 
         #endregion
 
@@ -54,10 +55,7 @@ namespace GpsNote.ViewModels
             await UpdatePinsAsync();
         }
 
-        public async void OnDisappearing()
-        {
-            await SavePinsAsync();
-        }
+        public void OnDisappearing() { }
 
         #endregion
 
@@ -65,20 +63,20 @@ namespace GpsNote.ViewModels
 
         private async void OnAddPin()
         {
-            await NavigationService.NavigateAsync($"{nameof(AddPinView)}");
+            await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}");
         }
 
         private async void OnEditPin(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
-                await NavigationService.NavigateAsync($"{nameof(AddPinView)}", pin.AsPin().AsNavigationParameters());
+                await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
             }
         }
 
         private void OnNavigateToPin(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
                 NavigateToPin(pin);
             }
@@ -86,10 +84,18 @@ namespace GpsNote.ViewModels
 
         private async void OnRemovePin(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
                 PinsCollection.Remove(pin);
                 await _pinManager.RemovePinAsync(pin);
+            }
+        }
+
+        private async void OnCheckedCommand(object obj)
+        {
+            if(obj is UserPin pin)
+            {
+                await _pinManager.AddOrUpdatePinAsync(pin);
             }
         }
 
@@ -104,11 +110,12 @@ namespace GpsNote.ViewModels
             var pins = await _pinManager.GetPinsAsync();
             pins.ToList().ForEach(PinsCollection.Add);
         }
+
         private async Task SavePinsAsync()
         {
-            foreach (var pin in PinsCollection)
+            foreach(var pin in PinsCollection)
             {
-                await _pinManager.SavePinAsync(pin);
+                await _pinManager.AddOrUpdatePinAsync(pin);
             }
         }
 

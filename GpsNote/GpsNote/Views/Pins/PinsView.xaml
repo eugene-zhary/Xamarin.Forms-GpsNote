@@ -7,6 +7,15 @@
              x:Class="GpsNote.Views.Pins.PinsView"
              Title="{Binding Title}"
              x:Name="this">
+    <controls:BaseContentPage.Resources>
+        <Style TargetType="Label" x:Key="LocationLabel">
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="BackgroundColor" Value="LightGray"/>
+            <Setter Property="FontSize" Value="Micro"/>
+        </Style>
+    </controls:BaseContentPage.Resources>
     <Grid>
         <ListView ItemsSource="{Binding PinsCollection}" SelectedItem="{Binding SelectedPin}" ItemSelected="ListView_ItemSelected" HasUnevenRows="True">
             <ListView.ItemTemplate>
@@ -20,30 +29,28 @@
                             <ToolbarItem Text="Navigate" Command="{Binding Path=BindingContext.NavigateToPinCommand, Source={x:Reference this}}"
                                          CommandParameter="{x:Binding .}"/>
                         </ViewCell.ContextActions>
-                        <Grid BackgroundColor="White" ColumnSpacing="0" Padding="10,0">
+                        <Grid BackgroundColor="White" ColumnSpacing="0" RowSpacing="0" Padding="10,0">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="36"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding Label}" FontAttributes="Bold"/>
+                            <Label Text="{Binding Label}" FontAttributes="Bold" FontSize="16" 
+                                   VerticalTextAlignment="Center" LineBreakMode="TailTruncation"/>
+                            <Label Grid.Row="1" Text="{Binding Address}" FontSize="12" VerticalTextAlignment="Center"/>
 
-                            <Label Grid.Row="1" Text="{Binding Address}"/>
+                            <Label Grid.Column="1" Text="Favorite:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <controls:CustomCheckBox Grid.Column="1" VerticalOptions="Start" HorizontalOptions="End" Color="DimGray"
+                                                     CheckedCommand="{Binding Path=BindingContext.CheckedCommand, Source={x:Reference this}}"
+                                                     CheckedCommandParameter="{Binding .}" IsChecked="{Binding IsFavorite}" />
 
-                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}"
-                                   FontSize="Micro" BackgroundColor="LightGray" HorizontalTextAlignment="Center"/>
-                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}"
-                                   FontSize="Micro" BackgroundColor="LightGray" HorizontalTextAlignment="Center"/>
-
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.ColumnSpan="2">
-                                <Label Text="Favorite:" FontAttributes="Bold"/>
-                                <CheckBox  Color="DimGray" IsChecked="{Binding IsFavorite}"/>
-                            </StackLayout>
+                            <Label Grid.Row="2" Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}" Style="{StaticResource LocationLabel}"/>
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}" Style="{StaticResource LocationLabel}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

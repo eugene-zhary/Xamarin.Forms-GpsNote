@@ -149,16 +149,28 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ItunesArtwork@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\ic_geolocation.png.imageset\ic_geolocation.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\ic_launcher.png">
+    <ImageAsset Include="Assets.xcassets\ic_geolocation.png.imageset\ic_geolocation1.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\ic_launcher1.png">
+    <ImageAsset Include="Assets.xcassets\ic_geolocation.png.imageset\ic_geolocation2.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\ic_launcher2.png">
+    <ImageAsset Include="Assets.xcassets\ic_launcher.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ic_launcher.png.imageset\ic_launcher.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ic_launcher.png.imageset\ic_launcher1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ic_launcher.png.imageset\ic_launcher2.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ic_geolocation.png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>

@@ -1,19 +1,25 @@
-﻿using GpsNote.Services.Map;
+﻿using GpsNote.Models;
+using GpsNote.Properties;
+using GpsNote.Services.Map;
+using GpsNote.Services.Permissions;
 using Prism.Navigation;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
 {
-    public class AddEditPinViewModel : BasePinsViewModel
+    public class AddEditPinViewModel : BaseMapViewModel
     {
-        public AddEditPinViewModel(INavigationService navigation, IPinManager pinManager) : base(navigation, pinManager)
+        private UserPin _currentPin;
+
+        public AddEditPinViewModel(INavigationService navigation, IPinManager pinManager, IPermissionManager permissions) : base(navigation, pinManager, permissions)
         {
-            Title = "Add Pin";
+            Title = AppResources.AddPinTitle;
             Label = String.Empty;
             Details = String.Empty;
         }
@@ -45,13 +51,6 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _longitude, value, nameof(Longitude));
         }
 
-        private CameraPosition _mapCamera;
-        public CameraPosition MapCamera
-        {
-            get => _mapCamera;
-            set => SetProperty(ref _mapCamera, value, nameof(MapCamera));
-        }
-
         public ICommand MapClickedCommand => new Command<MapClickedEventArgs>(OnMapClicked);
         public ICommand CompleteCommand => new Command(OnComplete);
 
@@ -59,14 +58,34 @@ namespace GpsNote.ViewModels
 
         #region -- Private helpers --
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if(parameters.ContainsKey(nameof(UserPin)))
+            {
+                var pin = parameters.GetValue<UserPin>(nameof(UserPin));
+
+                _currentPin = pin;
+                Label = pin.Label;
+                Details = pin.Address;
+                Latitude = pin.Latitude;
+                Longitude = pin.Longitude;
+
+                MapCamera = new CameraPosition(new Position(Latitude, Longitude), 15);
+            }
+            else
+            {
+                _currentPin = new UserPin();
+            }
+        }
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
             switch(args.PropertyName)
             {
-                case nameof(Label):
-                case nameof(Details):
                 case nameof(Latitude):
                 case nameof(Longitude):
                     UpdatePin();
@@ -82,7 +101,7 @@ namespace GpsNote.ViewModels
 
         private async void OnComplete(object obj)
         {
-            await SavePins();
+            await SavePinChanges();
             await NavigationService.GoBackAsync();
         }
 
@@ -95,6 +114,16 @@ namespace GpsNote.ViewModels
                 Address = Details,
                 Position = new Position(Latitude, Longitude)
             });
+        }
+
+        private async Task SavePinChanges()
+        {
+            _currentPin.Label = Label;
+            _currentPin.Address = Details;
+            _currentPin.Longitude = Longitude;
+            _currentPin.Latitude = Latitude;
+
+            await PinManager.AddOrUpdatePinAsync(_currentPin);
         }
 
         #endregion

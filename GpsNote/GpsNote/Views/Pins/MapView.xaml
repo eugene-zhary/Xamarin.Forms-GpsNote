@@ -7,9 +7,15 @@
              x:Class="GpsNote.Views.Pins.MapView"
              Title="{Binding Title}">
 
-    <controls:BindableMap PinsSource="{Binding PinsCollection}" 
-                          MyLocationEnabled="{Binding MyLocationEnabled}"
-                          PinClickedCommand="{Binding PinClickedCommand}"
-                          CurrentPosition="{Binding MapCamera}"/>
-    
+    <Grid>
+        
+        <controls:BindableMap PinsSource="{Binding PinsCollection}" 
+                              PinClickedCommand="{Binding PinClickedCommand}"
+                              CurrentPosition="{Binding MapCamera}"
+                              MyLocationEnabled="{Binding MyLocationEnabled}"/>
+        <Button CornerRadius="30" WidthRequest="60" HeightRequest="60"
+                HorizontalOptions="End" VerticalOptions="Start" BackgroundColor="LightGray"
+                Margin="30" Command="{Binding MyLocationCommand}"
+                ImageSource="ic_geolocation.png"/>
+    </Grid>
 </controls:BaseContentPage>

@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddPinTitle" xml:space="preserve">
+    <value>Add Pin</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="EditPinTitle" xml:space="preserve">
+    <value>Edit Pin</value>
   </data>
   <data name="InvalidSignIn" xml:space="preserve">
     <value>Invalid login or password</value>

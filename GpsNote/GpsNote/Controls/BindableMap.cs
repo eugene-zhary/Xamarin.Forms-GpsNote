@@ -18,10 +18,7 @@ namespace GpsNote.Controls
             PinsSource = Pins as ObservableCollection<Pin>;
             MapClicked += BindableMap_MapClicked;
             PinClicked += BindableMap_PinClicked;
-
-            UiSettings.MyLocationButtonEnabled = true;
         }
-
 
         #region -- Public properties --
 
@@ -69,7 +66,7 @@ namespace GpsNote.Controls
             var instance = bindable as BindableMap;
             var newCamPos = newValue as CameraPosition;
 
-            if (instance != null && newCamPos != null)
+            if(instance != null && newCamPos != null)
             {
                 var camUpdate = CameraUpdateFactory.NewPositionZoom(newCamPos.Target, newCamPos.Zoom);
                 instance.MoveCamera(camUpdate);

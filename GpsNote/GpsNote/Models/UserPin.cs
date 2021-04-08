@@ -9,6 +9,8 @@ namespace GpsNote.Models
     [Table("Pins")]
     public class UserPin : IEntityModel
     {
+        public UserPin() { }
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
@@ -19,5 +21,6 @@ namespace GpsNote.Models
 
         public bool IsFavorite { get; set; }
         public int UserId { get; set; }
+
     }
 }

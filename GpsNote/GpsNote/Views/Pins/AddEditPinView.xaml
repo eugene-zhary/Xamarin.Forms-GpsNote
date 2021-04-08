@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GpsNote.Views.Pins.AddPinView"
+             x:Class="GpsNote.Views.Pins.AddEditPinView"
              xmlns:converter="clr-namespace:GpsNote.Converters"
              xmlns:controls="clr-namespace:GpsNote.Controls"
              BackgroundColor="LightGray"
@@ -20,9 +20,20 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <controls:BindableMap MapClickedCommand="{Binding MapClickedCommand}" 
-                              PinsSource="{Binding PinsCollection}"
-                              CurrentPosition="{Binding MapCamera}"/>
+
+
+        <Grid>
+            
+            <controls:BindableMap MapClickedCommand="{Binding MapClickedCommand}" 
+                                  PinsSource="{Binding PinsCollection}"
+                                  CurrentPosition="{Binding MapCamera}"
+                                  MyLocationEnabled="{Binding MyLocationEnabled}"/>
+           
+            <Button CornerRadius="30" WidthRequest="60" HeightRequest="60"
+                    HorizontalOptions="End" VerticalOptions="Start" BackgroundColor="LightGray"
+                    Margin="30" Command="{Binding MyLocationCommand}"
+                    ImageSource="ic_geolocation.png"/>
+        </Grid>
 
         <Frame Grid.Row="1" BackgroundColor="White"  CornerRadius="15" Margin="15,10">
             <StackLayout Padding="10,5">

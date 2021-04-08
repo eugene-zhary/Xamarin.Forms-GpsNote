@@ -18,7 +18,7 @@ namespace GpsNote.Services.Permissions
         {
             var status = await CrossPermissions.Current.CheckPermissionStatusAsync<T>();
 
-            if(status == PermissionStatus.Denied && Device.RuntimePlatform == Device.iOS)
+            if(status == PermissionStatus.Denied)
             {
                 CrossPermissions.Current.OpenAppSettings();
             }

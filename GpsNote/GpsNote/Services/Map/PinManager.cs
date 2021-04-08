@@ -30,19 +30,17 @@ namespace GpsNote.Services.Map
             await _repository.RemoveAsync(pin);
         }
 
-        public async Task RemovePinAsync(Pin pin)
+        public async Task AddOrUpdatePinAsync(UserPin pin)
         {
-            await _repository.RemoveAsync(pin.AsUserPin());
-        }
-
-        public async Task SavePinAsync(UserPin pin)
-        {
-            await _repository.AddOrUpdataAsync(pin);
-        }
-
-        public async Task SavePinAsync(Pin pin)
-        {
-            await _repository.AddOrUpdataAsync(pin.AsUserPin(_settings.UserId));
+            if(pin.Id == 0)
+            {
+                pin.UserId = _settings.UserId;
+                await _repository.AddAsync(pin);
+            }
+            else
+            {
+                await _repository.UpdateAsync(pin);
+            }
         }
     }
 }
