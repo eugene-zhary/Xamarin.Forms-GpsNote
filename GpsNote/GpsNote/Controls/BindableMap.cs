@@ -23,7 +23,6 @@ namespace GpsNote.Controls
         }
 
 
-
         #region -- Public properties --
 
         private static readonly BindablePropertyKey PinsSourcePropertyKey = BindableProperty.CreateReadOnly(nameof(PinsSource), typeof(ObservableCollection<Pin>), typeof(BindableMap), default(ObservableCollection<Pin>));
@@ -70,7 +69,7 @@ namespace GpsNote.Controls
             var instance = bindable as BindableMap;
             var newCamPos = newValue as CameraPosition;
 
-            if(instance != null && newCamPos != null)
+            if (instance != null && newCamPos != null)
             {
                 var camUpdate = CameraUpdateFactory.NewPositionZoom(newCamPos.Target, newCamPos.Zoom);
                 instance.MoveCamera(camUpdate);
@@ -84,6 +83,7 @@ namespace GpsNote.Controls
 
         private void BindableMap_PinClicked(object sender, PinClickedEventArgs e)
         {
+            e.Handled = true;
             PinClickedCommand?.Execute(e);
         }
 

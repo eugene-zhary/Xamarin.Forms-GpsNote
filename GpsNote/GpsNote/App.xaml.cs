@@ -4,7 +4,9 @@ using GpsNote.Services.Map;
 using GpsNote.Services.Permissions;
 using GpsNote.Services.Repository;
 using GpsNote.ViewModels;
+using GpsNote.ViewModels.Dialogs;
 using GpsNote.Views;
+using GpsNote.Views.Dialogs;
 using GpsNote.Views.Pins;
 using Prism;
 using Prism.Ioc;
@@ -52,6 +54,9 @@ namespace GpsNote
             containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
             containerRegistry.RegisterForNavigation<PinsView, PinsViewModel>();
             containerRegistry.RegisterForNavigation<AddPinView, AddPinViewModel>();
+
+            // dialogs
+            containerRegistry.RegisterDialog<PinInfoDialog, PinInfoDialogViewModel>();
         }
     }
 }

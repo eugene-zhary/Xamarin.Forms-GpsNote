@@ -15,8 +15,6 @@
         <behaviors:TabbedPageNavigationBehavior/>
     </TabbedPage.Behaviors>
     
-    <TabbedPage.Children>
         <views:MapView/>
         <views:PinsView/>
-    </TabbedPage.Children>
 </TabbedPage>

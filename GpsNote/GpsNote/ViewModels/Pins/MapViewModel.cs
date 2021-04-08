@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 using GpsNote.Services.Permissions;
 using Plugin.Permissions;
 using Prism.Services;
+using Prism.Services.Dialogs;
+using GpsNote.Views.Dialogs;
+using GpsNote.Models;
+using GpsNote.Extensions;
 
 namespace GpsNote.ViewModels
 {
@@ -18,11 +22,19 @@ namespace GpsNote.ViewModels
     {
         private readonly IPermissionManager _permissionManager;
         private readonly IPageDialogService _pageDialogService;
+        private readonly IDialogService _dialogService;
 
-        public MapViewModel(INavigationService navigation, IPinManager pinManager, IPermissionManager permissions, IPageDialogService pageDialog) : base(navigation, pinManager)
+        public MapViewModel(INavigationService navigation,
+            IPinManager pinManager,
+            IPermissionManager permissions,
+            IPageDialogService pageDialog,
+            IDialogService dialogService) :
+        base(navigation, pinManager)
         {
             _permissionManager = permissions;
             _pageDialogService = pageDialog;
+            _dialogService = dialogService;
+
 
             Title = AppResources.MapTitle;
         }
@@ -43,6 +55,8 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _mapCamera, value, nameof(MapCamera));
         }
 
+        public ICommand PinClickedCommand => new Command<PinClickedEventArgs>(OnPinClicked);
+
         #endregion
 
         #region -- Overrides --
@@ -50,7 +64,6 @@ namespace GpsNote.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
-
             await UpdatePins();
         }
 
@@ -58,7 +71,7 @@ namespace GpsNote.ViewModels
         {
             var status = await _permissionManager.RequestLocationPermissionAsync();
 
-            if(status)
+            if (status)
             {
                 MyLocationEnabled = true;
             }
@@ -68,12 +81,27 @@ namespace GpsNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if(parameters.ContainsKey(nameof(Pin)))
+            if (parameters.ContainsKey(nameof(Pin)))
             {
                 var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
                 MapCamera = new CameraPosition(selectedPin.Position, 15);
             }
         }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void OnPinClicked(PinClickedEventArgs arg)
+        {
+            var nav_params = new DialogParameters
+            {
+                { nameof(UserPin), arg?.Pin.ToUserPin() }
+            };
+
+            _dialogService.ShowDialog(nameof(PinInfoDialog), nav_params);
+        }
+
 
         #endregion
     }

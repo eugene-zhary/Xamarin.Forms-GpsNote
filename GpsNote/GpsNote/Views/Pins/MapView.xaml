@@ -4,11 +4,12 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:controls="clr-namespace:GpsNote.Controls"
-             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              x:Class="GpsNote.Views.Pins.MapView"
              Title="{Binding Title}">
 
     <controls:BindableMap PinsSource="{Binding PinsCollection}" 
-                          CurrentPosition="{Binding MapCamera}" 
-                          MyLocationEnabled="{Binding MyLocationEnabled}"/>
+                          MyLocationEnabled="{Binding MyLocationEnabled}"
+                          PinClickedCommand="{Binding PinClickedCommand}"
+                          CurrentPosition="{Binding MapCamera}"/>
+    
 </controls:BaseContentPage>

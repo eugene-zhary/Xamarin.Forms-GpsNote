@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
@@ -29,6 +30,7 @@ namespace GpsNote.ViewModels
 
         private async void OnLogout(object obj)
         {
+            Preferences.Clear();
             await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
         }
 

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       BackgroundColor="White"
+       CornerRadius="30"
+       xmlns:prism="http://prismlibrary.com"
+       prism:DialogLayout.RelativeWidthRequest="0.75"
+       prism:DialogLayout.RelativeHeightRequest="0.25"
+       prism:DialogLayout.LayoutBounds="0.5, 0.85, -1, -1"
+       prism:DialogLayout.CloseOnBackgroundTapped="True"
+       prism:DialogLayout.UseMask="True"
+       prism:DialogLayout.MaskStyle="{StaticResource PinDialogStyle}"
+       x:Class="GpsNote.Views.Dialogs.PinInfoDialog">
+    <Frame.Resources>
+        <Style TargetType="BoxView" x:Key="PinInfoStyle">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+    </Frame.Resources>
+    <StackLayout>
+        <Label Text="{Binding Pin.Label, StringFormat='Label: {0}'}" FontAttributes="Bold"/>
+        <Label Text="{Binding Pin.Address, StringFormat='Details: {0}'}"/>
+        
+        <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal">
+            <Label Text="{Binding Pin.Latitude, StringFormat='Latitude {0:F6}'}"
+                   FontSize="Micro"/>
+            <Label Text="{Binding Pin.Longitude, StringFormat='Longitude {0:F6}'}"
+                   FontSize="Micro"/>        
+        </StackLayout>
+    </StackLayout>
+</Frame>

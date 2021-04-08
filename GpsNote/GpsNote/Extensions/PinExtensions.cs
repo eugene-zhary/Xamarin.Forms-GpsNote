@@ -23,7 +23,7 @@ namespace GpsNote.Extensions
             return output;
         }
 
-        public static UserPin ToUserPin(this Pin pin, int user_id)
+        public static UserPin ToUserPin(this Pin pin, int user_id = 0)
         {
             UserPin output = null;
 

@@ -4,6 +4,9 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="GpsNote.App">
     <Application.Resources>
+        <Style TargetType="BoxView" x:Key="PinDialogStyle">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
         <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor" Value="Gray"></Setter>
             <Setter Property="BarTextColor" Value="White"></Setter>
