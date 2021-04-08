@@ -22,13 +22,27 @@ namespace GpsNote.Services.Map
         public async Task<IEnumerable<UserPin>> GetPinsAsync()
         {
             var user_pins = await _repository.GetRowsAsync<UserPin>(pin=>pin.UserId == _settings.UserId);
-
             return user_pins;
         }
-        
+
+        public async Task RemovePinAsync(UserPin pin)
+        {
+            await _repository.RemoveAsync(pin);
+        }
+
+        public async Task RemovePinAsync(Pin pin)
+        {
+            await _repository.RemoveAsync(pin.AsUserPin());
+        }
+
+        public async Task SavePinAsync(UserPin pin)
+        {
+            await _repository.AddOrUpdataAsync(pin);
+        }
+
         public async Task SavePinAsync(Pin pin)
         {
-            await _repository.AddOrUpdataAsync(pin.ToUserPin(_settings.UserId));
+            await _repository.AddOrUpdataAsync(pin.AsUserPin(_settings.UserId));
         }
     }
 }

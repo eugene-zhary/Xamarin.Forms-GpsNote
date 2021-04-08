@@ -5,15 +5,50 @@
              xmlns:controls="clr-namespace:GpsNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GpsNote.Views.Pins.PinsView"
-             Title="{Binding Title}">
-
+             Title="{Binding Title}"
+             x:Name="this">
     <Grid>
-        <ListView ItemsSource="{Binding PinsCollection}" SelectedItem="{Binding SelectedPin}" ItemSelected="ListView_ItemSelected">
+        <ListView ItemsSource="{Binding PinsCollection}" SelectedItem="{Binding SelectedPin}" ItemSelected="ListView_ItemSelected" HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Label}" Detail="{Binding Address}"/>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <ToolbarItem Text="Edit" Command="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference this}}"
+                                         CommandParameter="{x:Binding .}"/>
+                            <ToolbarItem Text="Remove" Command="{Binding Path=BindingContext.RemovePinCommand, Source={x:Reference this}}"
+                                         CommandParameter="{x:Binding .}"/>
+                            <ToolbarItem Text="Navigate" Command="{Binding Path=BindingContext.NavigateToPinCommand, Source={x:Reference this}}"
+                                         CommandParameter="{x:Binding .}"/>
+                        </ViewCell.ContextActions>
+                        <Grid BackgroundColor="White" ColumnSpacing="0" Padding="10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding Label}" FontAttributes="Bold"/>
+
+                            <Label Grid.Row="1" Text="{Binding Address}"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}"
+                                   FontSize="Micro" BackgroundColor="LightGray" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}"
+                                   FontSize="Micro" BackgroundColor="LightGray" HorizontalTextAlignment="Center"/>
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.ColumnSpan="2">
+                                <Label Text="Favorite:" FontAttributes="Bold"/>
+                                <CheckBox  Color="DimGray" IsChecked="{Binding IsFavorite}"/>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
+
         </ListView>
 
         <Button Command="{Binding AddPinCommand}"

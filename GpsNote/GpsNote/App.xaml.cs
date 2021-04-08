@@ -53,7 +53,7 @@ namespace GpsNote
             containerRegistry.RegisterForNavigation<NoteTabbedView, NoteTabbedViewModel>();
             containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
             containerRegistry.RegisterForNavigation<PinsView, PinsViewModel>();
-            containerRegistry.RegisterForNavigation<AddPinView, AddPinViewModel>();
+            containerRegistry.RegisterForNavigation<AddPinView, AddEditPinViewModel>();
 
             // dialogs
             containerRegistry.RegisterDialog<PinInfoDialog, PinInfoDialogViewModel>();

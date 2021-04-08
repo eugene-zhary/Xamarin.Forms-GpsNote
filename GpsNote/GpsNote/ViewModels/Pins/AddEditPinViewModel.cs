@@ -9,9 +9,9 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
 {
-    public class AddPinViewModel : BasePinsViewModel
+    public class AddEditPinViewModel : BasePinsViewModel
     {
-        public AddPinViewModel(INavigationService navigation, IPinManager pinManager) : base(navigation, pinManager)
+        public AddEditPinViewModel(INavigationService navigation, IPinManager pinManager) : base(navigation, pinManager)
         {
             Title = "Add Pin";
             Label = String.Empty;
@@ -53,7 +53,6 @@ namespace GpsNote.ViewModels
         }
 
         public ICommand MapClickedCommand => new Command<MapClickedEventArgs>(OnMapClicked);
-
         public ICommand CompleteCommand => new Command(OnComplete);
 
         #endregion
@@ -83,12 +82,8 @@ namespace GpsNote.ViewModels
 
         private async void OnComplete(object obj)
         {
-            if(PinsCollection.Count != 0)
-            {
-                await _pinManager.SavePinAsync(PinsCollection.First());
-            }
-
-            await _navigationService.GoBackAsync();
+            await SavePins();
+            await NavigationService.GoBackAsync();
         }
 
         private void UpdatePin()

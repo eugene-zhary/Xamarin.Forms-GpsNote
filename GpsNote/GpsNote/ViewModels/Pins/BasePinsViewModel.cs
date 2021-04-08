@@ -1,5 +1,6 @@
 ﻿using GpsNote.Controls;
 using GpsNote.Extensions;
+using GpsNote.Services;
 using GpsNote.Services.Map;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
@@ -9,38 +10,35 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
 {
-    public abstract class BasePinsViewModel : ViewModelBase, IViewActionsHandler
+    public class BasePinsViewModel : ViewModelBase, IViewActionsHandler
     {
-        protected readonly IPinManager _pinManager;
-        protected readonly INavigationService _navigationService;
-
+        private readonly IPinManager _pinManager;
         public BasePinsViewModel(INavigationService navigation, IPinManager pinManager) : base(navigation)
         {
             _pinManager = pinManager;
-            _navigationService = navigation;
-            PinsCollection = new ObservableCollection<Pin>();
         }
 
         #region -- Public properties --
-
         public ObservableCollection<Pin> PinsCollection { get; set; }
+        #endregion 
 
-        #endregion
-
-        #region -- Overrides --
-
+        #region -- IViewActionsHandler implementation --
         public virtual void OnAppearing() { }
-
         public virtual void OnDisappearing() { }
-
         #endregion
 
-        public async Task UpdatePins()
+        protected async Task UpdatePins()
         {
             PinsCollection.Clear();
             var pins = await _pinManager.GetPinsAsync();
-            pins.ToList().ForEach(p => PinsCollection.Add(p.ToPin()));
+            pins.ToList().ForEach(p => PinsCollection.Add(p.AsPin()));
         }
-
+        protected async Task SavePins()
+        {
+            foreach (var pin in PinsCollection)
+            {
+                await _pinManager.SavePinAsync(pin);
+            }
+        }
     }
 }

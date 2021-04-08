@@ -15,6 +15,7 @@ using Prism.Services.Dialogs;
 using GpsNote.Views.Dialogs;
 using GpsNote.Models;
 using GpsNote.Extensions;
+using GpsNote.Controls;
 
 namespace GpsNote.ViewModels
 {
@@ -35,11 +36,12 @@ namespace GpsNote.ViewModels
             _pageDialogService = pageDialog;
             _dialogService = dialogService;
 
-
             Title = AppResources.MapTitle;
+            PinsCollection = new ObservableCollection<Pin>();
         }
 
         #region -- Public properties --
+
 
         private bool _myLocationEnabled;
         public bool MyLocationEnabled
@@ -59,13 +61,20 @@ namespace GpsNote.ViewModels
 
         #endregion
 
-        #region -- Overrides --
+        #region -- IViewActionsHandler implementation --
 
-        public override async void OnAppearing()
+        public async override void OnAppearing()
         {
-            base.OnAppearing();
             await UpdatePins();
         }
+        public async void OnDisappearing()
+        {
+
+        }
+
+        #endregion
+
+        #region -- Private helpers --
 
         public async override void Initialize(INavigationParameters parameters)
         {
@@ -76,7 +85,6 @@ namespace GpsNote.ViewModels
                 MyLocationEnabled = true;
             }
         }
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
@@ -88,20 +96,10 @@ namespace GpsNote.ViewModels
             }
         }
 
-        #endregion
-
-        #region -- Private helpers --
-
         private void OnPinClicked(PinClickedEventArgs arg)
         {
-            var nav_params = new DialogParameters
-            {
-                { nameof(UserPin), arg?.Pin.ToUserPin() }
-            };
-
-            _dialogService.ShowDialog(nameof(PinInfoDialog), nav_params);
+            _dialogService.ShowDialog(nameof(PinInfoDialog), arg?.Pin.AsUserPin().AsDialogParams());
         }
-
 
         #endregion
     }
