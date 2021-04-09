@@ -1,17 +1,17 @@
 ﻿using GpsNote.Properties;
 using GpsNote.Services.Map;
 using Prism.Navigation;
-using Xamarin.Forms.GoogleMaps;
 using GpsNote.Views.Pins;
 using System.Windows.Input;
 using Xamarin.Forms;
 using GpsNote.Extensions;
-using System;
 using GpsNote.Controls;
 using System.Collections.ObjectModel;
 using GpsNote.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace GpsNote.ViewModels
 {
@@ -26,18 +26,20 @@ namespace GpsNote.ViewModels
         }
 
         #region -- Public properties --
-
         public ObservableCollection<UserPin> PinsCollection { get; set; }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetProperty(ref _searchText, value, nameof(SearchText));
+        }
 
         private UserPin _selectedPin;
         public UserPin SelectedPin
         {
             get => _selectedPin;
-            set
-            {
-                SetProperty(ref _selectedPin, value, nameof(SelectedPin));
-                NavigateToPin(value);
-            }
+            set => SetProperty(ref _selectedPin, value, nameof(SelectedPin));
         }
 
         public ICommand AddPinCommand => new Command(OnAddPin);
@@ -59,6 +61,25 @@ namespace GpsNote.ViewModels
 
         #endregion
 
+
+        #region -- Overrides --
+        protected async override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
+            {
+                case nameof(SelectedPin):
+                    NavigateToPin(SelectedPin);
+                    break;
+                case nameof(SearchText):
+                    await UpdatePinsAsync(SearchText);
+                    break;
+            }
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
         private async void OnAddPin()
@@ -68,7 +89,7 @@ namespace GpsNote.ViewModels
 
         private async void OnEditPin(object obj)
         {
-            if(obj is UserPin pin)
+            if (obj is UserPin pin)
             {
                 await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
             }
@@ -76,7 +97,7 @@ namespace GpsNote.ViewModels
 
         private void OnNavigateToPin(object obj)
         {
-            if(obj is UserPin pin)
+            if (obj is UserPin pin)
             {
                 NavigateToPin(pin);
             }
@@ -84,7 +105,7 @@ namespace GpsNote.ViewModels
 
         private async void OnRemovePin(object obj)
         {
-            if(obj is UserPin pin)
+            if (obj is UserPin pin)
             {
                 PinsCollection.Remove(pin);
                 await _pinManager.RemovePinAsync(pin);
@@ -93,7 +114,7 @@ namespace GpsNote.ViewModels
 
         private async void OnCheckedCommand(object obj)
         {
-            if(obj is UserPin pin)
+            if (obj is UserPin pin)
             {
                 await _pinManager.AddOrUpdatePinAsync(pin);
             }
@@ -104,16 +125,26 @@ namespace GpsNote.ViewModels
             await NavigationService.SelectTabAsync($"{nameof(MapView)}", pin.AsPin().AsNavigationParameters());
         }
 
-        private async Task UpdatePinsAsync()
+        private async Task UpdatePinsAsync(string searchQuery = null)
         {
             PinsCollection.Clear();
-            var pins = await _pinManager.GetPinsAsync();
+            IEnumerable<UserPin> pins = null;
+            
+            if (searchQuery == null)
+            {
+                pins = await _pinManager.GetPinsAsync();
+            }
+            else
+            {
+                pins = await _pinManager.GetPinsWithQueryAsync(searchQuery);
+            }
+
             pins.ToList().ForEach(PinsCollection.Add);
         }
 
         private async Task SavePinsAsync()
         {
-            foreach(var pin in PinsCollection)
+            foreach (var pin in PinsCollection)
             {
                 await _pinManager.AddOrUpdatePinAsync(pin);
             }

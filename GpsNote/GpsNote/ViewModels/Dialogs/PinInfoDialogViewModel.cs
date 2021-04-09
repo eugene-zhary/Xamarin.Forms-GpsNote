@@ -1,5 +1,4 @@
 ﻿using GpsNote.Models;
-using Prism.AppModel;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -26,10 +25,7 @@ namespace GpsNote.ViewModels.Dialogs
 
         public bool CanCloseDialog() => true;
 
-        public void OnDialogClosed()
-        {
-            
-        }
+        public void OnDialogClosed() { }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {

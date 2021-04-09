@@ -8,24 +8,6 @@ namespace GpsNote.Extensions
 {
     public static class PinExtensions
     {
-        public static Pin AsPin(this UserPin user_pin)
-        {
-            Pin output = null;
-
-            if (user_pin != null)
-            {
-                output = new Pin
-                {
-                    Label = user_pin.Label,
-                    Address = user_pin.Address,
-                    Position = new Position(user_pin.Latitude, user_pin.Longitude),
-                    IsVisible = user_pin.IsFavorite
-                };
-            }
-
-            return output;
-        }
-
         public static UserPin AsUserPin(this Pin pin, int user_id = 0)
         {
             UserPin output = null;
@@ -45,29 +27,11 @@ namespace GpsNote.Extensions
             return output;
         }
 
-        public static INavigationParameters AsNavigationParameters(this UserPin pin)
-        {
-            var nav_params = new NavigationParameters
-            {
-                { nameof(UserPin), pin }
-            };
-            return nav_params;
-        }
-
         public static INavigationParameters AsNavigationParameters(this Pin pin)
         {
             var nav_params = new NavigationParameters
             {
                 { nameof(Pin), pin }
-            };
-            return nav_params;
-        }
-
-        public static IDialogParameters AsDialogParams(this UserPin pin)
-        {
-            var nav_params = new DialogParameters
-            {
-                { nameof(UserPin), pin }
             };
             return nav_params;
         }
