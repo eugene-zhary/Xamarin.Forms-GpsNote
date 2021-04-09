@@ -123,7 +123,7 @@ namespace GpsNote.ViewModels
             _currentPin.Longitude = Longitude;
             _currentPin.Latitude = Latitude;
 
-            await PinManager.AddOrUpdatePinAsync(_currentPin);
+            await _pinManager.AddOrUpdatePinAsync(_currentPin);
         }
 
         #endregion

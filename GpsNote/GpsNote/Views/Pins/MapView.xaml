@@ -4,18 +4,35 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:controls="clr-namespace:GpsNote.Controls"
-             x:Class="GpsNote.Views.Pins.MapView"
+             x:Class="GpsNote.Views.Pins.MapView" BackgroundColor="White"
              Title="{Binding Title}">
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <Grid>
-        
-        <controls:BindableMap PinsSource="{Binding PinsCollection}" 
+        <controls:CustomSearchBar Text="{Binding SearchText}" Placeholder="Search" UnfocusedCommand="{Binding SearchUnfocusedCommand}"
+                   VerticalOptions="Center" FontSize="18" FontAttributes="Bold" TextColor="DimGray"/>
+
+        <controls:BindableMap Grid.Row="1" PinsSource="{Binding PinsCollection}"
                               PinClickedCommand="{Binding PinClickedCommand}"
                               CurrentPosition="{Binding MapCamera}"
-                              MyLocationEnabled="{Binding MyLocationEnabled}"/>
-        <Button CornerRadius="30" WidthRequest="60" HeightRequest="60"
+                              MyLocationEnabled="{Binding IsMyLocationEnabled}"/>
+        
+        <Button Grid.Row="1" WidthRequest="40" HeightRequest="40" Opacity="0.8"
                 HorizontalOptions="End" VerticalOptions="Start" BackgroundColor="LightGray"
-                Margin="30" Command="{Binding MyLocationCommand}"
+                Margin="15" Command="{Binding MyLocationCommand}"
                 ImageSource="ic_geolocation.png"/>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding PinsCollection}" ItemSelected="ListView_ItemSelected"
+                  IsVisible="{Binding IsSuggestionsVisible}" SelectedItem="{Binding SelectedPin}"
+                  BackgroundColor="White" HeightRequest="160" RowHeight="40" Margin="15,0" VerticalOptions="Start">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Label}" TextColor="DimGray"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </controls:BaseContentPage>

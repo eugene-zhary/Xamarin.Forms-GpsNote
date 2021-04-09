@@ -1,10 +1,12 @@
 ﻿using GpsNote.Controls;
 using GpsNote.Extensions;
+using GpsNote.Models;
 using GpsNote.Services;
 using GpsNote.Services.Map;
 using GpsNote.Services.Permissions;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,23 +19,24 @@ namespace GpsNote.ViewModels
 {
     public abstract class BaseMapViewModel : ViewModelBase, IViewActionsHandler
     {
+        protected IPinManager _pinManager { get; }
+        protected IPermissionManager _permissions { get; }
+        
         public BaseMapViewModel(INavigationService navigation, IPinManager pinManager, IPermissionManager permissions) : base(navigation)
         {
-            PinManager = pinManager;
-            Permissions = permissions;
+            _pinManager = pinManager;
+            _permissions = permissions;
+            PinsCollection = new ObservableCollection<Pin>();
         }
 
         #region -- Public properties --
 
-        private bool _myLocationEnabled;
-        public bool MyLocationEnabled
+        private bool isMyLocationEnabled;
+        public bool IsMyLocationEnabled
         {
-            get => _myLocationEnabled;
-            set => SetProperty(ref _myLocationEnabled, value, nameof(MyLocationEnabled));
+            get => isMyLocationEnabled;
+            set => SetProperty(ref isMyLocationEnabled, value, nameof(IsMyLocationEnabled));
         }
-
-        protected IPinManager PinManager { get; }
-        protected IPermissionManager Permissions { get; }
 
         public ObservableCollection<Pin> PinsCollection { get; set; }
 
@@ -53,28 +56,46 @@ namespace GpsNote.ViewModels
         public virtual void OnDisappearing() { }
         #endregion
 
-        protected async Task UpdatePinsCollectionAsync()
+        #region -- Private helpers --
+
+        protected async Task UpdatePinsCollectionAsync(string searchText = null)
         {
             PinsCollection.Clear();
-            var pins = await PinManager.GetPinsAsync();
+            IEnumerable<UserPin> pins = null;
+
+            if(searchText == null)
+            {
+                pins = await _pinManager.GetPinsAsync();
+            }
+            else
+            {
+                pins = await _pinManager.SearchPinsByLabelAsync(searchText);
+            }
+
             pins.ToList().ForEach(p => PinsCollection.Add(p.AsPin()));
         }
 
-        #region -- Private helpers --
-
         private async void OnMyLocation(MyLocationButtonClickedEventArgs obj)
         {
-            var status = await Permissions.RequestLocationPermissionAsync();
+            var status = await _permissions.RequestLocationPermissionAsync();
 
             if(status)
             {
                 var location = await Geolocation.GetLastKnownLocationAsync();
-                MapCamera = new CameraPosition(new Position(location.Latitude, location.Longitude), 15);
-                MyLocationEnabled = true;
+                NavigateCamera(new Position(location.Latitude, location.Longitude));
+                IsMyLocationEnabled = true;
             }
             else
             {
-                MyLocationEnabled = false;
+                IsMyLocationEnabled = false;
+            }
+        }
+
+        protected void NavigateCamera(Position pos)
+        {
+            if(pos != null)
+            {
+                MapCamera = new CameraPosition(pos, 15);
             }
         }
 

@@ -23,24 +23,30 @@ namespace GpsNote.Services.Map
 
         public async Task<IEnumerable<UserPin>> GetPinsAsync()
         {
-            return await _repository.GetRowsAsync<UserPin>(pin => pin.UserId == _settings.UserId); ;
+            return await _repository.GetRowsAsync<UserPin>(pin => pin.UserId == _settings.UserId);
         }
 
-        public async Task<IEnumerable<UserPin>> GetPinsWithLabelAsync(string label)
+        public async Task<IEnumerable<UserPin>> SearchPinsByLabelAsync(string label)
         {
             label = label.ToLower();
-            return await _repository.GetRowsAsync<UserPin>(pin => pin.UserId == _settings.UserId &&
-                                                                  pin.Label.ToLower().Contains(label));
+
+            var pins = await _repository.GetRowsAsync<UserPin>(pin => pin.UserId == _settings.UserId);
+
+            return pins.Where(pin => pin.UserId == _settings.UserId &&
+                                     pin.Label.ToLower().Contains(label));
         }
 
-        public async Task<IEnumerable<UserPin>> GetPinsWithQueryAsync(string searchQuery)
+        public async Task<IEnumerable<UserPin>> SearchPinsAsync(string searchQuery)
         {
             searchQuery = searchQuery.ToLower();
-            return await _repository.GetRowsAsync<UserPin>(pin => pin.UserId == _settings.UserId &&
-                                                                  pin.Label.ToLower().Contains(searchQuery) ||
-                                                                  pin.Address.ToLower().Contains(searchQuery) ||
-                                                                  pin.Latitude.ToString().Contains(searchQuery) ||
-                                                                  pin.Longitude.ToString().Contains(searchQuery));
+
+            var pins = await _repository.GetRowsAsync<UserPin>(pin => pin.UserId == _settings.UserId);
+
+            return pins.Where(pin => pin.UserId == _settings.UserId &&
+                                     pin.Label.ToLower().Contains(searchQuery) ||
+                                     pin.Address.ToLower().Contains(searchQuery) || 
+                                     pin.Latitude.ToString().Contains(searchQuery) ||
+                                     pin.Longitude.ToString().Contains(searchQuery));
         }
 
         public async Task RemovePinAsync(UserPin pin)

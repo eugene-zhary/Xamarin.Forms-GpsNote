@@ -20,16 +20,13 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-
-
         <Grid>
-            
             <controls:BindableMap MapClickedCommand="{Binding MapClickedCommand}" 
                                   PinsSource="{Binding PinsCollection}"
                                   CurrentPosition="{Binding MapCamera}"
-                                  MyLocationEnabled="{Binding MyLocationEnabled}"/>
-           
-            <Button CornerRadius="30" WidthRequest="60" HeightRequest="60"
+                                  MyLocationEnabled="{Binding IsMyLocationEnabled}"/>
+
+            <Button  WidthRequest="40" HeightRequest="40" Opacity="0.8"
                     HorizontalOptions="End" VerticalOptions="Start" BackgroundColor="LightGray"
                     Margin="30" Command="{Binding MyLocationCommand}"
                     ImageSource="ic_geolocation.png"/>

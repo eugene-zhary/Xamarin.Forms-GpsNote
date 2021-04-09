@@ -1,21 +1,17 @@
 ﻿using GpsNote.Properties;
 using GpsNote.Services.Map;
 using Prism.Navigation;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using System.Linq;
-using Xamarin.Essentials;
 using System.Threading.Tasks;
 using GpsNote.Services.Permissions;
-using Plugin.Permissions;
 using Prism.Services;
 using Prism.Services.Dialogs;
 using GpsNote.Views.Dialogs;
-using GpsNote.Models;
 using GpsNote.Extensions;
-using GpsNote.Controls;
+using System.ComponentModel;
+using System;
 
 namespace GpsNote.ViewModels
 {
@@ -35,25 +31,62 @@ namespace GpsNote.ViewModels
             _dialogService = dialogService;
 
             Title = AppResources.MapTitle;
-            PinsCollection = new ObservableCollection<Pin>();
+            SearchText = String.Empty;
         }
 
         #region -- Public properties --
 
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetProperty(ref _searchText, value, nameof(SearchText));
+        }
+
+        private bool _isSuggestionsVisible;
+        public bool IsSuggestionsVisible
+        {
+            get => _isSuggestionsVisible;
+            set => SetProperty(ref _isSuggestionsVisible, value, nameof(IsSuggestionsVisible));
+        }
+
+        private Pin _selectedPin;
+        public Pin SelectedPin
+        {
+            get => _selectedPin;
+            set => SetProperty(ref _selectedPin, value, nameof(SelectedPin));
+        }
+
         public ICommand PinClickedCommand => new Command<PinClickedEventArgs>(OnPinClicked);
+        public ICommand SearchUnfocusedCommand => new Command<FocusEventArgs>(OnSearchUnfocused);
 
         #endregion
 
-        #region -- IViewActionsHandler implementation --
+        #region -- Overrides --
 
         public async override void OnAppearing()
         {
             await UpdatePinsCollectionAsync();
         }
 
-        #endregion
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
 
-        #region -- Private helpers --
+            switch(args.PropertyName)
+            {
+                case nameof(SearchText):
+                    await UpdateSearch();
+                    break;
+                case nameof(SelectedPin):
+                    if(SelectedPin != null)
+                    {
+                        SearchText = String.Empty;
+                        NavigateCamera(SelectedPin.Position);
+                    }
+                    break;
+            }
+        }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -62,16 +95,38 @@ namespace GpsNote.ViewModels
             if(parameters.ContainsKey(nameof(Pin)))
             {
                 var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
-                MapCamera = new CameraPosition(selectedPin.Position, 15);
+                NavigateCamera(selectedPin.Position);
             }
         }
 
+        #endregion
+
+        #region -- Private helpers --
+
         private void OnPinClicked(PinClickedEventArgs arg)
         {
-            if(arg != null)
+            if(arg != null && arg.Pin != null)
             {
-                MapCamera = new CameraPosition(arg.Pin.Position, 15);
+                NavigateCamera(arg.Pin.Position);
                 _dialogService.ShowDialog(nameof(PinInfoDialog), arg.Pin.AsUserPin().AsDialogParams());
+            }
+        }
+
+        private void OnSearchUnfocused(FocusEventArgs obj)
+        {
+            SearchText = String.Empty;
+        }
+
+        private async Task UpdateSearch()
+        {
+            if(!SearchText.Equals(string.Empty))
+            {
+                await UpdatePinsCollectionAsync(SearchText);
+                IsSuggestionsVisible = true;
+            }
+            else
+            {
+                IsSuggestionsVisible = false;
             }
         }
 

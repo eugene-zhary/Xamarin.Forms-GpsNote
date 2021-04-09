@@ -26,6 +26,7 @@ namespace GpsNote.ViewModels
         }
 
         #region -- Public properties --
+
         public ObservableCollection<UserPin> PinsCollection { get; set; }
 
         private string _searchText;
@@ -58,16 +59,15 @@ namespace GpsNote.ViewModels
         }
 
         public void OnDisappearing() { }
-
         #endregion
 
-
         #region -- Overrides --
+
         protected async override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            switch (args.PropertyName)
+            switch(args.PropertyName)
             {
                 case nameof(SelectedPin):
                     NavigateToPin(SelectedPin);
@@ -89,7 +89,7 @@ namespace GpsNote.ViewModels
 
         private async void OnEditPin(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
                 await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
             }
@@ -97,7 +97,7 @@ namespace GpsNote.ViewModels
 
         private void OnNavigateToPin(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
                 NavigateToPin(pin);
             }
@@ -105,7 +105,7 @@ namespace GpsNote.ViewModels
 
         private async void OnRemovePin(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
                 PinsCollection.Remove(pin);
                 await _pinManager.RemovePinAsync(pin);
@@ -114,7 +114,7 @@ namespace GpsNote.ViewModels
 
         private async void OnCheckedCommand(object obj)
         {
-            if (obj is UserPin pin)
+            if(obj is UserPin pin)
             {
                 await _pinManager.AddOrUpdatePinAsync(pin);
             }
@@ -122,33 +122,30 @@ namespace GpsNote.ViewModels
 
         private async void NavigateToPin(UserPin pin)
         {
-            await NavigationService.SelectTabAsync($"{nameof(MapView)}", pin.AsPin().AsNavigationParameters());
+            if(pin != null)
+            {
+                await NavigationService.SelectTabAsync($"{nameof(MapView)}", pin.AsPin().AsNavigationParameters());
+            }
         }
 
-        private async Task UpdatePinsAsync(string searchQuery = null)
+        private async Task UpdatePinsAsync(string searchText = null)
         {
-            PinsCollection.Clear();
             IEnumerable<UserPin> pins = null;
-            
-            if (searchQuery == null)
+            PinsCollection.Clear();
+
+            if(searchText == null)
             {
                 pins = await _pinManager.GetPinsAsync();
             }
             else
             {
-                pins = await _pinManager.GetPinsWithQueryAsync(searchQuery);
+                pins = await _pinManager.SearchPinsAsync(searchText);
             }
 
             pins.ToList().ForEach(PinsCollection.Add);
         }
 
-        private async Task SavePinsAsync()
-        {
-            foreach (var pin in PinsCollection)
-            {
-                await _pinManager.AddOrUpdatePinAsync(pin);
-            }
-        }
+        
 
         #endregion
     }
