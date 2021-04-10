@@ -120,7 +120,10 @@ namespace GpsNote.ViewModels
 
         private async void OnCheckedCommand(UserPin pin)
         {
-            await _pinManager.AddOrUpdatePinAsync(pin);
+            if(pin != null)
+            {
+                await _pinManager.AddOrUpdatePinAsync(pin);
+            }
         }
 
         private async void NavigateToPin(UserPin pin)

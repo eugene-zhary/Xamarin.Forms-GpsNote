@@ -111,15 +111,15 @@ namespace GpsNote.ViewModels
 
         private void OnSearchUnfocused(FocusEventArgs obj)
         {
-            SearchText = String.Empty;
+            IsSuggestionsVisible = false;
         }
 
         private void UpdateSelectedPin()
         {
             if(SelectedPin != null)
             {
-                SearchText = String.Empty;
                 NavigateCamera(SelectedPin.Position);
+                SearchText = String.Empty;
             }
         }
 
