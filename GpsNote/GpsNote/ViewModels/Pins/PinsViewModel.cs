@@ -12,18 +12,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System;
+using Prism;
 
 namespace GpsNote.ViewModels
 {
     public class PinsViewModel : ViewModelBase, IViewActionsHandler
     {
         private readonly IPinManager _pinManager;
+
         public PinsViewModel(INavigationService navigation, IPinManager pinManager) : base(navigation)
         {
-            Title = AppResources.PinsTitle;
             _pinManager = pinManager;
+
+            Title = AppResources.PinsTitle;
             PinsCollection = new ObservableCollection<UserPin>();
         }
+
 
         #region -- Public properties --
 
@@ -44,24 +49,34 @@ namespace GpsNote.ViewModels
         }
 
         public ICommand AddPinCommand => new Command(OnAddPin);
-        public ICommand EditPinCommand => new Command(OnEditPin);
-        public ICommand NavigateToPinCommand => new Command(OnNavigateToPin);
-        public ICommand RemovePinCommand => new Command(OnRemovePin);
-        public ICommand CheckedCommand => new Command(OnCheckedCommand);
+        public ICommand EditPinCommand => new Command<UserPin>(OnEditPin);
+        public ICommand NavigateToPinCommand => new Command<UserPin>(OnNavigateToPin);
+        public ICommand RemovePinCommand => new Command<UserPin>(OnRemovePin);
+        public ICommand CheckedCommand => new Command<UserPin>(OnCheckedCommand);
 
         #endregion
 
-        #region -- IViewActionsHandler implementation --
+        #region -- IViewActionHandler implementation --
 
         public async void OnAppearing()
         {
-            await UpdatePinsAsync();
+            if(_pinManager.IsCollectionUpdated)
+            {
+                await UpdatePinsAsync();
+            }
         }
 
         public void OnDisappearing() { }
+
         #endregion
 
         #region -- Overrides --
+
+        public async override void Initialize(INavigationParameters parameters)
+        {
+            base.Initialize(parameters);
+            await UpdatePinsAsync();
+        }
 
         protected async override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -87,37 +102,25 @@ namespace GpsNote.ViewModels
             await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}");
         }
 
-        private async void OnEditPin(object obj)
+        private async void OnEditPin(UserPin pin)
         {
-            if(obj is UserPin pin)
-            {
-                await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
-            }
+            await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
         }
 
-        private void OnNavigateToPin(object obj)
+        private void OnNavigateToPin(UserPin pin)
         {
-            if(obj is UserPin pin)
-            {
-                NavigateToPin(pin);
-            }
+            NavigateToPin(pin);
         }
 
-        private async void OnRemovePin(object obj)
+        private async void OnRemovePin(UserPin pin)
         {
-            if(obj is UserPin pin)
-            {
-                PinsCollection.Remove(pin);
-                await _pinManager.RemovePinAsync(pin);
-            }
+            PinsCollection.Remove(pin);
+            await _pinManager.RemovePinAsync(pin);
         }
 
-        private async void OnCheckedCommand(object obj)
+        private async void OnCheckedCommand(UserPin pin)
         {
-            if(obj is UserPin pin)
-            {
-                await _pinManager.AddOrUpdatePinAsync(pin);
-            }
+            await _pinManager.AddOrUpdatePinAsync(pin);
         }
 
         private async void NavigateToPin(UserPin pin)
@@ -145,7 +148,6 @@ namespace GpsNote.ViewModels
             pins.ToList().ForEach(PinsCollection.Add);
         }
 
-        
 
         #endregion
     }

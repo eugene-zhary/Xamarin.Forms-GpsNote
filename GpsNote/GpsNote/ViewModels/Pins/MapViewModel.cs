@@ -66,6 +66,7 @@ namespace GpsNote.ViewModels
 
         public async override void OnAppearing()
         {
+            base.OnAppearing();
             await UpdatePinsCollectionAsync();
         }
 
@@ -79,11 +80,7 @@ namespace GpsNote.ViewModels
                     await UpdateSearch();
                     break;
                 case nameof(SelectedPin):
-                    if(SelectedPin != null)
-                    {
-                        SearchText = String.Empty;
-                        NavigateCamera(SelectedPin.Position);
-                    }
+                    UpdateSelectedPin();
                     break;
             }
         }
@@ -117,6 +114,15 @@ namespace GpsNote.ViewModels
             SearchText = String.Empty;
         }
 
+        private void UpdateSelectedPin()
+        {
+            if(SelectedPin != null)
+            {
+                SearchText = String.Empty;
+                NavigateCamera(SelectedPin.Position);
+            }
+        }
+
         private async Task UpdateSearch()
         {
             if(!SearchText.Equals(string.Empty))
@@ -126,6 +132,7 @@ namespace GpsNote.ViewModels
             }
             else
             {
+                await UpdatePinsCollectionAsync();
                 IsSuggestionsVisible = false;
             }
         }

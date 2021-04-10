@@ -52,9 +52,10 @@
                             <Label Grid.Row="1" Text="{Binding Address}" FontSize="12" VerticalTextAlignment="Center"/>
 
                             <Label Grid.Column="1" Text="Favorite:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <controls:CustomCheckBox Grid.Column="1" VerticalOptions="Start" HorizontalOptions="End" Color="DimGray"
+                            <controls:CustomCheckBox Grid.Column="1" VerticalOptions="Start" HorizontalOptions="End" Color="DimGray" 
                                                      CheckedCommand="{Binding Path=BindingContext.CheckedCommand, Source={x:Reference this}}"
-                                                     CheckedCommandParameter="{Binding .}" IsChecked="{Binding IsFavorite}" />
+                                                     CheckedCommandParameter="{Binding .}" IsChecked="{Binding IsFavorite}">
+                            </controls:CustomCheckBox>
 
                             <Label Grid.Row="2" Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}" Style="{StaticResource LocationLabel}"/>
                             <Label Grid.Row="2" Grid.Column="1" Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}" Style="{StaticResource LocationLabel}"/>

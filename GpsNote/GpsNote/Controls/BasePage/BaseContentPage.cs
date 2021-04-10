@@ -11,8 +11,9 @@ namespace GpsNote.Controls
     {
         public BaseContentPage()
         {
-
         }
+
+        
 
         protected override void OnAppearing()
         {
