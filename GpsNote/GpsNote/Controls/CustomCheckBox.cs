@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -9,7 +6,6 @@ namespace GpsNote.Controls
 {
     public class CustomCheckBox : CheckBox
     {
-
         #region -- Public properties --
 
         public static readonly BindableProperty CheckedCommandProperty
@@ -33,7 +29,7 @@ namespace GpsNote.Controls
 
         #endregion
 
-        #region -- Private helpers --
+        #region -- Protected implementation --
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -46,11 +42,14 @@ namespace GpsNote.Controls
             }
         }
 
+        #endregion
+
+        #region -- Private helpers --
+
         private void CustomCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             CheckedCommand?.Execute(CheckedCommandParameter);
         }
-
 
         #endregion
     }

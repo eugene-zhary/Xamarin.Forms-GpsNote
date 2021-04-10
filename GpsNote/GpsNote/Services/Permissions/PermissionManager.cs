@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Xamarin.Forms;
 
 namespace GpsNote.Services.Permissions
 {
@@ -21,6 +20,7 @@ namespace GpsNote.Services.Permissions
             if(status == PermissionStatus.Denied)
             {
                 CrossPermissions.Current.OpenAppSettings();
+                status = await CrossPermissions.Current.CheckPermissionStatusAsync<T>();
             }
 
             if(status != PermissionStatus.Granted)

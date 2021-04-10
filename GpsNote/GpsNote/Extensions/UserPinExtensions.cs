@@ -1,9 +1,6 @@
 ﻿using GpsNote.Models;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.Extensions

@@ -1,11 +1,8 @@
-﻿using GpsNote.Controls;
-using GpsNote.Extensions;
+﻿using GpsNote.Extensions;
 using GpsNote.Models;
-using GpsNote.Services;
 using GpsNote.Services.Map;
 using GpsNote.Services.Permissions;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,15 +14,16 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
 {
-    public abstract class BaseMapViewModel : ViewModelBase, IViewActionsHandler
+    public abstract class BaseMapViewModel : ViewModelBase
     {
         protected IPinManager _pinManager { get; }
         protected IPermissionManager _permissions { get; }
-        
+
         public BaseMapViewModel(INavigationService navigation, IPinManager pinManager, IPermissionManager permissions) : base(navigation)
         {
             _pinManager = pinManager;
             _permissions = permissions;
+
             PinsCollection = new ObservableCollection<Pin>();
         }
 
@@ -51,12 +49,7 @@ namespace GpsNote.ViewModels
 
         #endregion
 
-        #region -- IViewActionsHandler implementation --
-        public virtual void OnAppearing() { }
-        public virtual void OnDisappearing() { }
-        #endregion
-
-        #region -- Private helpers --
+        #region -- Protected implementaiton --
 
         protected async Task UpdatePinsCollectionAsync(string searchText = null)
         {
@@ -75,6 +68,18 @@ namespace GpsNote.ViewModels
             pins.ToList().ForEach(p => PinsCollection.Add(p.AsPin()));
         }
 
+        protected void NavigateCamera(Position pos)
+        {
+            if(pos != null)
+            {
+                MapCamera = new CameraPosition(pos, 15);
+            }
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
         private async void OnMyLocation(MyLocationButtonClickedEventArgs obj)
         {
             var status = await _permissions.RequestLocationPermissionAsync();
@@ -83,19 +88,12 @@ namespace GpsNote.ViewModels
             {
                 var location = await Geolocation.GetLastKnownLocationAsync();
                 NavigateCamera(new Position(location.Latitude, location.Longitude));
+
                 IsMyLocationEnabled = true;
             }
             else
             {
                 IsMyLocationEnabled = false;
-            }
-        }
-
-        protected void NavigateCamera(Position pos)
-        {
-            if(pos != null)
-            {
-                MapCamera = new CameraPosition(pos, 15);
             }
         }
 

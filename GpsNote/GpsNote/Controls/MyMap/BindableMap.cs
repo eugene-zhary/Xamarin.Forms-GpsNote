@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
 using Xamarin.Forms;
-using System.Linq;
 using Xamarin.Forms.GoogleMaps;
-using System.Diagnostics;
-using System.Collections;
 using System.Windows.Input;
 
 namespace GpsNote.Controls

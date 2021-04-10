@@ -7,9 +7,7 @@ using GpsNote.Views.Pins;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
@@ -61,7 +59,7 @@ namespace GpsNote.ViewModels
 
             if(isValid && await _authManager.TrySignInAsync(Email, Password))
             {
-                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
             }
             else
             {
@@ -71,9 +69,8 @@ namespace GpsNote.ViewModels
 
         private async void OnSignUp()
         {
-            await NavigationService.NavigateAsync($"{nameof(SignUpView)}");
+            await _navigationService.NavigateAsync($"{nameof(SignUpView)}");
         }
-
 
         #endregion
     }

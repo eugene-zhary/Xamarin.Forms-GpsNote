@@ -1,12 +1,6 @@
 ﻿using GpsNote.Properties;
-using GpsNote.Services.Permissions;
 using GpsNote.Views;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -31,7 +25,8 @@ namespace GpsNote.ViewModels
         private async void OnLogout(object obj)
         {
             Preferences.Clear();
-            await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
+
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
         }
 
         #endregion

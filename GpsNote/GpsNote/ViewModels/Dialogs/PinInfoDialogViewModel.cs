@@ -18,14 +18,16 @@ namespace GpsNote.ViewModels.Dialogs
 
         #endregion
 
-
         #region -- IDialogAware implementation --
 
         public event Action<IDialogParameters> RequestClose;
 
         public bool CanCloseDialog() => true;
 
-        public void OnDialogClosed() { }
+        public void OnDialogClosed() 
+        {
+        
+        }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {

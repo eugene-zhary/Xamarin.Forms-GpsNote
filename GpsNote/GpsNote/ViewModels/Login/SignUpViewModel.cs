@@ -11,8 +11,8 @@ namespace GpsNote.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-        private IPageDialogService _dialogService;
-        private IAuthorizationManager _authManager;
+        private readonly IPageDialogService _dialogService;
+        private readonly IAuthorizationManager _authManager;
 
         public SignUpViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationManager authManager) : base(navigationService)
         {
@@ -59,7 +59,7 @@ namespace GpsNote.ViewModels
             else if(await _authManager.TrySignUpAsync(Name, Email, Password))
             {
                 await _dialogService.DisplayAlertAsync(AppResources.SignUpTitle, AppResources.SignUpSuccess, AppResources.Cancel);
-                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
             }
             else
             {

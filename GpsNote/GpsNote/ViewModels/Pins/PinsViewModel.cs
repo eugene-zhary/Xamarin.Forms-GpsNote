@@ -12,8 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System;
-using Prism;
 
 namespace GpsNote.ViewModels
 {
@@ -28,7 +26,6 @@ namespace GpsNote.ViewModels
             Title = AppResources.PinsTitle;
             PinsCollection = new ObservableCollection<UserPin>();
         }
-
 
         #region -- Public properties --
 
@@ -56,6 +53,12 @@ namespace GpsNote.ViewModels
 
         #endregion
 
+        public async override void Initialize(INavigationParameters parameters)
+        {
+            base.Initialize(parameters);
+            await UpdatePinsAsync();
+        }
+
         #region -- IViewActionHandler implementation --
 
         public async void OnAppearing()
@@ -66,17 +69,14 @@ namespace GpsNote.ViewModels
             }
         }
 
-        public void OnDisappearing() { }
+        public void OnDisappearing()
+        {
+
+        }
 
         #endregion
 
-        #region -- Overrides --
-
-        public async override void Initialize(INavigationParameters parameters)
-        {
-            base.Initialize(parameters);
-            await UpdatePinsAsync();
-        }
+        #region -- Protected implementation --
 
         protected async override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -99,12 +99,12 @@ namespace GpsNote.ViewModels
 
         private async void OnAddPin()
         {
-            await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}");
+            await _navigationService.NavigateAsync($"{nameof(AddEditPinView)}");
         }
 
         private async void OnEditPin(UserPin pin)
         {
-            await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
+            await _navigationService.NavigateAsync($"{nameof(AddEditPinView)}", pin.AsNavigationParameters());
         }
 
         private void OnNavigateToPin(UserPin pin)
@@ -130,7 +130,7 @@ namespace GpsNote.ViewModels
         {
             if(pin != null)
             {
-                await NavigationService.SelectTabAsync($"{nameof(MapView)}", pin.AsPin().AsNavigationParameters());
+                await _navigationService.SelectTabAsync($"{nameof(MapView)}", pin.AsPin().AsNavigationParameters());
             }
         }
 
@@ -150,7 +150,6 @@ namespace GpsNote.ViewModels
 
             pins.ToList().ForEach(PinsCollection.Add);
         }
-
 
         #endregion
     }

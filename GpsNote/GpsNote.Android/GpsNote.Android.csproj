@@ -76,6 +76,9 @@
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="26.0.2" />
     <PackageReference Include="Xamarin.Android.Support.Core.UI" Version="26.0.2" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="26.0.2" />
+    <PackageReference Include="Xamarin.Forms.GoogleMaps">
+      <Version>3.3.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainApplication.cs" />

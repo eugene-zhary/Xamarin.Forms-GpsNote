@@ -12,10 +12,11 @@ using GpsNote.Views.Dialogs;
 using GpsNote.Extensions;
 using System.ComponentModel;
 using System;
+using GpsNote.Controls;
 
 namespace GpsNote.ViewModels
 {
-    public class MapViewModel : BaseMapViewModel
+    public class MapViewModel : BaseMapViewModel, IViewActionsHandler
     {
         private readonly IPageDialogService _pageDialogService;
         private readonly IDialogService _dialogService;
@@ -62,13 +63,21 @@ namespace GpsNote.ViewModels
 
         #endregion
 
-        #region -- Overrides --
+        #region -- IViewActionsHandler implementation --
 
-        public async override void OnAppearing()
+        public async void OnAppearing()
         {
-            base.OnAppearing();
             await UpdatePinsCollectionAsync();
         }
+
+        public void OnDisappearing()
+        {
+
+        }
+
+        #endregion
+
+        #region -- Protected implementation --
 
         protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -119,6 +128,7 @@ namespace GpsNote.ViewModels
             if(SelectedPin != null)
             {
                 NavigateCamera(SelectedPin.Position);
+
                 SearchText = String.Empty;
             }
         }
@@ -128,11 +138,13 @@ namespace GpsNote.ViewModels
             if(!SearchText.Equals(string.Empty))
             {
                 await UpdatePinsCollectionAsync(SearchText);
+
                 IsSuggestionsVisible = true;
             }
             else
             {
                 await UpdatePinsCollectionAsync();
+
                 IsSuggestionsVisible = false;
             }
         }

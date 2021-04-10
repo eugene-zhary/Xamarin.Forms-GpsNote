@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace GpsNote.Controls
@@ -31,7 +28,6 @@ namespace GpsNote.Controls
         {
             UnfocusedCommand?.Execute(e);
         }
-
 
         #endregion
     }

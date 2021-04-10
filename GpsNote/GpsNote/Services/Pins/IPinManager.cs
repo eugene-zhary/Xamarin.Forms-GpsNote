@@ -1,8 +1,6 @@
 ﻿using GpsNote.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.Services.Map
 {

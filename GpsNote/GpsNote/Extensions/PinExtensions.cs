@@ -1,5 +1,4 @@
 ﻿using GpsNote.Models;
-using GpsNote.ViewModels;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Xamarin.Forms.GoogleMaps;
@@ -20,6 +19,7 @@ namespace GpsNote.Extensions
                     Address = pin.Address,
                     Latitude = pin.Position.Latitude,
                     Longitude = pin.Position.Longitude,
+                    IsFavorite = pin.IsVisible,
                     UserId = user_id
                 };
             }

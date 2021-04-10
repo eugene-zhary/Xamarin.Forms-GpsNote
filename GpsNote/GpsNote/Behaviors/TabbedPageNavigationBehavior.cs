@@ -8,7 +8,9 @@ namespace GpsNote.Behaviors
 {
     public class TabbedPageNavigationBehavior : BehaviorBase<TabbedPage>
     {
-        private Page CurrentPage;
+        private Page _currentPage;
+
+        #region -- Protected implementation --
 
         protected override void OnAttachedTo(TabbedPage bindable)
         {
@@ -22,19 +24,24 @@ namespace GpsNote.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
+        #endregion
 
+        #region -- Private helpers --
+        
         private void OnCurrentPageChanged(object sender, EventArgs e)
         {
             var newPage = this.AssociatedObject.CurrentPage;
 
-            if (this.CurrentPage != null)
+            if (this._currentPage != null)
             {
                 var parameters = new NavigationParameters();
-                PageUtilities.OnNavigatedFrom(this.CurrentPage, parameters);
+                PageUtilities.OnNavigatedFrom(this._currentPage, parameters);
                 PageUtilities.OnNavigatedTo(newPage, parameters);
             }
 
-            this.CurrentPage = newPage;
+            this._currentPage = newPage;
         }
+
+        #endregion
     }
 }

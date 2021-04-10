@@ -5,7 +5,6 @@ using GpsNote.Services.Permissions;
 using Prism.Navigation;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -19,9 +18,8 @@ namespace GpsNote.ViewModels
 
         public AddEditPinViewModel(INavigationService navigation, IPinManager pinManager, IPermissionManager permissions) : base(navigation, pinManager, permissions)
         {
-            Title = AppResources.AddPinTitle;
-            Label = String.Empty;
-            Details = String.Empty;
+            _label = String.Empty;
+            _details = String.Empty;
         }
 
         #region -- Public properties --
@@ -56,8 +54,6 @@ namespace GpsNote.ViewModels
 
         #endregion
 
-        #region -- Private helpers --
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
@@ -73,12 +69,18 @@ namespace GpsNote.ViewModels
                 Longitude = pin.Longitude;
 
                 MapCamera = new CameraPosition(new Position(Latitude, Longitude), 15);
+
+                Title = AppResources.EditPinTitle;
             }
             else
             {
                 _currentPin = new UserPin();
+
+                Title = AppResources.AddPinTitle;
             }
         }
+
+        #region -- Protected implementation --
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -93,6 +95,10 @@ namespace GpsNote.ViewModels
             }
         }
 
+        #endregion
+
+        #region -- Private helpers --
+
         private void OnMapClicked(MapClickedEventArgs ev)
         {
             Latitude = ev.Point.Latitude;
@@ -102,7 +108,7 @@ namespace GpsNote.ViewModels
         private async void OnComplete(object obj)
         {
             await SavePinChanges();
-            await NavigationService.GoBackAsync();
+            await _navigationService.GoBackAsync();
         }
 
         private void UpdatePin()

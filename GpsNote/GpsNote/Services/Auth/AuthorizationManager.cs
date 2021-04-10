@@ -1,9 +1,6 @@
-﻿using GpsNote.Helpers;
-using GpsNote.Models;
+﻿using GpsNote.Models;
 using GpsNote.Services.Repository;
-using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace GpsNote.Services
 {

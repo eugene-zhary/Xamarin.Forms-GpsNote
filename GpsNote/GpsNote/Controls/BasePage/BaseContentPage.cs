@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace GpsNote.Controls
 {
     public class BaseContentPage : ContentPage
     {
-        public BaseContentPage()
-        {
-        }
-
+        #region -- Protected implementation --
         
-
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -34,5 +25,7 @@ namespace GpsNote.Controls
                 actionsHandler.OnDisappearing();
             }
         }
+
+        #endregion
     }
 }
