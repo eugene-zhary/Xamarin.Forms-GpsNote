@@ -132,6 +132,9 @@
   <data name="MapTitle" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>No internet connection</value>
+  </data>
   <data name="NoteTitle" xml:space="preserve">
     <value>GPS Notebook</value>
   </data>

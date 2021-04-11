@@ -24,10 +24,16 @@ namespace GpsNote.ViewModels
 
         #endregion
 
+        #region -- IInitialize implementation --
+
         public virtual void Initialize(INavigationParameters parameters)
         {
 
         }
+
+        #endregion
+
+        #region -- INavigationAware implementation --
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -39,9 +45,15 @@ namespace GpsNote.ViewModels
 
         }
 
+        #endregion
+
+        #region -- IDestructible implementation --
+
         public virtual void Destroy()
         {
 
         }
+
+        #endregion
     }
 }
