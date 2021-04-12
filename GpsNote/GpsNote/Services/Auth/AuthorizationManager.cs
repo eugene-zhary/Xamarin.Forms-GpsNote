@@ -54,10 +54,5 @@ namespace GpsNote.Services
         }
 
         #endregion
-
-        #region -- Private helpers --
-
-
-        #endregion
     }
 }

@@ -63,16 +63,22 @@ namespace GpsNote.ViewModels
 
         #endregion
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if(parameters.ContainsKey(nameof(Pin)))
+            {
+                var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
+                NavigateCamera(selectedPin.Position);
+            }
+        }
+
         #region -- IViewActionsHandler implementation --
 
         public async void OnAppearing()
         {
             await UpdatePinsCollectionAsync();
-        }
-
-        public void OnDisappearing()
-        {
-
         }
 
         #endregion
@@ -91,17 +97,6 @@ namespace GpsNote.ViewModels
                 case nameof(SelectedPin):
                     UpdateSelectedPin();
                     break;
-            }
-        }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            if(parameters.ContainsKey(nameof(Pin)))
-            {
-                var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
-                NavigateCamera(selectedPin.Position);
             }
         }
 

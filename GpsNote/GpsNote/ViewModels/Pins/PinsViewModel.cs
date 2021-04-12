@@ -69,11 +69,6 @@ namespace GpsNote.ViewModels
             }
         }
 
-        public void OnDisappearing()
-        {
-
-        }
-
         #endregion
 
         #region -- Protected implementation --

@@ -5,7 +5,7 @@ namespace GpsNote.Controls
     public class BaseContentPage : ContentPage
     {
         #region -- Protected implementation --
-        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -13,16 +13,6 @@ namespace GpsNote.Controls
             if (BindingContext is IViewActionsHandler actionsHandler)
             {
                 actionsHandler.OnAppearing();
-            }
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            if (BindingContext is IViewActionsHandler actionsHandler)
-            {
-                actionsHandler.OnDisappearing();
             }
         }
 
