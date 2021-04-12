@@ -132,9 +132,8 @@ namespace GpsNote.ViewModels
         private async Task UpdatePinsAsync(string searchText = null)
         {
             IEnumerable<UserPin> pins = null;
-            PinsCollection.Clear();
 
-            if(searchText == null)
+            if(searchText == null || searchText.Equals(string.Empty))
             {
                 pins = await _pinManager.GetPinsAsync();
             }
@@ -143,6 +142,7 @@ namespace GpsNote.ViewModels
                 pins = await _pinManager.SearchPinsAsync(searchText);
             }
 
+            PinsCollection.Clear();
             pins.ToList().ForEach(PinsCollection.Add);
         }
 
