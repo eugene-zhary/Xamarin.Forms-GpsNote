@@ -18,7 +18,7 @@ namespace GpsNote.Services.Map
         }
 
         #region -- Public properties --
-
+        // TODO : change to DateTime
         public bool IsCollectionUpdated { get; set; }
 
         #endregion

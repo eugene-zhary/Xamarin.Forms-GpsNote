@@ -32,6 +32,7 @@ namespace GpsNote.Services.Weather
             }
             catch(HttpRequestException)
             {
+                // TODO : change this with solid
                 forecast = new WeatherModel
                 {
                     Name = AppResources.NoInternet
@@ -51,6 +52,7 @@ namespace GpsNote.Services.Weather
 
             using(var httpClient = new HttpClient())
             {
+                // TODO : make more safe
                 string uri = $"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&lang={_language}&appid={API_KEY}";
                 json = await httpClient.GetStringAsync(uri);
             }
