@@ -53,18 +53,6 @@ namespace GpsNote.Services.Repository
             await _connection.UpdateAsync(item);
         }
 
-        public async Task AddOrUpdataAsync<T>(T item) where T : IEntityModel, new()
-        {
-            if(item.Id == 0)
-            {
-                await AddAsync(item);
-            }
-            else
-            {
-                await UpdateAsync(item);
-            }
-        }
-
         #endregion
     }
 }

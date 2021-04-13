@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       BackgroundColor="White"
+       CornerRadius="30"
+       xmlns:prism="http://prismlibrary.com"
+       prism:DialogLayout.RelativeWidthRequest="0.8"
+       prism:DialogLayout.RelativeHeightRequest="0.28"
+       prism:DialogLayout.LayoutBounds="0.5, 0.9, -1, -1"
+       prism:DialogLayout.CloseOnBackgroundTapped="True"
+       prism:DialogLayout.UseMask="True"
+       prism:DialogLayout.MaskStyle="{StaticResource PinDialogStyle}"
+       x:Class="GpsNote.Views.Dialogs.PinInfoDialog">
+    <Frame.Resources>
+        <Style TargetType="Label" x:Key="PositionStyle">
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="BackgroundColor" Value="LightGray"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="Micro"/>
+        </Style>
+    </Frame.Resources>
+    <Frame.Content>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <Label Grid.Row="0" Text="{Binding Pin.Label}" FontAttributes="Bold" 
+                   FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+            <Label Grid.Row="1" Text="{Binding Pin.Address}" FontSize="14"/>
+
+            <StackLayout Grid.Row="2" Spacing="0" VerticalOptions="Center">
+                <Label Text="{Binding Forecast.Name}" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
+
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="{Binding Forecast.Icon}" VerticalOptions="Center" HeightRequest="26" WidthRequest="26"/>
+                    <Label Text="{Binding Forecast.Description}" FontSize="14" LineBreakMode="TailTruncation"/>
+                </StackLayout>
+
+                <Label Text="{Binding Forecast.Temperature}" FontSize="14"/>
+                
+            </StackLayout>
+
+            <ActivityIndicator Grid.Row="2" Scale="0.5" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="Gray"/>
+
+        </Grid>
+    </Frame.Content>
+</Frame>

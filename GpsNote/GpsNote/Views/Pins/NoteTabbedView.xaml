@@ -6,11 +6,15 @@
             x:Class="GpsNote.Views.Pins.NoteTabbedView"
             xmlns:views="clr-namespace:GpsNote.Views.Pins"
             BarBackgroundColor="DimGray" BarTextColor="White"
+            xmlns:behaviors="clr-namespace:GpsNote.Behaviors"
             Title="{Binding Title}">
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="Logout" Command="{Binding LogoutCommand}"/>
     </TabbedPage.ToolbarItems>
+    <TabbedPage.Behaviors>
+        <behaviors:TabbedPageNavigationBehavior/>
+    </TabbedPage.Behaviors>
     
-    <views:PinsView/>
-    <views:MapView/>
+        <views:MapView/>
+        <views:PinsView/>
 </TabbedPage>

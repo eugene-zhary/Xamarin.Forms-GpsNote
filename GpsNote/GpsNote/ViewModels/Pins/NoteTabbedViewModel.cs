@@ -1,12 +1,8 @@
 ﻿using GpsNote.Properties;
 using GpsNote.Views;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
@@ -18,7 +14,6 @@ namespace GpsNote.ViewModels
             Title = AppResources.NoteTitle;
         }
 
-
         #region -- Public properties --
 
         public ICommand LogoutCommand => new Command(OnLogout);
@@ -29,7 +24,9 @@ namespace GpsNote.ViewModels
 
         private async void OnLogout(object obj)
         {
-            await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
+            Preferences.Clear();
+
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
         }
 
         #endregion

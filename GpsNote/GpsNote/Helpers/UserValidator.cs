@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GpsNote.Helpers
+﻿namespace GpsNote.Helpers
 {
     public static class UserValidator
     {

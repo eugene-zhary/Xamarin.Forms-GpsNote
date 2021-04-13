@@ -61,11 +61,29 @@ namespace GpsNote.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Pin.
+        /// </summary>
+        internal static string AddPinTitle {
+            get {
+                return ResourceManager.GetString("AddPinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Pin.
+        /// </summary>
+        internal static string EditPinTitle {
+            get {
+                return ResourceManager.GetString("EditPinTitle", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace GpsNote.Properties {
         internal static string MapTitle {
             get {
                 return ResourceManager.GetString("MapTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet connection.
+        /// </summary>
+        internal static string NoInternet {
+            get {
+                return ResourceManager.GetString("NoInternet", resourceCulture);
             }
         }
         

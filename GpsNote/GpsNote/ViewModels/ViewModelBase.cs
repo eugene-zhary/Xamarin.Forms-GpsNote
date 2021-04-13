@@ -1,32 +1,39 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GpsNote.ViewModels
 {
     public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
     {
-        protected INavigationService NavigationService { get; private set; }
+        protected INavigationService _navigationService { get; private set; }
+
+        public ViewModelBase(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            _title = string.Empty;
+        }
+
+        #region -- Public properties --
 
         private string _title;
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
-        public ViewModelBase(INavigationService navigationService)
-        {
-            NavigationService = navigationService;
-        }
+        #endregion
+
+        #region -- IInitialize implementation --
 
         public virtual void Initialize(INavigationParameters parameters)
         {
 
         }
+
+        #endregion
+
+        #region -- INavigationAware implementation --
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -38,9 +45,15 @@ namespace GpsNote.ViewModels
 
         }
 
+        #endregion
+
+        #region -- IDestructible implementation --
+
         public virtual void Destroy()
         {
 
         }
+
+        #endregion
     }
 }
