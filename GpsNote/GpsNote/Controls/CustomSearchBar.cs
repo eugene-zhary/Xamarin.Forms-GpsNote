@@ -12,8 +12,11 @@ namespace GpsNote.Controls
 
         #region -- Public properties --
 
-        public static readonly BindableProperty UnfocusedCommandProperty
-           = BindableProperty.Create(nameof(UnfocusedCommand), typeof(ICommand), typeof(BindableMap), null);
+        public static readonly BindableProperty UnfocusedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(UnfocusedCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(BindableMap));
+
         public ICommand UnfocusedCommand
         {
             get => (ICommand)GetValue(UnfocusedCommandProperty);

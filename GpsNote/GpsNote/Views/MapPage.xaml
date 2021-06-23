@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:prism="http://prismlibrary.com"
+                       prism:ViewModelLocator.AutowireViewModel="True"
+                       xmlns:local="clr-namespace:GpsNote.Views"
+                       xmlns:controls="clr-namespace:GpsNote.Controls"
+                       x:Class="GpsNote.Views.MapPage" 
+                       BackgroundColor="White"
+                       Title="{Binding Title}">
+    
+    <Grid>
+
+        <controls:BindableMap PinsSource="{Binding PinsCollection}"
+                              PinClickedCommand="{Binding PinClickedCommand}"
+                              CurrentPosition="{Binding MapCamera}"
+                              MyLocationEnabled="{Binding IsMyLocationEnabled}"/>
+
+        <Button WidthRequest="40" 
+                HeightRequest="40" 
+                Opacity="0.8"
+                HorizontalOptions="End" 
+                VerticalOptions="Start" 
+                BackgroundColor="LightGray"
+                Margin="15"
+                Command="{Binding MyLocationCommand}"
+                ImageSource="ic_geolocation"/>
+        
+    </Grid>
+    
+</local:BaseContentPage>

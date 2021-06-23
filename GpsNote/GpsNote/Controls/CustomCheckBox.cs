@@ -8,18 +8,21 @@ namespace GpsNote.Controls
     {
         #region -- Public properties --
 
-        public static readonly BindableProperty CheckedCommandProperty
-           = BindableProperty.Create(nameof(CheckedCommand), typeof(ICommand), typeof(CustomCheckBox), null);
-
-        public static readonly BindableProperty CheckedCommandParameterProperty
-           = BindableProperty.Create(nameof(CheckedCommandParameter), typeof(object), typeof(CustomCheckBox), null);
-
+        public static readonly BindableProperty CheckedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(CheckedCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(CustomCheckBox));
 
         public ICommand CheckedCommand
         {
             get => (ICommand)GetValue(CheckedCommandProperty);
             set => SetValue(CheckedCommandProperty, value);
         }
+
+        public static readonly BindableProperty CheckedCommandParameterProperty = BindableProperty.Create(
+            propertyName: nameof(CheckedCommandParameter),
+            returnType: typeof(object),
+            declaringType: typeof(CustomCheckBox));
 
         public object CheckedCommandParameter
         {

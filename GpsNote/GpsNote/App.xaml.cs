@@ -4,10 +4,7 @@ using GpsNote.Services.Permissions;
 using GpsNote.Services.Repository;
 using GpsNote.Services.Weather;
 using GpsNote.ViewModels;
-using GpsNote.ViewModels.Dialogs;
 using GpsNote.Views;
-using GpsNote.Views.Dialogs;
-using GpsNote.Views.Pins;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Forms;
@@ -15,46 +12,44 @@ using Xamarin.Forms;
 namespace GpsNote
 {
     public partial class App
-    { 
-        public App(IPlatformInitializer initializer) : base(initializer)
-        {
-
-        }
+    {
+        public App(IPlatformInitializer initializer) : base(initializer) { }
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            var authManager = Container.Resolve<IAuthorizationManager>();
 
-            if(authManager.IsAuthorized)
+            var authManager = Container.Resolve<IAuthorizationService>();
+
+            if (authManager.IsAuthorized)
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(NoteTabbedView)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(NoteTabbedPage)}");
             }
             else
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInPage)}");
             }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<IPermissionManager>(Container.Resolve<PermissionManager>());
+            // Services
+            containerRegistry.RegisterInstance<IPermissionService>(Container.Resolve<PermissionService>());
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingManager>());
             containerRegistry.RegisterInstance<IWeatherService>(Container.Resolve<OpenWeatherMapWeatherService>());
+            containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
+            containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
 
-            containerRegistry.RegisterInstance<IAuthorizationManager>(Container.Resolve<AuthorizationManager>());
-            containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
-
+            // Navigations
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
-            containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
-            containerRegistry.RegisterForNavigation<NoteTabbedView, NoteTabbedViewModel>();
-            containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
-            containerRegistry.RegisterForNavigation<PinsView, PinsViewModel>();
-            containerRegistry.RegisterForNavigation<AddEditPinView, AddEditPinViewModel>();
-
-            containerRegistry.RegisterDialog<PinInfoDialog, PinInfoDialogViewModel>();
+            containerRegistry.RegisterForNavigation<SignInPage, SignInViewModel>();
+            containerRegistry.RegisterForNavigation<SignUpPage, SignUpViewModel>();
+            containerRegistry.RegisterForNavigation<NoteTabbedPage, NoteTabbedViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapViewModel>();
+            containerRegistry.RegisterForNavigation<PinsPage, PinsViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinViewModel>();
+            containerRegistry.RegisterDialog<PinInfoDialogPage, PinInfoDialogViewModel>();
         }
     }
 }

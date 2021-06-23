@@ -16,35 +16,51 @@ namespace GpsNote.Controls
 
         #region -- Public properties --
 
-        private static readonly BindablePropertyKey PinsSourcePropertyKey = BindableProperty.CreateReadOnly(nameof(PinsSource), typeof(ObservableCollection<Pin>), typeof(BindableMap), default(ObservableCollection<Pin>));
+        private static readonly BindablePropertyKey PinsSourcePropertyKey = BindableProperty.CreateReadOnly(
+            propertyName: nameof(PinsSource),
+            returnType: typeof(ObservableCollection<Pin>),
+            declaringType: typeof(BindableMap),
+            defaultValue: default(ObservableCollection<Pin>));
 
         public static readonly BindableProperty PinsSourceProperty = PinsSourcePropertyKey.BindableProperty;
-
-        public static readonly BindableProperty CurrentPositionProperty
-            = BindableProperty.Create(nameof(CurrentPosition), typeof(CameraPosition), typeof(BindableMap), null, BindingMode.TwoWay, null, OnCurrentPositionChanged);
-
-        public static readonly BindableProperty MapClickedCommandProperty
-            = BindableProperty.Create(nameof(MapClickedCommand), typeof(ICommand), typeof(BindableMap), null);
-
-        public static readonly BindableProperty PinClickedCommandProperty
-           = BindableProperty.Create(nameof(PinClickedCommand), typeof(ICommand), typeof(BindableMap), null);
-
-
+        
         public ObservableCollection<Pin> PinsSource
         {
             get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
             private set => SetValue(PinsSourcePropertyKey, value);
         }
+
+        public static readonly BindableProperty CurrentPositionProperty = BindableProperty.Create(
+            propertyName: nameof(CurrentPosition),
+            returnType: typeof(CameraPosition),
+            declaringType: typeof(BindableMap),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay,
+            validateValue: null,
+            propertyChanged: OnCurrentPositionChanged);
+        
         public CameraPosition CurrentPosition
         {
             get => (CameraPosition)GetValue(CurrentPositionProperty);
             set => SetValue(CurrentPositionProperty, value);
         }
+
+        public static readonly BindableProperty MapClickedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(MapClickedCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(BindableMap));
+
         public ICommand MapClickedCommand
         {
             get => (ICommand)GetValue(MapClickedCommandProperty);
             set => SetValue(MapClickedCommandProperty, value);
         }
+
+        public static readonly BindableProperty PinClickedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(PinClickedCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(BindableMap));
+
         public ICommand PinClickedCommand
         {
             get => (ICommand)GetValue(PinClickedCommandProperty);

@@ -17,40 +17,58 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\AppResources.Designer.cs">
+    <Compile Update="Resources\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>AppResources.resx</DependentUpon>
+      <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\Pins\AddEditPinView.xaml.cs">
-      <DependentUpon>AddEditPinView.xaml</DependentUpon>
+    <Compile Update="Views\AddEditPinPage.xaml.cs">
+      <DependentUpon>AddEditPinPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NoteTabbedPage.xaml.cs">
+      <DependentUpon>NoteTabbedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PinInfoDialogPage.xaml.cs">
+      <DependentUpon>PinInfoDialogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PinsPage.xaml.cs">
+      <DependentUpon>PinsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SignInPage.xaml.cs">
+      <DependentUpon>SignInPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SignUpPage.xaml.cs">
+      <DependentUpon>SignUpPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Update="Properties\AppResources.resx">
+    <EmbeddedResource Update="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Dialogs\PinInfoDialog.xaml">
+    <EmbeddedResource Update="Views\PinInfoDialogPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Login\SignInView.xaml">
+    <EmbeddedResource Update="Views\SignInPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Login\SignUpView.xaml">
+    <EmbeddedResource Update="Views\SignUpPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pins\AddEditPinView.xaml">
+    <EmbeddedResource Update="Views\AddEditPinPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pins\MapView.xaml">
+    <EmbeddedResource Update="Views\MapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pins\NoteTabbedView.xaml">
+    <EmbeddedResource Update="Views\NoteTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pins\PinsView.xaml">
+    <EmbeddedResource Update="Views\PinsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

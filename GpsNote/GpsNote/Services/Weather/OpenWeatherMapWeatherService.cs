@@ -1,6 +1,6 @@
 ﻿using GpsNote.Extensions;
 using GpsNote.Models;
-using GpsNote.Properties;
+using GpsNote.Resources;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Net.Http;
@@ -10,7 +10,6 @@ namespace GpsNote.Services.Weather
 {
     public class OpenWeatherMapWeatherService : IWeatherService
     {
-        private const string API_KEY = "b38b0666ec3594a828ac3b8ac707684f";
         private readonly string _language;
 
         public OpenWeatherMapWeatherService()
@@ -22,7 +21,7 @@ namespace GpsNote.Services.Weather
 
         public async Task<WeatherModel> GetForecast(double latitude, double longitude)
         {
-            WeatherModel forecast = null;
+            WeatherModel forecast;
 
             try
             {
@@ -30,12 +29,11 @@ namespace GpsNote.Services.Weather
 
                 forecast = JsonConvert.DeserializeObject<WeatherJson>(json).ToWeatherModel();
             }
-            catch(HttpRequestException)
+            catch (HttpRequestException)
             {
-                // TODO : change this with solid
                 forecast = new WeatherModel
                 {
-                    Name = AppResources.NoInternet
+                    Name = Strings.NoInternet
                 };
             }
 
@@ -50,10 +48,10 @@ namespace GpsNote.Services.Weather
         {
             string json = string.Empty;
 
-            using(var httpClient = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
-                // TODO : make more safe
-                string uri = $"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&lang={_language}&appid={API_KEY}";
+                string uri = $"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&lang={_language}&appid={Constants.WeatherRest.API_KEY}";
+
                 json = await httpClient.GetStringAsync(uri);
             }
 

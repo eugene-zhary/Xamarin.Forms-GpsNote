@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BaseContentPage xmlns:local="clr-namespace:GpsNote.Views" 
+                       xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:prism="http://prismlibrary.com"
+                       xmlns:controls="clr-namespace:GpsNote.Controls"
+                       prism:ViewModelLocator.AutowireViewModel="True"             
+                       xmlns:resources="clr-namespace:GpsNote.Resources"
+                       x:Class="GpsNote.Views.PinsPage"
+                       Title="{Binding Title}"
+                       BackgroundColor="White"
+                       x:Name="this">
+
+    <local:BaseContentPage.Resources>
+        
+        <Style TargetType="Label" x:Key="LocationLabel">
+            
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="BackgroundColor" Value="LightGray"/>
+            <Setter Property="FontSize" Value="Micro"/>
+            
+        </Style>
+        
+    </local:BaseContentPage.Resources>
+
+    <Grid RowDefinitions="60, *">
+
+        <SearchBar Placeholder="{x:Static resources:Strings.Search}" 
+                   VerticalOptions="Center" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   TextColor="DimGray" 
+                   Text="{Binding SearchText}"/>
+
+        <ListView Grid.Row="1" 
+                  ItemsSource="{Binding PinsCollection}" 
+                  SelectedItem="{Binding SelectedPin}" 
+                  ItemSelected="ListView_ItemSelected" 
+                  HasUnevenRows="True">
+            
+            <ListView.ItemTemplate>
+                
+                <DataTemplate>
+                    
+                    <ViewCell>
+                        
+                        <ViewCell.ContextActions>
+                            
+                            <ToolbarItem Text="{x:Static resources:Strings.Edit}" 
+                                         Command="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference this}}"
+                                         CommandParameter="{x:Binding .}"/>
+                            
+                            <ToolbarItem Text="{x:Static resources:Strings.Remove}" 
+                                         Command="{Binding Path=BindingContext.RemovePinCommand, Source={x:Reference this}}"
+                                         CommandParameter="{x:Binding .}"/>
+                            
+                            <ToolbarItem Text="{x:Static resources:Strings.Navigate}" 
+                                         Command="{Binding Path=BindingContext.NavigateToPinCommand, Source={x:Reference this}}"
+                                         CommandParameter="{x:Binding .}"/>
+                            
+                        </ViewCell.ContextActions>
+
+                        <Grid BackgroundColor="White" 
+                              RowDefinitions="36, *, 30"
+                              ColumnSpacing="0" 
+                              RowSpacing="0" 
+                              Padding="10,0">
+
+                            <Label Text="{Binding Label}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16" 
+                                   VerticalTextAlignment="Center" 
+                                   LineBreakMode="TailTruncation"/>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="{Binding Address}" 
+                                   FontSize="12" 
+                                   VerticalTextAlignment="Center"/>
+
+                            <Label Grid.Column="1" 
+                                   Text="{x:Static resources:Strings.Favorite}" 
+                                   FontAttributes="Bold" 
+                                   HorizontalOptions="Center"/>
+
+                            <controls:CustomCheckBox Grid.Column="1" 
+                                                     VerticalOptions="Start" 
+                                                     HorizontalOptions="End" 
+                                                     Color="DimGray"
+                                                     CheckedCommand="{Binding Path=BindingContext.CheckedCommand, Source={x:Reference this}}"
+                                                     CheckedCommandParameter="{Binding .}" 
+                                                     IsChecked="{Binding IsFavorite}"/>
+
+                            <Label Grid.Row="2" 
+                                   Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}" 
+                                   Style="{StaticResource LocationLabel}"/>
+                            
+                            <Label Grid.Row="2"
+                                   Grid.Column="1"
+                                   Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}"
+                                   Style="{StaticResource LocationLabel}"/>
+                            
+                        </Grid>
+                        
+                    </ViewCell>
+                    
+                </DataTemplate>
+                
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <Button Grid.Row="1" 
+                Command="{Binding AddPinCommand}"
+                ImageSource="ic_launcher" 
+                Margin="35"
+                BackgroundColor="LightGray"
+                CornerRadius="35" 
+                WidthRequest="70"
+                HeightRequest="70" 
+                VerticalOptions="End" 
+                HorizontalOptions="End"/>
+        
+    </Grid>
+    
+</local:BaseContentPage>

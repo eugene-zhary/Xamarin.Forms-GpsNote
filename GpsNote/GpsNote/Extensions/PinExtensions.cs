@@ -7,42 +7,60 @@ namespace GpsNote.Extensions
 {
     public static class PinExtensions
     {
-        public static UserPin AsUserPin(this Pin pin, int user_id = 0)
+        public static PinModel ToPinModel(this Pin pin, int user_id = 0)
         {
-            UserPin output = null;
-
-            if (pin != null)
+            return new PinModel
             {
-                output = new UserPin
-                {
-                    Label = pin.Label,
-                    Address = pin.Address,
-                    Latitude = pin.Position.Latitude,
-                    Longitude = pin.Position.Longitude,
-                    IsFavorite = pin.IsVisible,
-                    UserId = user_id
-                };
-            }
-
-            return output;
+                Label = pin.Label,
+                Address = pin.Address,
+                Latitude = pin.Position.Latitude,
+                Longitude = pin.Position.Longitude,
+                IsFavorite = pin.IsVisible,
+                UserId = user_id
+            };
         }
 
-        public static INavigationParameters AsNavigationParameters(this Pin pin)
+        public static Pin ToPin(this PinModel user_pin)
         {
-            var nav_params = new NavigationParameters
+            return new Pin
+            {
+                Label = user_pin.Label,
+                Address = user_pin.Address,
+                Position = new Position(user_pin.Latitude, user_pin.Longitude),
+                IsVisible = user_pin.IsFavorite
+            };
+        }
+
+        public static INavigationParameters ToNavigationParameters(this Pin pin)
+        {
+            return new NavigationParameters
             {
                 { nameof(Pin), pin }
             };
-            return nav_params;
         }
 
-        public static IDialogParameters AsDialogParams(this Pin pin)
+        public static IDialogParameters ToDialogParams(this Pin pin)
         {
-            var nav_params = new DialogParameters
+            return new DialogParameters
             {
                 { nameof(Pin), pin }
             };
-            return nav_params;
+        }
+
+        public static INavigationParameters ToNavigationParameters(this PinModel pin)
+        {
+            return new NavigationParameters
+            {
+                { nameof(PinModel), pin }
+            };
+        }
+
+        public static IDialogParameters ToDialogParams(this PinModel pin)
+        {
+            return new DialogParameters
+            {
+                { nameof(PinModel), pin }
+            };
         }
     }
 }

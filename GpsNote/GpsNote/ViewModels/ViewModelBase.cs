@@ -10,6 +10,7 @@ namespace GpsNote.ViewModels
         public ViewModelBase(INavigationService navigationService)
         {
             _navigationService = navigationService;
+
             _title = string.Empty;
         }
 

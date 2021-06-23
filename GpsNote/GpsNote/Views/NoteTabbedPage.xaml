@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="http://prismlibrary.com"
+            prism:ViewModelLocator.AutowireViewModel="True"
+            x:Class="GpsNote.Views.NoteTabbedPage"
+            xmlns:resources="clr-namespace:GpsNote.Resources"
+            xmlns:views="clr-namespace:GpsNote.Views"
+            BarBackgroundColor="DimGray" 
+            BarTextColor="White"
+            xmlns:behaviors="clr-namespace:GpsNote.Behaviors"
+            Title="{Binding Title}">
+
+    <TabbedPage.ToolbarItems>
+
+        <ToolbarItem Text="{x:Static resources:Strings.Logout}" 
+                     Command="{Binding LogoutCommand}"/>
+
+    </TabbedPage.ToolbarItems>
+
+    <TabbedPage.Behaviors>
+
+        <behaviors:TabbedPageNavigationBehavior/>
+
+    </TabbedPage.Behaviors>
+
+    <views:MapPage/>
+    <views:PinsPage/>
+
+</TabbedPage>
