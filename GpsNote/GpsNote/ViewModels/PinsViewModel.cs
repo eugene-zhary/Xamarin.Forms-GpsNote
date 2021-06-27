@@ -106,7 +106,12 @@ namespace GpsNote.ViewModels
 
         private async void OnEditPin(PinModel pin)
         {
-            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", pin.ToNavigationParameters());
+            var navParams = new NavigationParameters
+            {
+                { Constants.Navigation.SELECTED_PIN, pin },
+            };
+
+            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", navParams);
         }
 
         private void OnNavigateToPin(PinModel pin)
@@ -132,13 +137,18 @@ namespace GpsNote.ViewModels
         {
             if (pin != null)
             {
-                await _navigationService.SelectTabAsync($"{nameof(MapPage)}", pin.ToPin().ToNavigationParameters());
+                var navParams = new NavigationParameters
+                {
+                    { Constants.Navigation.SELECTED_PIN, pin },
+                };
+
+                await _navigationService.SelectTabAsync($"{nameof(MapPage)}", navParams);
             }
         }
 
         private async Task UpdatePinsAsync(string searchText = null)
         {
-            IEnumerable<PinModel> pins = null;
+            IEnumerable<PinModel> pins;
 
             if (searchText == null || searchText.Equals(string.Empty))
             {

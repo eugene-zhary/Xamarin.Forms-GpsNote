@@ -11,6 +11,7 @@ using GpsNote.Extensions;
 using System.ComponentModel;
 using GpsNote.Interfaces;
 using GpsNote.Views;
+using GpsNote.Models;
 
 namespace GpsNote.ViewModels
 {
@@ -55,13 +56,14 @@ namespace GpsNote.ViewModels
                 UpdateSelectedPin();
             }
         }
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.ContainsKey(nameof(Pin)))
+            if (parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
             {
-                var selectedPin = parameters.GetValue<Pin>(nameof(Pin));
+                var selectedPin = pin.ToPin();
 
                 NavigateCamera(selectedPin.Position);
             }
@@ -85,7 +87,13 @@ namespace GpsNote.ViewModels
             if (arg != null && arg.Pin != null)
             {
                 NavigateCamera(arg.Pin.Position);
-                _dialogService.ShowDialog(nameof(PinInfoDialogPage), arg.Pin.ToPinModel().ToDialogParams());
+
+                var navParams = new DialogParameters
+                {
+                    { Constants.Navigation.SELECTED_PIN, arg.Pin.ToPinModel() }
+                };
+
+                _dialogService.ShowDialog(nameof(PinInfoDialogPage), navParams);
             }
         }
 

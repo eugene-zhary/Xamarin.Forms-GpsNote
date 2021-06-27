@@ -30,37 +30,5 @@ namespace GpsNote.Extensions
                 IsVisible = user_pin.IsFavorite
             };
         }
-
-        public static INavigationParameters ToNavigationParameters(this Pin pin)
-        {
-            return new NavigationParameters
-            {
-                { nameof(Pin), pin }
-            };
-        }
-
-        public static IDialogParameters ToDialogParams(this Pin pin)
-        {
-            return new DialogParameters
-            {
-                { nameof(Pin), pin }
-            };
-        }
-
-        public static INavigationParameters ToNavigationParameters(this PinModel pin)
-        {
-            return new NavigationParameters
-            {
-                { nameof(PinModel), pin }
-            };
-        }
-
-        public static IDialogParameters ToDialogParams(this PinModel pin)
-        {
-            return new DialogParameters
-            {
-                { nameof(PinModel), pin }
-            };
-        }
     }
 }

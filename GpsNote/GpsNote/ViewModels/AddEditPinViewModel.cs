@@ -65,10 +65,8 @@ namespace GpsNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.ContainsKey(nameof(PinModel)))
+            if (parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
             {
-                var pin = parameters.GetValue<PinModel>(nameof(PinModel));
-
                 _currentPin = pin;
                 Label = pin.Label;
                 Details = pin.Address;

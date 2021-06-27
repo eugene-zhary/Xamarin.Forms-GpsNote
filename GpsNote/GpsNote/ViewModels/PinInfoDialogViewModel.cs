@@ -53,11 +53,11 @@ namespace GpsNote.ViewModels
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            if(parameters.ContainsKey(nameof(PinModel)))
+            if(parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
             {
                 IsBusy = true;
 
-                Pin = parameters.GetValue<PinModel>(nameof(PinModel));
+                Pin = pin;
                 Forecast = await _weatherService.GetForecast(Pin.Latitude, Pin.Longitude);
 
                 IsBusy = false;

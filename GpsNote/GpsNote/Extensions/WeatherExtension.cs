@@ -10,7 +10,7 @@ namespace GpsNote.Extensions
             return new WeatherModel
             {
                 Name = jsonModel.Name,
-                Icon = $"https://openweathermap.org/img/w/{jsonModel.Weathers.First().Icon}.png",
+                Icon = $"https://openweathermap.org/img/w/{jsonModel.Weathers.FirstOrDefault()?.Icon}.png",
                 Description = jsonModel.Weathers.FirstOrDefault()?.Description,
                 Temperature = string.Format("{0:F2}° C", KelvinToCelsius(jsonModel.Main.Temperature))
             };

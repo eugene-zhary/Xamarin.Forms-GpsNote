@@ -2,6 +2,11 @@
 {
     public static class Constants
     {
+        public static class Navigation
+        {
+            public const string SELECTED_PIN = nameof(SELECTED_PIN);
+        }
+
         public static class Database
         {
             public const string DOCUMENT_PATH = "GpsNote.db";
