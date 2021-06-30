@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GpsNote.ViewModels.AddEditPinViewModel">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAwACAAEFABAAAAIJAIAAQAAAAAAICAAAAAAAAAMAA=</HashCode>
+      <FileName>ViewModels\AddEditPinViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.ViewModels.BaseMapViewModel">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AADAAAAAYAQAABCgAAAQAAAIAAAAAAAACABAAAAgQAA=</HashCode>
+      <FileName>ViewModels\BaseMapViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.ViewModels.MapViewModel">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgggAABgAIAAAAAQAAAAAEAQAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\MapViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="GpsNote.ViewModels.NoteTabbedViewModel">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>ViewModels\NoteTabbedViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.ViewModels.PinsViewModel">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBAAUAEAAAgAAYoAIAAAAAAIAAAEUAAAKEAAEAMIAAA=</HashCode>
+      <FileName>ViewModels\PinsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GpsNote.ViewModels.SignInViewModel">
+    <Position X="2.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAACAAAAAAAAAAAAAggAAAAAQCAAAQQAAAAAE=</HashCode>
+      <FileName>ViewModels\SignInViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.ViewModels.SignUpViewModel">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAACAAAAAAAAAEAAQgACAAAAQCAAAAAAAAAAE=</HashCode>
+      <FileName>ViewModels\SignUpViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.ViewModels.ViewModelBase">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAUAAIAAAAAQAAABAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GpsNote.Models.PinModel" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAAEEAAAAAAAAAIAAgAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\PinModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Models.UserModel" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAAAAAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\UserModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Models.Weather">
+    <Position X="13.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\WeatherJson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Models.Main">
+    <Position X="15.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Models\WeatherJson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Models.WeatherJson">
+    <Position X="12" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Models\WeatherJson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Models.WeatherModel">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAEEAAA=</HashCode>
+      <FileName>Models\WeatherModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Controls.BindableMap">
+    <Position X="0.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgBgAAQAAAgAAAAAAEAEIAwAAAAAAAACAgAA=</HashCode>
+      <FileName>Controls\MyMap\BindableMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Controls.CustomCheckBox">
+    <Position X="2.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAABIAAAIAAAAAAAAAAAAAAAAAICAAA=</HashCode>
+      <FileName>Controls\CustomCheckBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Controls.CustomSearchBar">
+    <Position X="4" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABIAAA=</HashCode>
+      <FileName>Controls\CustomSearchBar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Converters.StringToDoubleConverter">
+    <Position X="14.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\StringToDoubleConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GpsNote.Extensions.NavigationServiceExtensions">
+    <Position X="12.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\NavigationServiceExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Extensions.PinExtensions">
+    <Position X="14.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Extensions\PinExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Extensions.WeatherExtension">
+    <Position X="12.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\WeatherExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Helpers.StringValidators">
+    <Position X="16.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAIAEAAAAAAgAAAAAAAIEAAAA=</HashCode>
+      <FileName>Helpers\StringValidators.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Helpers.UserValidator">
+    <Position X="18" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\UserValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Constants">
+    <Position X="10.25" Y="5.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="GpsNote.Constants.Navigation">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="GpsNote.Constants.Database">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="GpsNote.Constants.WeatherRest">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Services.Map.PinService" BaseTypeListCollapsed="true">
+    <Position X="25.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAABAgEAAgAAAAABAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Pins\PinService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Services.AuthorizationService" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAABAEAAAAAAAAAAAAAAACAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Services\Auth\AuthorizationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Services.SettingManager" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Settings\SettingManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Services.Permissions.PermissionService" BaseTypeListCollapsed="true">
+    <Position X="24" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAEAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Permissions\PermissionService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Services.Repository.Repository" BaseTypeListCollapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAEEACAAAAAgAAAAAAAAABAA=</HashCode>
+      <FileName>Services\Repository\Repository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Services.Weather.OpenWeatherMapWeatherService" BaseTypeListCollapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Weather\OpenWeatherMapWeatherService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GpsNote.Views.AddEditPinPage">
+    <Position X="8.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\AddEditPinPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.BaseContentPage">
+    <Position X="6.75" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\BaseContentPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.MapPage">
+    <Position X="6.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MapPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.NoteTabbedPage">
+    <Position X="10.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\NoteTabbedPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.PinInfoDialogPage">
+    <Position X="12.25" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\PinInfoDialogPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.PinsPage">
+    <Position X="8.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\PinsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.SignInPage">
+    <Position X="8.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SignInPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.Views.SignUpPage">
+    <Position X="10.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SignUpPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpsNote.App">
+    <Position X="6.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="GpsNote.Interfaces.IViewActionsHandler">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IViewActionsHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Interfaces.IEntityModel">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IEntityModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Services.Map.IPinService">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAgEAAAAAAAABAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Pins\IPinService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Services.IAuthorizationService">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Services\Auth\IAuthorizationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Services.ISettingsManager">
+    <Position X="29.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Settings\ISettingsManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Services.Permissions.IPermissionService">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Permissions\IPermissionService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Services.Repository.IRepository">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAEEACAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Repository\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GpsNote.Services.Weather.IWeatherService">
+    <Position X="27.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Weather\IWeatherService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
