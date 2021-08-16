@@ -25,19 +25,23 @@
 
     </local:BaseContentPage.Resources>
 
-    <Grid RowDefinitions="60, *">
+    <Grid RowDefinitions="auto, *"
+          BackgroundColor="#f4f4f4"
+          RowSpacing="0">
 
         <SearchBar Placeholder="{x:Static resources:Strings.Search}" 
                    VerticalOptions="Center" 
                    FontSize="18" 
+                   Margin="0, 2"
                    FontAttributes="Bold" 
                    TextColor="DimGray" 
+                   BackgroundColor="Transparent"
                    Text="{Binding SearchText}"/>
 
         <RefreshView Grid.Row="1" IsRefreshing="{Binding IsBusy}"
                      Command="{Binding UpdateCommand}">
 
-            <ListView 
+            <ListView BackgroundColor="Transparent"
                       ItemsSource="{Binding PinsCollection}" 
                       SelectedItem="{Binding SelectedPin}" 
                       ItemSelected="ListView_ItemSelected" 
@@ -65,8 +69,7 @@
 
                             </ViewCell.ContextActions>
 
-                            <Grid BackgroundColor="White" 
-                                  RowDefinitions="36, *, 30"
+                            <Grid RowDefinitions="36, *, 30"
                                   ColumnSpacing="0" 
                                   RowSpacing="0" 
                                   Padding="10,0">
@@ -83,12 +86,12 @@
                                        VerticalTextAlignment="Center"/>
 
                                 <Label Grid.Column="1" 
-                                       Text="{x:Static resources:Strings.Favorite}" 
+                                       Text="{x:Static resources:Strings.Favorite}"
                                        FontAttributes="Bold" 
+                                       VerticalTextAlignment="Center"
                                        HorizontalOptions="Center"/>
 
                                 <controls:CustomCheckBox Grid.Column="1" 
-                                                         VerticalOptions="Start" 
                                                          HorizontalOptions="End" 
                                                          Color="DimGray"
                                                          CheckedCommand="{Binding Path=BindingContext.CheckedCommand, Source={x:Reference this}}"

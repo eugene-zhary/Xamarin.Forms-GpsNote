@@ -50,13 +50,7 @@ namespace GpsNote.Services.Map
 
             try
             {
-                var pins = await _restService.GetAsync<IEnumerable<PinModel>>($"{Constants.GpsRest.BASE_URL}/pins/{_settingsManager.UserId}");
-
-                result = pins?.Where(pin => pin?.UserId == _settingsManager.UserId
-                    && pin.Label.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || pin.Address.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || pin.Latitude.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || pin.Longitude.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
+                result = await _restService.GetAsync<IEnumerable<PinModel>>($"{Constants.GpsRest.BASE_URL}/pins/{_settingsManager.UserId}/{searchQuery}");
 
                 IsCollectionUpdated = false;
             }

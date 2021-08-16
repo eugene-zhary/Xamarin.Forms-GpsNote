@@ -25,6 +25,10 @@ namespace GpsNote.ViewModels
             _dialogService = dialogService;
             _authService = authService;
 
+            _name = string.Empty;
+            _email = string.Empty;
+            _password = string.Empty;
+
             Title = Strings.SignUpTitle;
         }
 

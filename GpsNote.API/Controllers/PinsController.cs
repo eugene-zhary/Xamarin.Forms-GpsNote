@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace GpsNote.API.Controllers
 {
@@ -39,6 +40,25 @@ namespace GpsNote.API.Controllers
             try
             {
                 var result = await _repositoryService.GetAllAsync<PinModel>(x => x.UserId == userId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{userId}/{search}")]
+        public async Task<ActionResult<IEnumerable<PinModel>>> GetPinsAsync(int userId, string search)
+        {
+            try
+            {
+                var result = await _repositoryService.GetAllAsync<PinModel>(x => x.UserId == userId);
+
+                result = result?.Where(x =>
+                    x.Label.Contains(search, StringComparison.OrdinalIgnoreCase)
+                    || x.Address.Contains(search, StringComparison.OrdinalIgnoreCase));
 
                 return Ok(result);
             }

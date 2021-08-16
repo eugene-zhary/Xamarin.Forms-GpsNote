@@ -36,7 +36,7 @@ namespace GpsNote.Services
                     {
                         Name = name,
                         Email = email,
-                        Password = password
+                        Password = EncryptPass(password)
                     };
 
                     await _restService.PostAsync<UserModel>($"{Constants.GpsRest.BASE_URL}/users", user);
@@ -60,7 +60,7 @@ namespace GpsNote.Services
             {
                 var user = await _restService.GetAsync<UserModel>($"{Constants.GpsRest.BASE_URL}/users/{email}");
 
-                if (user != null && user.Password.Equals(password))
+                if (user != null && user.Password.Equals(EncryptPass(password)))
                 {
                     _settingManager.UserId = user.Id;
 
@@ -73,6 +73,19 @@ namespace GpsNote.Services
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private string EncryptPass(string password)
+        {
+            byte[] data = System.Text.Encoding.ASCII.GetBytes(password);
+            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            string hash = System.Text.Encoding.ASCII.GetString(data);
+
+            return hash;
         }
 
         #endregion

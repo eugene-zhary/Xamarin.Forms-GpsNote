@@ -190,11 +190,9 @@ namespace GpsNote.ViewModels
         {
             IEnumerable<PinModel> pins = null;
 
-            IsBusy = true;
-
             try
             {
-                pins = searchText == null || searchText.Equals(string.Empty)
+                pins = string.IsNullOrWhiteSpace(searchText)
                     ? await _pinService.GetPinsAsync()
                     : await _pinService.SearchPinsAsync(searchText);
             }
@@ -202,8 +200,6 @@ namespace GpsNote.ViewModels
             {
                 await _dialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
             }
-
-            IsBusy = false;
 
             PinsCollection = pins != null
                 ? new ObservableCollection<PinModel>(pins)

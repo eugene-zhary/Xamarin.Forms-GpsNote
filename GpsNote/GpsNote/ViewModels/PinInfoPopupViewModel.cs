@@ -18,13 +18,6 @@ namespace GpsNote.ViewModels
 
         #region -- Public properties --
 
-        private bool _isBusy;
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set => SetProperty(ref _isBusy, value, nameof(IsBusy));
-        }
-
         private PinModel _pin;
         public PinModel Pin
         {
