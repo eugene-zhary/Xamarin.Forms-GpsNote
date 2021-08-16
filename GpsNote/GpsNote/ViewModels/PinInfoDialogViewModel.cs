@@ -46,19 +46,16 @@ namespace GpsNote.ViewModels
 
         public bool CanCloseDialog() => true;
 
-        public void OnDialogClosed()
-        {
-
-        }
+        public void OnDialogClosed() { }
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            if(parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
+            if (parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
             {
                 IsBusy = true;
 
                 Pin = pin;
-                Forecast = await _weatherService.GetForecast(Pin.Latitude, Pin.Longitude);
+                Forecast = await _weatherService.GetForecastAsync(Pin.Latitude, Pin.Longitude);
 
                 IsBusy = false;
             }

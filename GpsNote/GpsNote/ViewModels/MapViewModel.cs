@@ -12,6 +12,8 @@ using System.ComponentModel;
 using GpsNote.Interfaces;
 using GpsNote.Views;
 using GpsNote.Models;
+using Xamarin.CommunityToolkit.ObjectModel;
+using System.Threading.Tasks;
 
 namespace GpsNote.ViewModels
 {
@@ -41,7 +43,8 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _selectedPin, value, nameof(SelectedPin));
         }
 
-        public ICommand PinClickedCommand => new Command<PinClickedEventArgs>(OnPinClicked);
+        private IAsyncCommand<PinClickedEventArgs> _pinClickedCommand;
+        public IAsyncCommand<PinClickedEventArgs> PinClickedCommand => _pinClickedCommand ??= new AsyncCommand<PinClickedEventArgs>(OnPinClickedAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -82,7 +85,7 @@ namespace GpsNote.ViewModels
 
         #region -- Private helpers --
 
-        private void OnPinClicked(PinClickedEventArgs arg)
+        private async Task OnPinClickedAsync(PinClickedEventArgs arg)
         {
             if (arg != null && arg.Pin != null)
             {
@@ -93,7 +96,7 @@ namespace GpsNote.ViewModels
                     { Constants.Navigation.SELECTED_PIN, arg.Pin.ToPinModel() }
                 };
 
-                _dialogService.ShowDialog(nameof(PinInfoDialogPage), navParams);
+                await _dialogService.ShowDialogAsync(nameof(PinInfoDialogPage), navParams);
             }
         }
 

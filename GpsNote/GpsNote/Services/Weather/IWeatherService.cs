@@ -5,6 +5,6 @@ namespace GpsNote.Services.Weather
 {
     public interface IWeatherService
     {
-        Task<WeatherModel> GetForecast(double latitude, double longitude);
+        Task<WeatherModel> GetForecastAsync(double latitude, double longitude);
     }
 }

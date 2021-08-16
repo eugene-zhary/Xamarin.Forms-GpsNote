@@ -4,19 +4,21 @@ using GpsNote.Services;
 using GpsNote.Views;
 using Prism.Navigation;
 using Prism.Services;
-using System.Windows.Input;
+using System;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
 {
-    public class SignUpViewModel : ViewModelBase
+    public class SignUpViewModel : BaseViewModel
     {
         private readonly IPageDialogService _dialogService;
         private readonly IAuthorizationService _authService;
 
         public SignUpViewModel(
-            INavigationService navigationService, 
-            IPageDialogService dialogService, 
+            INavigationService navigationService,
+            IPageDialogService dialogService,
             IAuthorizationService authService)
             : base(navigationService)
         {
@@ -49,26 +51,42 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _password, value, nameof(Password));
         }
 
-        public ICommand CreateCommand => new Command(OnCreate);
+        private IAsyncCommand _createCommand;
+        public IAsyncCommand CreateCommand => _createCommand ??= new AsyncCommand(OnCreateAsync);
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void OnCreate()
+        private async Task OnCreateAsync()
         {
-            if(!UserValidator.Validate(Email, Password, Name))
+            bool isValid = UserValidator.Validate(Email, Password, Name);
+
+            if (isValid)
             {
-                await _dialogService.DisplayAlertAsync(Strings.SignUpTitle, Strings.InvalidSignIn, Strings.Cancel);
-            }
-            else if(await _authService.TrySignUpAsync(Name, Email, Password))
-            {
-                await _dialogService.DisplayAlertAsync(Strings.SignUpTitle, Strings.SignUpSuccess, Strings.Cancel);
-                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
+                try
+                {
+                    bool isSucced = await _authService.TrySignUpAsync(Name, Email, Password);
+
+                    if (isSucced)
+                    {
+                        await _dialogService.DisplayAlertAsync(Title, Strings.SignUpSuccess, Strings.Cancel);
+
+                        await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
+                    }
+                    else
+                    {
+                        await _dialogService.DisplayAlertAsync(Title, Strings.SignUpError, Strings.Cancel);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _dialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
+                }
             }
             else
             {
-                await _dialogService.DisplayAlertAsync(Strings.SignUpTitle, Strings.SignUpError, Strings.Cancel);
+                await _dialogService.DisplayAlertAsync(Title, Strings.InvalidSignIn, Strings.Cancel);
             }
         }
 

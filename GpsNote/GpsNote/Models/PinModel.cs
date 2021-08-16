@@ -1,24 +1,28 @@
-﻿using GpsNote.Interfaces;
-using SQLite;
+﻿using Newtonsoft.Json;
 
 namespace GpsNote.Models
 {
-    [Table(Constants.Database.PINS_TABLE_NAME)]
-    public class PinModel : IEntityModel
+    public class PinModel
     {
-        [PrimaryKey, AutoIncrement]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("label")]
         public string Label { get; set; }
 
+        [JsonProperty("address")]
         public string Address { get; set; }
 
+        [JsonProperty("latitude")]
         public double Latitude { get; set; }
 
+        [JsonProperty("longitude")]
         public double Longitude { get; set; }
 
+        [JsonProperty("isFavorite")]
         public bool IsFavorite { get; set; }
 
+        [JsonProperty("userId")]
         public int UserId { get; set; }
     }
 }

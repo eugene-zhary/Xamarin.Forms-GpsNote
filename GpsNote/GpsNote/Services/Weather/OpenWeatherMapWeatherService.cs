@@ -1,7 +1,7 @@
 ﻿using GpsNote.Extensions;
 using GpsNote.Models;
 using GpsNote.Resources;
-using Newtonsoft.Json;
+using GpsNote.Services.Rest;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,52 +10,37 @@ namespace GpsNote.Services.Weather
 {
     public class OpenWeatherMapWeatherService : IWeatherService
     {
-        private readonly string _language;
+        private readonly IRestService _restService;
 
-        public OpenWeatherMapWeatherService()
+        public OpenWeatherMapWeatherService(IRestService restService)
         {
-            _language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            _restService = restService;
         }
 
         #region -- IWeatherService implementation --
 
-        public async Task<WeatherModel> GetForecast(double latitude, double longitude)
+        public async Task<WeatherModel> GetForecastAsync(double lat, double lon)
         {
-            WeatherModel forecast;
+            WeatherModel result;
 
             try
             {
-                string json = await GetJsonWithWeather(latitude, longitude);
+                string lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                string uri = $"{Constants.WeatherRest.BASE_URL}?lat={lat}&lon={lon}&lang={lang}&appid={Constants.WeatherRest.API_KEY}";
 
-                forecast = JsonConvert.DeserializeObject<WeatherJson>(json).ToWeatherModel();
+                var forecast = await _restService.GetAsync<WeatherJson>(uri);
+
+                result = forecast.ToWeatherModel();
             }
             catch (HttpRequestException)
             {
-                forecast = new WeatherModel
+                result = new WeatherModel
                 {
                     Name = Strings.NoInternet
                 };
             }
 
-            return forecast;
-        }
-
-        #endregion
-
-        #region -- Private helpers --
-
-        private async Task<string> GetJsonWithWeather(double latitude, double longitude)
-        {
-            string json = string.Empty;
-
-            using (var httpClient = new HttpClient())
-            {
-                string uri = $"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&lang={_language}&appid={Constants.WeatherRest.API_KEY}";
-
-                json = await httpClient.GetStringAsync(uri);
-            }
-
-            return json;
+            return result;
         }
 
         #endregion

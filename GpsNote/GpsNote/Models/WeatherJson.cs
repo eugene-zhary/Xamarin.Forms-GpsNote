@@ -5,31 +5,31 @@ namespace GpsNote.Models
 {
     public class Weather
     {
-        [JsonProperty(Constants.WeatherRest.DESCRIPTION_PROPERTY)]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
 
-        [JsonProperty(Constants.WeatherRest.ICON_PROPERTY)]
+        [JsonProperty("icon")]
         public string Icon { get; set; }
     }
 
     public class Main
     {
-        [JsonProperty(Constants.WeatherRest.TEMP_PROPERTY)]
+        [JsonProperty("temp")]
         public double Temperature { get; set; }
     }
 
     public class WeatherJson
     {
-        [JsonProperty(Constants.WeatherRest.WEATHER_PROPERTY)]
+        [JsonProperty("weather")]
         public IList<Weather> Weathers { get; set; }
 
 
-        [JsonProperty(Constants.WeatherRest.MAIN_PROPERTY)]
+        [JsonProperty("main")]
         public Main Main { get; set; }
 
 
-        [JsonProperty(Constants.WeatherRest.NAME_PROPERTY)]
+        [JsonProperty("name")]
         public string Name { get; set; }
     }
 }

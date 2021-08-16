@@ -1,7 +1,7 @@
 using GpsNote.Services;
 using GpsNote.Services.Map;
 using GpsNote.Services.Permissions;
-using GpsNote.Services.Repository;
+using GpsNote.Services.Rest;
 using GpsNote.Services.Weather;
 using GpsNote.ViewModels;
 using GpsNote.Views;
@@ -35,7 +35,7 @@ namespace GpsNote
         {
             // Services
             containerRegistry.RegisterInstance<IPermissionService>(Container.Resolve<PermissionService>());
-            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+            containerRegistry.RegisterInstance<IRestService>(Container.Resolve<RestService>());
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingManager>());
             containerRegistry.RegisterInstance<IWeatherService>(Container.Resolve<OpenWeatherMapWeatherService>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());

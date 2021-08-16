@@ -1,28 +1,19 @@
-﻿using GpsNote.Interfaces;
-using SQLite;
+﻿using Newtonsoft.Json;
 
 namespace GpsNote.Models
 {
-    [Table(Constants.Database.USERS_TABLE_NAME)]
-    public class UserModel : IEntityModel
+    public class UserModel
     {
-        public UserModel() { }
-
-        public UserModel(string name, string email, string password)
-        {
-            Name = name;
-            Email = email;
-            Password = password;
-        }
-
-        [PrimaryKey, AutoIncrement]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Unique]
+        [JsonProperty("email")]
         public string Email { get; set; }
 
+        [JsonProperty("password")]
         public string Password { get; set; }
     }
 }

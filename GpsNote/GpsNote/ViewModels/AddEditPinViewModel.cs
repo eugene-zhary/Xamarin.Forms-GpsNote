@@ -4,10 +4,10 @@ using GpsNote.Services.Map;
 using GpsNote.Services.Permissions;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
@@ -17,10 +17,10 @@ namespace GpsNote.ViewModels
         private PinModel _currentPin;
 
         public AddEditPinViewModel(
-            INavigationService navigationService, 
-            IPinService pinService, 
+            INavigationService navigationService,
+            IPinService pinService,
             IPermissionService permissionService,
-            IPageDialogService pageDialogService) 
+            IPageDialogService pageDialogService)
             : base(navigationService, pinService, permissionService, pageDialogService)
         {
             _label = string.Empty;
@@ -54,8 +54,11 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _longitude, value, nameof(Longitude));
         }
 
-        public ICommand MapClickedCommand => new Command<MapClickedEventArgs>(OnMapClicked);
-        public ICommand CompleteCommand => new Command(OnComplete);
+        private IAsyncCommand<MapClickedEventArgs> _mapClickedCommand;
+        public IAsyncCommand<MapClickedEventArgs> MapClickedCommand => _mapClickedCommand ??= new AsyncCommand<MapClickedEventArgs>(OnMapClickedAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand _completeCommand;
+        public IAsyncCommand CompleteCommand => _completeCommand ??= new AsyncCommand(OnCompleteAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -67,21 +70,11 @@ namespace GpsNote.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
             {
-                _currentPin = pin;
-                Label = pin.Label;
-                Details = pin.Address;
-                Latitude = pin.Latitude;
-                Longitude = pin.Longitude;
-
-                MapCamera = new CameraPosition(new Position(Latitude, Longitude), 15);
-
-                Title = Strings.EditPinTitle;
+                SetEditPin(pin);
             }
             else
             {
-                _currentPin = new PinModel();
-
-                Title = Strings.AddPinTitle;
+                SetAddPin();
             }
         }
 
@@ -89,8 +82,7 @@ namespace GpsNote.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(Latitude)
-                || args.PropertyName == nameof(Longitude))
+            if (args.PropertyName == nameof(Latitude) || args.PropertyName == nameof(Longitude))
             {
                 UpdatePin();
             }
@@ -100,16 +92,18 @@ namespace GpsNote.ViewModels
 
         #region -- Private helpers --
 
-        private void OnMapClicked(MapClickedEventArgs ev)
+        private Task OnMapClickedAsync(MapClickedEventArgs ev)
         {
             Latitude = ev.Point.Latitude;
             Longitude = ev.Point.Longitude;
+
+            return Task.CompletedTask;
         }
 
-        private async void OnComplete(object obj)
+        private async Task OnCompleteAsync()
         {
             await SavePinChanges();
-            await _navigationService.GoBackAsync();
+            await NavigationService.GoBackAsync();
         }
 
         private void UpdatePin()
@@ -130,7 +124,34 @@ namespace GpsNote.ViewModels
             _currentPin.Longitude = Longitude;
             _currentPin.Latitude = Latitude;
 
-            await PinService.AddOrUpdatePinAsync(_currentPin);
+            try
+            {
+                await PinService.AddOrUpdatePinAsync(_currentPin);
+            }
+            catch (Exception ex)
+            {
+                await PageDialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
+            }
+        }
+
+        private void SetAddPin()
+        {
+            _currentPin = new PinModel();
+
+            Title = Strings.AddPinTitle;
+        }
+
+        private void SetEditPin(PinModel pin)
+        {
+            _currentPin = pin;
+            Label = pin.Label;
+            Details = pin.Address;
+            Latitude = pin.Latitude;
+            Longitude = pin.Longitude;
+
+            MapCamera = new CameraPosition(new Position(Latitude, Longitude), 15);
+
+            Title = Strings.EditPinTitle;
         }
 
         #endregion

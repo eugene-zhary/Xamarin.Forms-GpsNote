@@ -1,8 +1,6 @@
 ﻿using GpsNote.Resources;
 using GpsNote.Services.Map;
 using Prism.Navigation;
-using System.Windows.Input;
-using Xamarin.Forms;
 using GpsNote.Extensions;
 using System.Collections.ObjectModel;
 using GpsNote.Models;
@@ -11,18 +9,24 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using GpsNote.Interfaces;
 using GpsNote.Views;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Prism.Services;
+using System;
 
 namespace GpsNote.ViewModels
 {
-    public class PinsViewModel : ViewModelBase, IViewActionsHandler
+    public class PinsViewModel : BaseViewModel, IViewActionsHandler
     {
+        private readonly IPageDialogService _dialogService;
         private readonly IPinService _pinService;
 
         public PinsViewModel(
+            IPageDialogService dialogService,
             INavigationService navigationService,
             IPinService pinService)
             : base(navigationService)
         {
+            _dialogService = dialogService;
             _pinService = pinService;
 
             Title = Strings.PinsTitle;
@@ -52,11 +56,23 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _selectedPin, value, nameof(SelectedPin));
         }
 
-        public ICommand AddPinCommand => new Command(OnAddPin);
-        public ICommand EditPinCommand => new Command<PinModel>(OnEditPin);
-        public ICommand NavigateToPinCommand => new Command<PinModel>(OnNavigateToPin);
-        public ICommand RemovePinCommand => new Command<PinModel>(OnRemovePin);
-        public ICommand CheckedCommand => new Command<PinModel>(OnCheckedCommand);
+        private IAsyncCommand _addPinCommand;
+        public IAsyncCommand AddPinCommand => _addPinCommand ??= new AsyncCommand(OnAddPinAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand<PinModel> _editPinCommand;
+        public IAsyncCommand<PinModel> EditPinCommand => _editPinCommand ??= new AsyncCommand<PinModel>(OnEditPinAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand<PinModel> _navigateToPinCommand;
+        public IAsyncCommand<PinModel> NavigateToPinCommand => _navigateToPinCommand ??= new AsyncCommand<PinModel>(OnNavigateToPinAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand<PinModel> _removePinCommand;
+        public IAsyncCommand<PinModel> RemovePinCommand => _removePinCommand ??= new AsyncCommand<PinModel>(OnRemovePinAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand<PinModel> _checkCommand;
+        public IAsyncCommand<PinModel> CheckedCommand => _checkCommand ??= new AsyncCommand<PinModel>(OnCheckedAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand _updateCommand;
+        public IAsyncCommand UpdateCommand => _updateCommand ??= new AsyncCommand(OnUpdateAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -75,7 +91,7 @@ namespace GpsNote.ViewModels
 
             if (args.PropertyName == nameof(SelectedPin))
             {
-                NavigateToPin(SelectedPin);
+                await NavigateToPin(SelectedPin);
             }
             else if (args.PropertyName == nameof(SearchText))
             {
@@ -99,41 +115,65 @@ namespace GpsNote.ViewModels
 
         #region -- Private helpers --
 
-        private async void OnAddPin()
+        private async Task OnAddPinAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}");
+            await NavigationService.NavigateAsync($"{nameof(AddEditPinPage)}");
         }
 
-        private async void OnEditPin(PinModel pin)
+        private async Task OnEditPinAsync(PinModel pin)
         {
             var navParams = new NavigationParameters
             {
                 { Constants.Navigation.SELECTED_PIN, pin },
             };
 
-            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", navParams);
+            await NavigationService.NavigateAsync($"{nameof(AddEditPinPage)}", navParams);
         }
 
-        private void OnNavigateToPin(PinModel pin)
+        private async Task OnNavigateToPinAsync(PinModel pin)
         {
-            NavigateToPin(pin);
+            await NavigateToPin(pin);
         }
 
-        private async void OnRemovePin(PinModel pin)
+        private async Task OnRemovePinAsync(PinModel pin)
         {
-            PinsCollection.Remove(pin);
-            await _pinService.RemovePinAsync(pin);
-        }
-
-        private async void OnCheckedCommand(PinModel pin)
-        {
-            if (pin != null)
+            try
             {
-                await _pinService.AddOrUpdatePinAsync(pin);
+                await _pinService.RemovePinAsync(pin);
+
+                PinsCollection.Remove(pin);
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
             }
         }
 
-        private async void NavigateToPin(PinModel pin)
+        private async Task OnCheckedAsync(PinModel pin)
+        {
+            try
+            {
+                if (pin != null)
+                {
+                    await _pinService.AddOrUpdatePinAsync(pin);
+                }
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
+            }
+        }
+
+        private async Task OnUpdateAsync()
+        {
+            IsBusy = true;
+
+            await UpdatePinsAsync();
+
+            IsBusy = false;
+        }
+
+        private async Task NavigateToPin(PinModel pin)
         {
             if (pin != null)
             {
@@ -142,24 +182,32 @@ namespace GpsNote.ViewModels
                     { Constants.Navigation.SELECTED_PIN, pin },
                 };
 
-                await _navigationService.SelectTabAsync($"{nameof(MapPage)}", navParams);
+                await NavigationService.SelectTabAsync($"{nameof(MapPage)}", navParams);
             }
         }
 
         private async Task UpdatePinsAsync(string searchText = null)
         {
-            IEnumerable<PinModel> pins;
+            IEnumerable<PinModel> pins = null;
 
-            if (searchText == null || searchText.Equals(string.Empty))
+            IsBusy = true;
+
+            try
             {
-                pins = await _pinService.GetPinsAsync();
+                pins = searchText == null || searchText.Equals(string.Empty)
+                    ? await _pinService.GetPinsAsync()
+                    : await _pinService.SearchPinsAsync(searchText);
             }
-            else
+            catch (Exception ex)
             {
-                pins = await _pinService.SearchPinsAsync(searchText);
+                await _dialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
             }
 
-            PinsCollection = new ObservableCollection<PinModel>(pins);
+            IsBusy = false;
+
+            PinsCollection = pins != null
+                ? new ObservableCollection<PinModel>(pins)
+                : new ObservableCollection<PinModel>();
         }
 
         #endregion

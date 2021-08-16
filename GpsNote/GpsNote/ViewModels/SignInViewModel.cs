@@ -4,12 +4,14 @@ using GpsNote.Services;
 using GpsNote.Views;
 using Prism.Navigation;
 using Prism.Services;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
 {
-    public class SignInViewModel : ViewModelBase
+    public class SignInViewModel : BaseViewModel
     {
         private readonly IPageDialogService _dialogService;
         private readonly IAuthorizationService _authService;
@@ -17,7 +19,7 @@ namespace GpsNote.ViewModels
         public SignInViewModel(
             INavigationService navigationService,
             IPageDialogService dialogService,
-            IAuthorizationService authService) 
+            IAuthorizationService authService)
             : base(navigationService)
         {
             _dialogService = dialogService;
@@ -45,30 +47,49 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _password, value, nameof(Password));
         }
 
-        public ICommand SignUpCommand => new Command(OnSignUp);
-        public ICommand SignInCommand => new Command(OnSignIn);
+        private IAsyncCommand _signUpCommand;
+        public IAsyncCommand SignUpCommand => _signUpCommand ??= new AsyncCommand(OnSignUpAsync, allowsMultipleExecutions: false);
+
+        private IAsyncCommand _signInCommand;
+        public IAsyncCommand SignInCommand => _signInCommand ??= new AsyncCommand(OnSignInAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void OnSignIn()
+        private async Task OnSignInAsync()
         {
             bool isValid = UserValidator.Validate(Email, Password);
 
-            if(isValid && await _authService.TrySignInAsync(Email, Password))
+            if (isValid)
             {
-                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedPage)}");
+                try
+                {
+                    bool isSucced = await _authService.TrySignInAsync(Email, Password);
+
+                    if (isSucced)
+                    {
+                        await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(NoteTabbedPage)}");
+                    }
+                    else
+                    {
+                        await _dialogService.DisplayAlertAsync(Title, Strings.InvalidSignIn, Strings.Cancel);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _dialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
+                }
             }
             else
             {
-                await _dialogService.DisplayAlertAsync(Strings.SignInTitle, Strings.InvalidSignIn, Strings.Cancel);
+                await _dialogService.DisplayAlertAsync(Title, Strings.InvalidSignIn, Strings.Cancel);
             }
         }
 
-        private async void OnSignUp()
+        private async Task OnSignUpAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(SignUpPage)}");
+            await NavigationService.NavigateAsync($"{nameof(SignUpPage)}");
         }
 
         #endregion

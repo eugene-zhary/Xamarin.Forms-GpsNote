@@ -12,17 +12,17 @@
                        x:Name="this">
 
     <local:BaseContentPage.Resources>
-        
+
         <Style TargetType="Label" x:Key="LocationLabel">
-            
+
             <Setter Property="VerticalTextAlignment" Value="Center"/>
             <Setter Property="HorizontalTextAlignment" Value="Center"/>
             <Setter Property="TextColor" Value="Black"/>
             <Setter Property="BackgroundColor" Value="LightGray"/>
             <Setter Property="FontSize" Value="Micro"/>
-            
+
         </Style>
-        
+
     </local:BaseContentPage.Resources>
 
     <Grid RowDefinitions="60, *">
@@ -34,82 +34,88 @@
                    TextColor="DimGray" 
                    Text="{Binding SearchText}"/>
 
-        <ListView Grid.Row="1" 
-                  ItemsSource="{Binding PinsCollection}" 
-                  SelectedItem="{Binding SelectedPin}" 
-                  ItemSelected="ListView_ItemSelected" 
-                  HasUnevenRows="True">
-            
-            <ListView.ItemTemplate>
-                
-                <DataTemplate>
-                    
-                    <ViewCell>
-                        
-                        <ViewCell.ContextActions>
-                            
-                            <ToolbarItem Text="{x:Static resources:Strings.Edit}" 
-                                         Command="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference this}}"
-                                         CommandParameter="{x:Binding .}"/>
-                            
-                            <ToolbarItem Text="{x:Static resources:Strings.Remove}" 
-                                         Command="{Binding Path=BindingContext.RemovePinCommand, Source={x:Reference this}}"
-                                         CommandParameter="{x:Binding .}"/>
-                            
-                            <ToolbarItem Text="{x:Static resources:Strings.Navigate}" 
-                                         Command="{Binding Path=BindingContext.NavigateToPinCommand, Source={x:Reference this}}"
-                                         CommandParameter="{x:Binding .}"/>
-                            
-                        </ViewCell.ContextActions>
+        <RefreshView Grid.Row="1" IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding UpdateCommand}">
 
-                        <Grid BackgroundColor="White" 
-                              RowDefinitions="36, *, 30"
-                              ColumnSpacing="0" 
-                              RowSpacing="0" 
-                              Padding="10,0">
+            <ListView 
+                      ItemsSource="{Binding PinsCollection}" 
+                      SelectedItem="{Binding SelectedPin}" 
+                      ItemSelected="ListView_ItemSelected" 
+                      HasUnevenRows="True">
 
-                            <Label Text="{Binding Label}" 
-                                   FontAttributes="Bold" 
-                                   FontSize="16" 
-                                   VerticalTextAlignment="Center" 
-                                   LineBreakMode="TailTruncation"/>
-                            
-                            <Label Grid.Row="1" 
-                                   Text="{Binding Address}" 
-                                   FontSize="12" 
-                                   VerticalTextAlignment="Center"/>
+                <ListView.ItemTemplate>
 
-                            <Label Grid.Column="1" 
-                                   Text="{x:Static resources:Strings.Favorite}" 
-                                   FontAttributes="Bold" 
-                                   HorizontalOptions="Center"/>
+                    <DataTemplate>
 
-                            <controls:CustomCheckBox Grid.Column="1" 
-                                                     VerticalOptions="Start" 
-                                                     HorizontalOptions="End" 
-                                                     Color="DimGray"
-                                                     CheckedCommand="{Binding Path=BindingContext.CheckedCommand, Source={x:Reference this}}"
-                                                     CheckedCommandParameter="{Binding .}" 
-                                                     IsChecked="{Binding IsFavorite}"/>
+                        <ViewCell>
 
-                            <Label Grid.Row="2" 
-                                   Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}" 
-                                   Style="{StaticResource LocationLabel}"/>
-                            
-                            <Label Grid.Row="2"
-                                   Grid.Column="1"
-                                   Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}"
-                                   Style="{StaticResource LocationLabel}"/>
-                            
-                        </Grid>
-                        
-                    </ViewCell>
-                    
-                </DataTemplate>
-                
-            </ListView.ItemTemplate>
+                            <ViewCell.ContextActions>
 
-        </ListView>
+                                <ToolbarItem Text="{x:Static resources:Strings.Edit}" 
+                                             Command="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference this}}"
+                                             CommandParameter="{x:Binding .}"/>
+
+                                <ToolbarItem Text="{x:Static resources:Strings.Remove}" 
+                                             Command="{Binding Path=BindingContext.RemovePinCommand, Source={x:Reference this}}"
+                                             CommandParameter="{x:Binding .}"/>
+
+                                <ToolbarItem Text="{x:Static resources:Strings.Navigate}" 
+                                             Command="{Binding Path=BindingContext.NavigateToPinCommand, Source={x:Reference this}}"
+                                             CommandParameter="{x:Binding .}"/>
+
+                            </ViewCell.ContextActions>
+
+                            <Grid BackgroundColor="White" 
+                                  RowDefinitions="36, *, 30"
+                                  ColumnSpacing="0" 
+                                  RowSpacing="0" 
+                                  Padding="10,0">
+
+                                <Label Text="{Binding Label}" 
+                                       FontAttributes="Bold" 
+                                       FontSize="16" 
+                                       VerticalTextAlignment="Center" 
+                                       LineBreakMode="TailTruncation"/>
+
+                                <Label Grid.Row="1" 
+                                       Text="{Binding Address}" 
+                                       FontSize="12" 
+                                       VerticalTextAlignment="Center"/>
+
+                                <Label Grid.Column="1" 
+                                       Text="{x:Static resources:Strings.Favorite}" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center"/>
+
+                                <controls:CustomCheckBox Grid.Column="1" 
+                                                         VerticalOptions="Start" 
+                                                         HorizontalOptions="End" 
+                                                         Color="DimGray"
+                                                         CheckedCommand="{Binding Path=BindingContext.CheckedCommand, Source={x:Reference this}}"
+                                                         CheckedCommandParameter="{Binding .}" 
+                                                         IsChecked="{Binding IsFavorite}"/>
+
+                                <Label Grid.Row="2" 
+                                       Text="{Binding Latitude, StringFormat='Latitude: {0:F6}'}" 
+                                       Style="{StaticResource LocationLabel}"/>
+
+                                <Label Grid.Row="2"
+                                       Grid.Column="1"
+                                       Text="{Binding Longitude, StringFormat='Longitude: {0:F6}'}"
+                                       Style="{StaticResource LocationLabel}"/>
+
+                            </Grid>
+
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+
+        </RefreshView>
 
         <Button Grid.Row="1" 
                 Command="{Binding AddPinCommand}"
@@ -121,7 +127,7 @@
                 HeightRequest="70" 
                 VerticalOptions="End" 
                 HorizontalOptions="End"/>
-        
+
     </Grid>
-    
+
 </local:BaseContentPage>

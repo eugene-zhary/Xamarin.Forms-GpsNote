@@ -1,5 +1,6 @@
 ﻿using GpsNote.Models;
-using GpsNote.Services.Repository;
+using GpsNote.Services.Rest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,13 +9,13 @@ namespace GpsNote.Services.Map
 {
     public class PinService : IPinService
     {
-        private readonly ISettingsManager _settings;
-        private readonly IRepository _repository;
+        private readonly ISettingsManager _settingsManager;
+        private readonly IRestService _restService;
 
-        public PinService(ISettingsManager settingManager, IRepository repository)
+        public PinService(ISettingsManager settingsManager, IRestService restService)
         {
-            _settings = settingManager;
-            _repository = repository;
+            _settingsManager = settingsManager;
+            _restService = restService;
         }
 
         #region -- Public properties --
@@ -25,50 +26,82 @@ namespace GpsNote.Services.Map
 
         #region -- IPinManager implementation --
 
-        public Task<IEnumerable<PinModel>> GetPinsAsync()
+        public async Task<IEnumerable<PinModel>> GetPinsAsync()
         {
-            IsCollectionUpdated = false;
+            IEnumerable<PinModel> result;
 
-            return _repository.GetRowsAsync<PinModel>(pin => pin.UserId == _settings.UserId);
-        }
+            try
+            {
+                result = await _restService.GetAsync<IEnumerable<PinModel>>($"{Constants.GpsRest.BASE_URL}/pins/{_settingsManager.UserId}");
 
-        public async Task<IEnumerable<PinModel>> SearchPinsAsync(string searchQuery)
-        {
-            IsCollectionUpdated = false;
-
-            searchQuery = searchQuery.ToLower();
-
-            var pins = await _repository.GetRowsAsync<PinModel>(pin => pin.UserId == _settings.UserId);
-
-            var result = pins?.Where(pin => pin?.UserId == _settings.UserId
-                && pin.Label.ToLower().Contains(searchQuery)
-                || pin.Address.ToLower().Contains(searchQuery)
-                || pin.Latitude.ToString().Contains(searchQuery)
-                || pin.Longitude.ToString().Contains(searchQuery));
+                IsCollectionUpdated = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return result;
         }
 
-        public Task RemovePinAsync(PinModel pin)
+        public async Task<IEnumerable<PinModel>> SearchPinsAsync(string searchQuery)
         {
-            IsCollectionUpdated = true;
+            IEnumerable<PinModel> result;
 
-            return _repository.RemoveAsync(pin);
+            try
+            {
+                var pins = await _restService.GetAsync<IEnumerable<PinModel>>($"{Constants.GpsRest.BASE_URL}/pins/{_settingsManager.UserId}");
+
+                result = pins?.Where(pin => pin?.UserId == _settingsManager.UserId
+                    && pin.Label.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || pin.Address.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || pin.Latitude.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || pin.Longitude.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
+
+                IsCollectionUpdated = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
+
+        public async Task RemovePinAsync(PinModel pin)
+        {
+            try
+            {
+                await _restService.DeleteAsync<PinModel>($"{Constants.GpsRest.BASE_URL}/pins", pin);
+
+                IsCollectionUpdated = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task AddOrUpdatePinAsync(PinModel pin)
         {
-            IsCollectionUpdated = true;
-
-            if (pin.Id == 0)
+            try
             {
-                pin.UserId = _settings.UserId;
+                if (pin.Id == 0)
+                {
+                    pin.UserId = _settingsManager.UserId;
 
-                await _repository.AddAsync(pin);
+                    await _restService.PostAsync<PinModel>($"{Constants.GpsRest.BASE_URL}/pins", pin);
+                }
+                else
+                {
+                    await _restService.PutAsync<PinModel>($"{Constants.GpsRest.BASE_URL}/pins", pin);
+                }
+
+                IsCollectionUpdated = true;
             }
-            else
+            catch (Exception ex)
             {
-                await _repository.UpdateAsync(pin);
+                throw ex;
             }
         }
 

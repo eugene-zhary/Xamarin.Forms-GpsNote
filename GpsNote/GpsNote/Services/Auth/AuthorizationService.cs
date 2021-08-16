@@ -1,19 +1,20 @@
 ﻿using GpsNote.Models;
-using GpsNote.Services.Repository;
+using GpsNote.Services.Rest;
+using System;
 using System.Threading.Tasks;
 
 namespace GpsNote.Services
 {
     public class AuthorizationService : IAuthorizationService
     {
-        private readonly IRepository _repository;
+        private readonly IRestService _restService;
         private readonly ISettingsManager _settingManager;
 
         public AuthorizationService(
-            IRepository repository, 
+            IRestService restService,
             ISettingsManager settingManager)
         {
-            _repository = repository;
+            _restService = restService;
             _settingManager = settingManager;
         }
 
@@ -23,36 +24,55 @@ namespace GpsNote.Services
 
         public async Task<bool> TrySignUpAsync(string name, string email, string password)
         {
-            bool canSignUp = true;
-            UserModel user = await _repository.FindAsync<UserModel>(u => u.Email.Equals(email));
+            bool result = false;
 
-            if(user != null)
+            try
             {
-                canSignUp = false;
+                var user = await _restService.GetAsync<UserModel>($"{Constants.GpsRest.BASE_URL}/users/{email}");
+
+                if (user == null)
+                {
+                    user = new UserModel
+                    {
+                        Name = name,
+                        Email = email,
+                        Password = password
+                    };
+
+                    await _restService.PostAsync<UserModel>($"{Constants.GpsRest.BASE_URL}/users", user);
+
+                    result = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await _repository.AddAsync(new UserModel(name, email, password));
+                throw ex;
             }
 
-            return canSignUp;
+            return result;
         }
 
         public async Task<bool> TrySignInAsync(string email, string password)
         {
-            bool canSignIn = true;
-            UserModel user = await _repository.FindAsync<UserModel>(u => u.Email.Equals(email));
+            bool result = false;
 
-            if(user != null && user.Password.Equals(password))
+            try
             {
-                _settingManager.UserId = user.Id;
+                var user = await _restService.GetAsync<UserModel>($"{Constants.GpsRest.BASE_URL}/users/{email}");
+
+                if (user != null && user.Password.Equals(password))
+                {
+                    _settingManager.UserId = user.Id;
+
+                    result = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                canSignIn = false;
+                throw ex;
             }
 
-            return canSignIn;
+            return result;
         }
 
         #endregion

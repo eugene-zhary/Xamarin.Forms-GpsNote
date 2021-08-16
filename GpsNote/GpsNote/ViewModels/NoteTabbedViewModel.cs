@@ -1,13 +1,14 @@
 ﻿using GpsNote.Resources;
 using GpsNote.Views;
 using Prism.Navigation;
-using System.Windows.Input;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GpsNote.ViewModels
 {
-    public class NoteTabbedViewModel : ViewModelBase
+    public class NoteTabbedViewModel : BaseViewModel
     {
         public NoteTabbedViewModel(INavigationService navigationService) : base(navigationService)
         {
@@ -16,17 +17,18 @@ namespace GpsNote.ViewModels
 
         #region -- Public properties --
 
-        public ICommand LogoutCommand => new Command(OnLogout);
+        private IAsyncCommand _logoutCommand;
+        public IAsyncCommand LogoutCommand => _logoutCommand ??= new AsyncCommand(OnLogoutAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void OnLogout(object obj)
+        private async Task OnLogoutAsync()
         {
             Preferences.Clear();
 
-            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
+            await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
 
         #endregion

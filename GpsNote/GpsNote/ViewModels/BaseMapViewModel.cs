@@ -4,16 +4,16 @@ using GpsNote.Services.Map;
 using GpsNote.Services.Permissions;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GpsNote.ViewModels
 {
-    public abstract class BaseMapViewModel : ViewModelBase
+    public abstract class BaseMapViewModel : BaseViewModel
     {
         public BaseMapViewModel(
             INavigationService navigationService,
@@ -57,7 +57,8 @@ namespace GpsNote.ViewModels
             set => SetProperty(ref _mapCamera, value, nameof(MapCamera));
         }
 
-        public ICommand MyLocationCommand => new Command(OnMyLocation);
+        private IAsyncCommand _myLocationCommand;
+        public IAsyncCommand MyLocationCommand => _myLocationCommand ??= new AsyncCommand(OnMyLocationAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -65,13 +66,20 @@ namespace GpsNote.ViewModels
 
         protected async Task UpdatePinsCollectionAsync()
         {
-            var pinModels = await PinService.GetPinsAsync();
-            
-            PinsCollection.Clear();
-
-            foreach (var pin in pinModels)
+            try
             {
-                PinsCollection.Add(pin.ToPin());
+                var pinModels = await PinService.GetPinsAsync();
+
+                PinsCollection.Clear();
+
+                foreach (var pin in pinModels)
+                {
+                    PinsCollection.Add(pin.ToPin());
+                }
+            }
+            catch (Exception ex)
+            {
+                await PageDialogService.DisplayAlertAsync(Title, ex.Message, Strings.Cancel);
             }
         }
 
@@ -87,7 +95,7 @@ namespace GpsNote.ViewModels
 
         #region -- Private helpers --
 
-        private async void OnMyLocation()
+        private async Task OnMyLocationAsync()
         {
             bool isGranted = await PermissionService.RequestLocationPermissionAsync();
 
