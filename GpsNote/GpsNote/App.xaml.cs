@@ -7,6 +7,7 @@ using GpsNote.ViewModels;
 using GpsNote.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Xamarin.Forms;
 
 namespace GpsNote
@@ -33,6 +34,9 @@ namespace GpsNote
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Plugins
+            containerRegistry.RegisterPopupNavigationService();
+
             // Services
             containerRegistry.RegisterInstance<IPermissionService>(Container.Resolve<PermissionService>());
             containerRegistry.RegisterInstance<IRestService>(Container.Resolve<RestService>());
@@ -49,7 +53,7 @@ namespace GpsNote
             containerRegistry.RegisterForNavigation<MapPage, MapViewModel>();
             containerRegistry.RegisterForNavigation<PinsPage, PinsViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinViewModel>();
-            containerRegistry.RegisterDialog<PinInfoDialogPage, PinInfoDialogViewModel>();
+            containerRegistry.RegisterForNavigation<PinInfoPopupPage, PinInfoPopupViewModel>();
         }
     }
 }

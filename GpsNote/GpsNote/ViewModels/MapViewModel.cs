@@ -91,12 +91,12 @@ namespace GpsNote.ViewModels
             {
                 NavigateCamera(arg.Pin.Position);
 
-                var navParams = new DialogParameters
+                var navParams = new NavigationParameters
                 {
                     { Constants.Navigation.SELECTED_PIN, arg.Pin.ToPinModel() }
                 };
 
-                await _dialogService.ShowDialogAsync(nameof(PinInfoDialogPage), navParams);
+                await NavigationService.NavigateAsync(nameof(PinInfoPopupPage), navParams);
             }
         }
 

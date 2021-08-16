@@ -5,6 +5,7 @@ namespace GpsNote.Views
 {
     public class BaseContentPage : ContentPage
     {
+
         #region -- Protected implementation --
 
         protected override void OnAppearing()

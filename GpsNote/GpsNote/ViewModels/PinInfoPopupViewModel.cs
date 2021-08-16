@@ -1,16 +1,17 @@
 ﻿using GpsNote.Models;
 using GpsNote.Services.Weather;
-using Prism.Mvvm;
-using Prism.Services.Dialogs;
-using System;
+using Prism.Navigation;
 
 namespace GpsNote.ViewModels
 {
-    public class PinInfoDialogViewModel : BindableBase, IDialogAware
+    public class PinInfoPopupViewModel : BaseViewModel
     {
         private readonly IWeatherService _weatherService;
 
-        public PinInfoDialogViewModel(IWeatherService weatherService)
+        public PinInfoPopupViewModel(
+            INavigationService navigationService,
+            IWeatherService weatherService)
+            : base(navigationService)
         {
             _weatherService = weatherService;
         }
@@ -40,15 +41,9 @@ namespace GpsNote.ViewModels
 
         #endregion
 
-        #region -- IDialogAware implementation --
+        #region -- Overrides --
 
-        public event Action<IDialogParameters> RequestClose;
-
-        public bool CanCloseDialog() => true;
-
-        public void OnDialogClosed() { }
-
-        public async void OnDialogOpened(IDialogParameters parameters)
+        public override async void Initialize(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(Constants.Navigation.SELECTED_PIN, out PinModel pin))
             {

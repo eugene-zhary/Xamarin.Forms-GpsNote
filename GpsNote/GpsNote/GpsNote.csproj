@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
+    <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
@@ -32,8 +34,8 @@
     <Compile Update="Views\NoteTabbedPage.xaml.cs">
       <DependentUpon>NoteTabbedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\PinInfoDialogPage.xaml.cs">
-      <DependentUpon>PinInfoDialogPage.xaml</DependentUpon>
+    <Compile Update="Views\PinInfoPopupPage.xaml.cs">
+      <DependentUpon>PinInfoPopupPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PinsPage.xaml.cs">
       <DependentUpon>PinsPage.xaml</DependentUpon>
@@ -51,7 +53,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PinInfoDialogPage.xaml">
+    <EmbeddedResource Update="Views\PinInfoPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SignInPage.xaml">
